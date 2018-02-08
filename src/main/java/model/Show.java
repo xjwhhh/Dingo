@@ -11,6 +11,7 @@ public class Show {
     private int venueId;
     private int totalSeats;
     private int currentSeats;
+    private progressType progressType;
     private List<ShowSeat> seatList;
 
     public int getId() {
@@ -75,6 +76,14 @@ public class Show {
 
     public void setCurrentSeats(int currentSeats) {
         this.currentSeats = currentSeats;
+    }
+
+    public model.progressType getProgressType() {
+        return progressType;
+    }
+
+    public void setProgressType(model.progressType progressType) {
+        this.progressType = progressType;
     }
 
     public List<ShowSeat> getSeatList() {
