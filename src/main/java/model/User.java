@@ -9,7 +9,7 @@ public class User {
     private boolean isConfirmed;
     private String name;
     private VIPLevel level;
-    private int TotalIntegral;
+    private int totalIntegral;
     private int currentIntegral;
     private boolean isCancelled;
 
@@ -70,11 +70,11 @@ public class User {
     }
 
     public int getTotalIntegral() {
-        return TotalIntegral;
+        return totalIntegral;
     }
 
     public void setTotalIntegral(int totalIntegral) {
-        TotalIntegral = totalIntegral;
+        this.totalIntegral = totalIntegral;
     }
 
     public int getCurrentIntegral() {

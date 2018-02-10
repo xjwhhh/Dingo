@@ -9,10 +9,10 @@ public class Order {
     private int showId;
     private double cost;
     private String orderTime;
-    private boolean isPaid;
     private String  payTime;
-    private boolean isCancelled;
+    private String ticketConfirmedTime;
     private String cancelTime;
+    private OrderState state;
     private List<Ticket> ticketList;
 
     public int getId() {
@@ -63,14 +63,6 @@ public class Order {
         this.orderTime = orderTime;
     }
 
-    public boolean isPaid() {
-        return isPaid;
-    }
-
-    public void setPaid(boolean paid) {
-        isPaid = paid;
-    }
-
     public String getPayTime() {
         return payTime;
     }
@@ -79,20 +71,28 @@ public class Order {
         this.payTime = payTime;
     }
 
-    public boolean isCancelled() {
-        return isCancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
-    }
-
     public String getCancelTime() {
         return cancelTime;
     }
 
     public void setCancelTime(String cancelTime) {
         this.cancelTime = cancelTime;
+    }
+
+    public String getTicketConfirmedTime() {
+        return ticketConfirmedTime;
+    }
+
+    public void setTicketConfirmedTime(String ticketConfirmedTime) {
+        this.ticketConfirmedTime = ticketConfirmedTime;
+    }
+
+    public OrderState getState() {
+        return state;
+    }
+
+    public void setState(OrderState state) {
+        this.state = state;
     }
 
     public List<Ticket> getTicketList() {
