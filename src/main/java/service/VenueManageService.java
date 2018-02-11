@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface VenueManageService {
 
-    void register(String account,String password);
+    Venue register(String account,String password);
+
+    Venue login(String account,String password);
 
     void applyForUpdate(Venue venue);
 

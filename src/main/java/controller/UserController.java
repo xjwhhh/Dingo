@@ -1,7 +1,7 @@
 package controller;
 
+import model.ResultMessage;
 import model.User;
-import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.ServiceFactory;
@@ -41,7 +41,18 @@ public class UserController {
         return user;
     }
 
+    @RequestMapping(value = "/emailConfirmation", method = RequestMethod.POST)
+    @ResponseBody public ResultMessage emailConfirmation(
+            @RequestParam("userId")String userId,
+            @RequestParam("emailAddress")String emailAddress) {
+        return ServiceFactory.getUserManageService().emailConfirmation(Integer.parseInt(userId),emailAddress);
+    }
 
 
+    @RequestMapping(value = "/emailReConfirmation", method = RequestMethod.POST)
+    @ResponseBody public ResultMessage emailReConfirmation(
+            @RequestParam("emailAddress")String emailAddress) {
+        return ServiceFactory.getUserManageService().emailReConfirmation(emailAddress);
+    }
 
 }

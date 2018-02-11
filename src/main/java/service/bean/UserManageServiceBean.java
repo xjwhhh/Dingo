@@ -3,6 +3,7 @@ package service.bean;
 import com.sun.mail.util.MailSSLSocketFactory;
 import dao.DaoFactory;
 import dao.UserDao;
+import model.ResultMessage;
 import model.User;
 import model.VIPLevel;
 import net.sf.json.JSONObject;
@@ -14,12 +15,12 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Properties;
 
-public class UserManageServiceBean implements UserManageService{
+public class UserManageServiceBean implements UserManageService {
 
-    UserDao userDao= DaoFactory.getUserDao();
+    UserDao userDao = DaoFactory.getUserDao();
 
     public User register(String account, String password) {
-        User user=new User();
+        User user = new User();
         user.setAccount(account);
         user.setPassword(password);
         user.setEmailAddress(null);
@@ -33,7 +34,7 @@ public class UserManageServiceBean implements UserManageService{
     }
 
     public User login(String account, String password) {
-        return userDao.find(account,password);
+        return userDao.find(account, password);
     }
 
     public User getUserById(int userId) {
@@ -41,12 +42,12 @@ public class UserManageServiceBean implements UserManageService{
     }
 
     public User updateUserInfo(String userJson) {
-        JSONObject jsonObject=JSONObject.fromObject(userJson);
-        User user=(User)JSONObject.toBean(jsonObject,User.class);
+        JSONObject jsonObject = JSONObject.fromObject(userJson);
+        User user = (User) JSONObject.toBean(jsonObject, User.class);
         return userDao.update(user);
     }
 
-    public void emailConfirmation() {
+    public ResultMessage emailConfirmation(int userId, String emailAddress) {
 //        // 配置
 //        Properties prop=new Properties();
 //        // 设置邮件服务器主机名，这里是163
@@ -96,7 +97,11 @@ public class UserManageServiceBean implements UserManageService{
 //            e.printStackTrace();
 //        }
 
+        return ResultMessage.SUCCESS;
+    }
 
+    public ResultMessage emailReConfirmation(String emailAddress) {
+        return ResultMessage.SUCCESS;
     }
 
     public List<User> getAllUsers() {

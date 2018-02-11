@@ -1,5 +1,6 @@
 package service;
 
+import model.ResultMessage;
 import model.User;
 
 import java.util.List;
@@ -14,7 +15,9 @@ public interface UserManageService {
 
     User updateUserInfo(String userJson);
 
-    void emailConfirmation();
+    ResultMessage emailConfirmation(int userId, String emailAddress);
+
+    ResultMessage emailReConfirmation(String emailAddress);
 
     List<User> getAllUsers();
 
