@@ -1,7 +1,11 @@
 package service.bean;
 
 import com.sun.mail.util.MailSSLSocketFactory;
+import dao.DaoFactory;
+import dao.UserDao;
 import model.User;
+import model.VIPLevel;
+import net.sf.json.JSONObject;
 import service.UserManageService;
 
 import javax.mail.*;
@@ -11,16 +15,35 @@ import java.util.List;
 import java.util.Properties;
 
 public class UserManageServiceBean implements UserManageService{
-    public void register(String account, String password) {
 
+    UserDao userDao= DaoFactory.getUserDao();
+
+    public User register(String account, String password) {
+        User user=new User();
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setEmailAddress(null);
+        user.setConfirmed(false);
+        user.setName(null);
+        user.setLevel(VIPLevel.COMMON);
+        user.setTotalIntegral(0);
+        user.setCurrentIntegral(0);
+        user.setCancelled(false);
+        return userDao.save(user);
     }
 
     public User login(String account, String password) {
-        return null;
+        return userDao.find(account,password);
     }
 
     public User getUserById(int userId) {
-        return null;
+        return userDao.findById(userId);
+    }
+
+    public User updateUserInfo(String userJson) {
+        JSONObject jsonObject=JSONObject.fromObject(userJson);
+        User user=(User)JSONObject.toBean(jsonObject,User.class);
+        return userDao.update(user);
     }
 
     public void emailConfirmation() {

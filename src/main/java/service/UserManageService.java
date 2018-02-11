@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface UserManageService {
 
-    void register(String account, String password);
+    User register(String account, String password);
 
     User login(String account, String password);
 
     User getUserById(int userId);
+
+    User updateUserInfo(String userJson);
 
     void emailConfirmation();
 
