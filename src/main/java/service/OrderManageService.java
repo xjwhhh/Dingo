@@ -1,6 +1,7 @@
 package service;
 
 import model.Order;
+import model.OrderState;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public interface OrderManageService {
     List<Order> getOrderListByShowId(int showId);
 
     List<Order> getOrderListByVenueId(int venueId);
+
+    List<Order> getOrderListByState(OrderState orderState);
 
     List<Order> getAllOrders();
 

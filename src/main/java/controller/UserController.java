@@ -15,30 +15,30 @@ public class UserController {
     @ResponseBody public User Register(
             @RequestParam("account")String account,
             @RequestParam("password")String password) {
-        User user= ServiceFactory.getUserManageService().register(account,password);
-        return user;
+        return ServiceFactory.getUserManageService().register(account,password);
+
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody public User Login(
             @RequestParam("account")String account,
             @RequestParam("password")String password) {
-        User user= ServiceFactory.getUserManageService().login(account,password);
-        return user;
+        return ServiceFactory.getUserManageService().login(account,password);
+
     }
 
     @RequestMapping(value = "/getUserById", method = RequestMethod.POST)
     @ResponseBody public User getUserById(
             @RequestParam("userId")String userId) {
-        User user= ServiceFactory.getUserManageService().getUserById(Integer.parseInt(userId));
-        return user;
+        return ServiceFactory.getUserManageService().getUserById(Integer.parseInt(userId));
+
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody public User update(
             @RequestParam("userJson")String userJson) {
-        User user= ServiceFactory.getUserManageService().updateUserInfo(userJson);
-        return user;
+        return  ServiceFactory.getUserManageService().updateUserInfo(userJson);
+
     }
 
     @RequestMapping(value = "/emailConfirmation", method = RequestMethod.POST)

@@ -16,8 +16,7 @@ public class TicketManagerController {
     public TicketManager Login(
             @RequestParam("account")String account,
             @RequestParam("password")String password) {
-        TicketManager ticketManager=ServiceFactory.getTicketManageService().login(account,password);
-        return null;
+        return ServiceFactory.getTicketManageService().login(account,password);
     }
 
 }

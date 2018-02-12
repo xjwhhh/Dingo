@@ -1,8 +1,6 @@
 package dao;
 
-import dao.bean.ShowDaoBean;
-import dao.bean.UserDaoBean;
-import dao.bean.VenueDaoBean;
+import dao.bean.*;
 
 public class DaoFactory {
     public static UserDao getUserDao() {
@@ -15,5 +13,13 @@ public class DaoFactory {
 
     public static VenueDao getVenueDao() {
         return VenueDaoBean.getInstance();
+    }
+
+    public static TicketManagerDao getTicketManagerDao() {
+        return TicketManagerDaoBean.getInstance();
+    }
+
+    public static OrderDao getOrderDao() {
+        return OrderDaoBean.getInstance();
     }
 }

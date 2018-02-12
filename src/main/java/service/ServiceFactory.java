@@ -1,9 +1,6 @@
 package service;
 
-import service.bean.OrderManageServiceBean;
-import service.bean.TicketManagerServiceBean;
-import service.bean.UserManageServiceBean;
-import service.bean.VenueManageServiceBean;
+import service.bean.*;
 
 public class ServiceFactory {
     public static UserManageService getUserManageService(){
@@ -21,4 +18,6 @@ public class ServiceFactory {
     public static OrderManageService getOrderManageService(){
         return new OrderManageServiceBean();
     }
+
+    public static ShowManageService getShowManageService(){return new ShowManageServiceBean();}
 }

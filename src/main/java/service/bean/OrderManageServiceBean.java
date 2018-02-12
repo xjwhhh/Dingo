@@ -1,11 +1,17 @@
 package service.bean;
 
+import dao.DaoFactory;
+import dao.OrderDao;
 import model.Order;
+import model.OrderState;
 import service.OrderManageService;
 
 import java.util.List;
 
 public class OrderManageServiceBean implements OrderManageService {
+
+    OrderDao orderDao= DaoFactory.getOrderDao();
+
     public void reserveChoose() {
 
     }
@@ -23,19 +29,23 @@ public class OrderManageServiceBean implements OrderManageService {
     }
 
     public Order getOrderByOrderId(int orderId) {
-        return null;
+        return orderDao.getOrderById(orderId);
     }
 
     public List<Order> getOrderListByUserId(int userId) {
-        return null;
+        return orderDao.getOrderByUserId(userId);
     }
 
     public List<Order> getOrderListByShowId(int showId) {
-        return null;
+        return orderDao.getOrderByShowId(showId);
     }
 
     public List<Order> getOrderListByVenueId(int venueId) {
-        return null;
+        return orderDao.getOrderByVenueId(venueId);
+    }
+
+    public List<Order> getOrderListByState(OrderState orderState) {
+        return orderDao.getOrderByState(orderState);
     }
 
     public List<Order> getAllOrders() {
