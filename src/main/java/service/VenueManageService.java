@@ -1,5 +1,6 @@
 package service;
 
+import model.ResultMessage;
 import model.Show;
 import model.Venue;
 
@@ -7,15 +8,17 @@ import java.util.List;
 
 public interface VenueManageService {
 
-    Venue register(String account,String password);
+    ResultMessage register(String account,String password);
 
     Venue login(String account,String password);
 
-    void applyForUpdate(Venue venue);
+    Venue getVenueById(int venueId);
 
-    void publishPlan(Show show);
+    ResultMessage applyForUpdate(String  venueJson);
 
-    void examineApplication();
+    ResultMessage publishPlan(String showJson);
+
+    ResultMessage examineApplication(int venueApplicationId);
 
     List<Venue> getAllVenues();
 }
