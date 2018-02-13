@@ -7,6 +7,9 @@
   <version>1.0-SNAPSHOT</version>
   <name>xjw Maven Webapp</name>
   <url>http://maven.apache.org</url>
+    <properties>
+        <springVersion>5.0.3.RELEASE</springVersion>
+    </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -15,17 +18,50 @@
       <scope>test</scope>
     </dependency>
 
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+          <version>${springVersion}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+          <version>${springVersion}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+          <version>${springVersion}</version>
+      </dependency>
+
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>5.0.3.RELEASE</version>
     </dependency>
 
+
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>1.4.7</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.2.12.Final</version>
+    </dependency>
+
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>5.1.34</version>
+      </dependency>
+
 
   </dependencies>
   <build>

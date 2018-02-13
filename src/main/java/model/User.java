@@ -1,5 +1,9 @@
 package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="user")
 public class User {
 
     private int id;
@@ -13,6 +17,8 @@ public class User {
     private int currentIntegral;
     private boolean isCancelled;
 
+    @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -61,6 +67,8 @@ public class User {
         this.name = name;
     }
 
+    @Column(name = "level")
+    @Enumerated(EnumType.STRING)
     public VIPLevel getLevel() {
         return level;
     }

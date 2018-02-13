@@ -1,5 +1,10 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "showSeat")
 public class ShowSeat extends Seat {
     private int showId;
     private double cost;

@@ -1,6 +1,10 @@
 package model;
 
+import javax.persistence.*;
+
 //场馆更改信息的请求bean,将更改后的venue信息用json存起来
+@Entity
+@Table(name = "venueApplication")
 public class VenueApplication {
     private int id;
     private int venueId;
@@ -10,6 +14,7 @@ public class VenueApplication {
     private int ticketManagerId;
     private String approveTime;
 
+    @Id
     public int getId() {
         return id;
     }
@@ -26,6 +31,7 @@ public class VenueApplication {
         this.venueId = venueId;
     }
 
+    @Enumerated(EnumType.STRING)
     public VenueApplicationType getVenueApplicationType() {
         return venueApplicationType;
     }

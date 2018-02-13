@@ -1,10 +1,17 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ticketManager")
 public class TicketManager {
     private int id;
     private int account;
     private int password;
 
+    @Id
     public int getId() {
         return id;
     }

@@ -1,7 +1,13 @@
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.List;
 
+@Entity
+@Table(name = "venue")
 public class Venue {
     private int id;
     private String code;
@@ -11,6 +17,7 @@ public class Venue {
     private String address;
     private List<Seat> seatList;
 
+    @Id
     public int getId() {
         return id;
     }

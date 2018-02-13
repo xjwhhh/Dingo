@@ -1,5 +1,9 @@
 package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "venueOrderRecord")
 public class VenueOrderRecord {
     private int id;
     private int venueId;
@@ -7,6 +11,7 @@ public class VenueOrderRecord {
     private OrderAction orderAction;
     private String time;
 
+    @Id
     public int getId() {
         return id;
     }
@@ -31,6 +36,7 @@ public class VenueOrderRecord {
         this.orderId = orderId;
     }
 
+    @Enumerated(EnumType.STRING)
     public OrderAction getOrderAction() {
         return orderAction;
     }

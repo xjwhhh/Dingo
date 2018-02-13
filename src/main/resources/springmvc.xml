@@ -11,6 +11,8 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context">
 
+
+
     <!-- scan the package and the sub package -->
     <context:component-scan base-package="controller"/>
 
@@ -26,5 +28,11 @@
         <property name="prefix" value="/user/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+
+
+
+
+
 
 </beans>

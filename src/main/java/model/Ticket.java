@@ -1,5 +1,11 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ticket")
 public class Ticket {
 
     private int id ;
@@ -7,6 +13,7 @@ public class Ticket {
     private int seatId;
     private double cost;
 
+    @Id
     public int getId() {
         return id;
     }

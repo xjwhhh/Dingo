@@ -1,7 +1,10 @@
 package model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "order")
 public class Order {
     private int id;
     private int userId;
@@ -15,6 +18,7 @@ public class Order {
     private OrderState state;
     private List<Ticket> ticketList;
 
+    @Id
     public int getId() {
         return id;
     }
@@ -87,6 +91,7 @@ public class Order {
         this.ticketConfirmedTime = ticketConfirmedTime;
     }
 
+    @Enumerated(EnumType.STRING)
     public OrderState getState() {
         return state;
     }

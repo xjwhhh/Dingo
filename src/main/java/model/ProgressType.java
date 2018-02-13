@@ -1,5 +1,5 @@
 package model;
 
-public enum progressType {
+public enum ProgressType {
     UNDETERMINED,PRESALE,SALE,START
 }

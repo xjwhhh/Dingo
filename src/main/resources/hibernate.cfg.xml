@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!--这个属性使 Hibernate 应用为被选择的数据库生成适当的 SQL。-->
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQL5Dialect
+        </property>
+        <!--JDBC 驱动程序类。-->
+        <property name="hibernate.connection.driver_class">
+            com.mysql.jdbc.Driver
+        </property>
+        <!--数据库实例的 JDBC URL。-->
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/dingo
+        </property>
+        <!--数据库用户名-->
+        <property name="hibernate.connection.username">
+            root
+        </property>
+        <!--数据库密码-->
+        <property name="hibernate.connection.password">
+            123456
+        </property>
+        <!--hibernate.jdbc.batch_size 作为批处理的尺寸，这将告诉 hibernate 容器每 X 行为一批插入。-->
+        <property name="hibernate.jdbc.batch_size">
+            50
+        </property>
+
+        <property name="show_sql">true</property>
+        <property name="hibernate.connection.autocommit">true</property>
+        <!-- 自动把实体类与属性映射成数据库中的表与列 -->
+        <property name="hbm2ddl.auto">update</property>
+        <property name="current_session_context_class">thread</property>
+
+
+    </session-factory>
+</hibernate-configuration>

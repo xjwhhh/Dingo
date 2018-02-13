@@ -1,7 +1,10 @@
 package model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "show")
 public class Show {
     private int id;
     private ShowType showType;
@@ -11,9 +14,10 @@ public class Show {
     private int venueId;
     private int totalSeats;
     private int currentSeats;
-    private progressType progressType;
+    private ProgressType ProgressType;
     private List<ShowSeat> seatList;
 
+    @Id
     public int getId() {
         return id;
     }
@@ -22,6 +26,7 @@ public class Show {
         this.id = id;
     }
 
+    @Enumerated(EnumType.STRING)
     public ShowType getShowType() {
         return showType;
     }
@@ -78,12 +83,13 @@ public class Show {
         this.currentSeats = currentSeats;
     }
 
-    public model.progressType getProgressType() {
-        return progressType;
+    @Enumerated(EnumType.STRING)
+    public ProgressType getProgressType() {
+        return ProgressType;
     }
 
-    public void setProgressType(model.progressType progressType) {
-        this.progressType = progressType;
+    public void setProgressType(ProgressType progressType) {
+        this.ProgressType = progressType;
     }
 
     public List<ShowSeat> getSeatList() {
