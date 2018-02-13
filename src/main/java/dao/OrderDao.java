@@ -2,10 +2,13 @@ package dao;
 
 import model.Order;
 import model.OrderState;
+import model.ResultMessage;
 
 import java.util.List;
 
-public interface OrderDao {
+public interface OrderDao extends BaseDao {
+
+    ResultMessage save(Order order);
 
     Order getOrderById(int orderId);
 

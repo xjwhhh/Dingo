@@ -4,13 +4,18 @@ import dao.DaoFactory;
 import dao.OrderDao;
 import model.Order;
 import model.OrderState;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import service.OrderManageService;
 
 import java.util.List;
 
+@Service
 public class OrderManageServiceBean implements OrderManageService {
 
-    OrderDao orderDao= DaoFactory.getOrderDao();
+    @Autowired
+    OrderDao orderDao;
+
 
     public void reserveChoose() {
 

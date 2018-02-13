@@ -1,14 +1,15 @@
 package dao;
 
+import model.ResultMessage;
 import model.User;
 
-public interface UserDao {
-    User save(User user);
+public interface UserDao extends BaseDao{
+    ResultMessage save(User user);
 
     User find(String account, String password);
 
     User findById(int userId);
 
-    User update(User user);
+    ResultMessage update(User user);
 
 }

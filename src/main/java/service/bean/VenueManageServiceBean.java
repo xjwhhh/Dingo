@@ -5,10 +5,12 @@ import dao.ShowDao;
 import dao.VenueDao;
 import model.*;
 import net.sf.json.JSONObject;
+import org.springframework.stereotype.Service;
 import service.VenueManageService;
 
 import java.util.List;
 
+@Service
 public class VenueManageServiceBean implements VenueManageService {
 
     VenueDao venueDao = DaoFactory.getVenueDao();
@@ -16,6 +18,10 @@ public class VenueManageServiceBean implements VenueManageService {
     ShowDao showDao = DaoFactory.getShowDao();
 
     public ResultMessage register(String account, String password) {
+        Venue testVenue=venueDao.find(account,password);
+        if(testVenue.getId()!=-1){
+            return ResultMessage.FAIL;
+        }
         Venue venue = new Venue();
         venue.setAccount(account);
         venue.setPassword(password);

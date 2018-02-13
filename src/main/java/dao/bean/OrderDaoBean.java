@@ -3,17 +3,24 @@ package dao.bean;
 import dao.OrderDao;
 import model.Order;
 import model.OrderState;
+import model.ResultMessage;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public class OrderDaoBean implements OrderDao {
+@Repository
+public class OrderDaoBean extends BaseDaoBean implements OrderDao {
 
     private static OrderDaoBean orderDao=new OrderDaoBean();
 
     public static OrderDaoBean getInstance(){return orderDao;}
 
+    public ResultMessage save(Order order) {
+        return super.save(order);
+    }
+
     public Order getOrderById(int orderId) {
-        return null;
+        return (Order)super.load(Order.class,orderId) ;
     }
 
     public List<Order> getOrderByUserId(int userId) {

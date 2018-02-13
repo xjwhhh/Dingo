@@ -7,6 +7,8 @@ import model.ResultMessage;
 import model.User;
 import model.VIPLevel;
 import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import service.UserManageService;
 
 import javax.mail.*;
@@ -15,11 +17,18 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Properties;
 
+@Service
 public class UserManageServiceBean implements UserManageService {
 
-    UserDao userDao = DaoFactory.getUserDao();
 
-    public User register(String account, String password) {
+    @Autowired
+    UserDao userDao;
+
+    public ResultMessage register(String account, String password) {
+        User testUser=userDao.find(account,password);
+        if(testUser.getId()!=-1){
+            return ResultMessage.FAIL;
+        }
         User user = new User();
         user.setAccount(account);
         user.setPassword(password);
@@ -41,7 +50,7 @@ public class UserManageServiceBean implements UserManageService {
         return userDao.findById(userId);
     }
 
-    public User updateUserInfo(String userJson) {
+    public ResultMessage updateUserInfo(String userJson) {
         JSONObject jsonObject = JSONObject.fromObject(userJson);
         User user = (User) JSONObject.toBean(jsonObject, User.class);
         return userDao.update(user);

@@ -6,7 +6,7 @@ import model.ShowType;
 
 import java.util.List;
 
-public interface ShowDao {
+public interface ShowDao extends BaseDao{
     ResultMessage save(Show show);
 
     Show findById(int showId);

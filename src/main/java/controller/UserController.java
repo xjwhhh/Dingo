@@ -2,20 +2,25 @@ package controller;
 
 import model.ResultMessage;
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.ServiceFactory;
+import service.bean.UserManageServiceBean;
 
 @CrossOrigin
 @Controller
 @RequestMapping("user")
 public class UserController {
 
+    @Autowired
+    UserManageServiceBean userManageServiceBean;
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody public User Register(
+    @ResponseBody public ResultMessage Register(
             @RequestParam("account")String account,
             @RequestParam("password")String password) {
-        return ServiceFactory.getUserManageService().register(account,password);
+        return userManageServiceBean.register(account,password);
 
     }
 
@@ -23,21 +28,21 @@ public class UserController {
     @ResponseBody public User Login(
             @RequestParam("account")String account,
             @RequestParam("password")String password) {
-        return ServiceFactory.getUserManageService().login(account,password);
+        return userManageServiceBean.login(account,password);
 
     }
 
     @RequestMapping(value = "/getUserById", method = RequestMethod.POST)
     @ResponseBody public User getUserById(
             @RequestParam("userId")String userId) {
-        return ServiceFactory.getUserManageService().getUserById(Integer.parseInt(userId));
+        return userManageServiceBean.getUserById(Integer.parseInt(userId));
 
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @ResponseBody public User update(
+    @ResponseBody public ResultMessage update(
             @RequestParam("userJson")String userJson) {
-        return  ServiceFactory.getUserManageService().updateUserInfo(userJson);
+        return  userManageServiceBean.updateUserInfo(userJson);
 
     }
 
@@ -45,14 +50,14 @@ public class UserController {
     @ResponseBody public ResultMessage emailConfirmation(
             @RequestParam("userId")String userId,
             @RequestParam("emailAddress")String emailAddress) {
-        return ServiceFactory.getUserManageService().emailConfirmation(Integer.parseInt(userId),emailAddress);
+        return userManageServiceBean.emailConfirmation(Integer.parseInt(userId),emailAddress);
     }
 
 
     @RequestMapping(value = "/emailReConfirmation", method = RequestMethod.POST)
     @ResponseBody public ResultMessage emailReConfirmation(
             @RequestParam("emailAddress")String emailAddress) {
-        return ServiceFactory.getUserManageService().emailReConfirmation(emailAddress);
+        return userManageServiceBean.emailReConfirmation(emailAddress);
     }
 
 }
