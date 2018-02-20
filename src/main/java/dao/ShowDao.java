@@ -14,4 +14,9 @@ public interface ShowDao extends BaseDao{
     List<Show> findByType(ShowType showType);
 
     ResultMessage update(Show show);
+
+    List<Show> findByVenueId(int venueId);
+
+    List<Show> findByUserId(int userId);
+
 }

@@ -53,4 +53,12 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
     public ResultMessage update(Show show) {
         return super.update(show);
     }
+
+    public List<Show> findByVenueId(int venueId) {
+        return null;
+    }
+
+    public List<Show> findByUserId(int userId) {
+        return null;
+    }
 }

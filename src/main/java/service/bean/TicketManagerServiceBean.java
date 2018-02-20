@@ -11,9 +11,9 @@ import service.TicketManageService;
 public class TicketManagerServiceBean implements TicketManageService {
 
     @Autowired
-            TicketManagerDao ticketManagerDao;
+    TicketManagerDao ticketManagerDao;
 
     public TicketManager login(String account, String password) {
-        return ticketManagerDao.find(account,password);
+        return ticketManagerDao.find(account, password);
     }
 }

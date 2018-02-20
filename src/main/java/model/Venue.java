@@ -15,6 +15,7 @@ public class Venue {
     private String password;
     private String name;
     private String address;
+    private double balance;
     private List<Seat> seatList;
 
     @Id
@@ -64,6 +65,14 @@ public class Venue {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public List<Seat> getSeatList() {

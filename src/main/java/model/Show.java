@@ -15,6 +15,7 @@ public class Show {
     private int totalSeats;
     private int currentSeats;
     private ProgressType ProgressType;
+    private double earning;
     private List<ShowSeat> seatList;
 
     @Id
@@ -90,6 +91,14 @@ public class Show {
 
     public void setProgressType(ProgressType progressType) {
         this.ProgressType = progressType;
+    }
+
+    public double getEarning() {
+        return earning;
+    }
+
+    public void setEarning(double earning) {
+        this.earning = earning;
     }
 
     public List<ShowSeat> getSeatList() {

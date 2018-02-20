@@ -2,10 +2,10 @@ package controller;
 
 import model.Order;
 import model.OrderState;
+import model.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import service.ServiceFactory;
 import service.bean.OrderManageServiceBean;
 
 import java.util.List;
@@ -17,6 +17,34 @@ public class OrderController {
 
     @Autowired
     OrderManageServiceBean orderManageServiceBean;
+
+    @RequestMapping(value = "/saveOrderChoose", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage saveOrderChoose(
+            @RequestParam("orderJson")String orderJson) {
+        return orderManageServiceBean.reserveChoose(orderJson);
+    }
+
+    @RequestMapping(value = "/saveOrderNoChoose", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage saveOrderNoChoose(
+            @RequestParam("orderJson")String orderJson) {
+        return orderManageServiceBean.reserveNoChoose(orderJson);
+    }
+
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage payOrder(
+            @RequestParam("orderId")String orderId) {
+        return orderManageServiceBean.pay(Integer.parseInt(orderId));
+    }
+
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage cancelOrder(
+            @RequestParam("orderId")String orderId) {
+        return orderManageServiceBean.cancel(Integer.parseInt(orderId));
+    }
 
 
     @RequestMapping(value = "/getOrderByState", method = RequestMethod.POST)

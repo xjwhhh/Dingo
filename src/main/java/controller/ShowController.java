@@ -33,4 +33,11 @@ public class ShowController {
         return showManageServiceBean.getShowById(Integer.parseInt(showId));
     }
 
+    @RequestMapping(value = "/getShowByVenueId", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Show> getShowByVenueId(
+            @RequestParam("venueId") String venueId) {
+        return showManageServiceBean.getShowByVenueId(Integer.parseInt(venueId));
+    }
+
 }

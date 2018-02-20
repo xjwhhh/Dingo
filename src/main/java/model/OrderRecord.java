@@ -3,10 +3,11 @@ package model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "userOrderRecord")
-public class UserOrderRecord {
+@Table(name = "venueOrderRecord")
+public class OrderRecord {
     private int id;
     private int userId;
+    private int venueId;
     private int orderId;
     private OrderAction orderAction;
     private String time;
@@ -26,6 +27,14 @@ public class UserOrderRecord {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(int venueId) {
+        this.venueId = venueId;
     }
 
     public int getOrderId() {

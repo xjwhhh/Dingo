@@ -2,18 +2,19 @@ package service;
 
 import model.Order;
 import model.OrderState;
+import model.ResultMessage;
 
 import java.util.List;
 
 public interface OrderManageService {
 
-    void reserveChoose();
+    ResultMessage reserveChoose(String orderJson);
 
-    void reserveNoChoose();
+    ResultMessage reserveNoChoose(String orderJson);
 
-    void pay();
+    ResultMessage pay(int orderId);
 
-    void cancel();
+    ResultMessage cancel(int orderId);
 
     Order getOrderByOrderId(int orderId);
 

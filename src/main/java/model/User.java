@@ -13,6 +13,7 @@ public class User {
     private boolean isConfirmed;
     private String name;
     private VIPLevel level;
+    private double balance;
     private int totalIntegral;
     private int currentIntegral;
     private boolean isCancelled;
@@ -75,6 +76,14 @@ public class User {
 
     public void setLevel(VIPLevel level) {
         this.level = level;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public int getTotalIntegral() {

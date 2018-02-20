@@ -1,9 +1,12 @@
 package dao.bean;
 
+import dao.HibernateUtil;
 import dao.OrderDao;
-import model.Order;
-import model.OrderState;
-import model.ResultMessage;
+import model.*;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,18 +27,82 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
     }
 
     public List<Order> getOrderByUserId(int userId) {
-        return null;
+        Session session= HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Order> orderList=null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM order as O where O.userId=:userId");
+            query.setParameter("userId",userId);
+            orderList =query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return orderList;
     }
 
     public List<Order> getOrderByShowId(int showId) {
-        return null;
+        Session session= HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Order> orderList=null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM order as O where O.showId=:showId");
+            query.setParameter("showId",showId);
+            orderList =query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return orderList;
     }
 
     public List<Order> getOrderByVenueId(int venueId) {
-        return null;
+        Session session= HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Order> orderList=null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM order as O where O.venueId=:venueId");
+            query.setParameter("venueId",venueId);
+            orderList =query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return orderList;
     }
 
     public List<Order> getOrderByState(OrderState orderState) {
-        return null;
+        Session session= HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Order> orderList=null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM order as O where O.orderState=:orderState");
+            query.setParameter("orderState",orderState);
+            orderList =query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return orderList;
+    }
+
+    public ResultMessage saveOrderRecord(OrderRecord orderRecord) {
+        return super.save(orderRecord);
     }
 }

@@ -12,7 +12,7 @@ public class Order {
     private int showId;
     private double cost;
     private String orderTime;
-    private String  payTime;
+    private String payTime;
     private String ticketConfirmedTime;
     private String cancelTime;
     private OrderState state;

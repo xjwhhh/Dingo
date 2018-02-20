@@ -1,6 +1,7 @@
 package dao;
 
 import model.Order;
+import model.OrderRecord;
 import model.OrderState;
 import model.ResultMessage;
 
@@ -19,5 +20,7 @@ public interface OrderDao extends BaseDao {
     List<Order> getOrderByVenueId(int venueId);
 
     List<Order> getOrderByState(OrderState orderState);
+
+    ResultMessage saveOrderRecord(OrderRecord orderRecord);
 
 }

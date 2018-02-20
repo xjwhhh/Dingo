@@ -5,6 +5,7 @@ import dao.ShowDao;
 import dao.VenueDao;
 import model.*;
 import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.VenueManageService;
 
@@ -13,9 +14,12 @@ import java.util.List;
 @Service
 public class VenueManageServiceBean implements VenueManageService {
 
-    VenueDao venueDao = DaoFactory.getVenueDao();
+    @Autowired
+    VenueDao venueDao;
 
-    ShowDao showDao = DaoFactory.getShowDao();
+    @Autowired
+    ShowDao showDao;
+
 
     public ResultMessage register(String account, String password) {
         Venue testVenue=venueDao.find(account,password);
