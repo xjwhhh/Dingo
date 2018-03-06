@@ -10,6 +10,8 @@ public interface UserDao extends BaseDao{
 
     User findById(int userId);
 
+    User findByEmail(String emailAddress);
+
     ResultMessage update(User user);
 
 }

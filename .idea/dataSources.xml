@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="dingo@localhost" uuid="1366a51a-064e-4e65-a616-09a0feee4958">
+    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="c51167c5-3762-4c86-9e75-71e8de2261f4">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml</remarks>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/dingo</jdbc-url>
       <driver-properties>

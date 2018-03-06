@@ -33,7 +33,7 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
         List<Venue> venueList=null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM venue as V where V.account=:account and V.password=:password");
+            Query query = session.createQuery("FROM Venue as V where V.account=:account and V.password=:password");
             query.setParameter("account",account);
             query.setParameter("password",password);
             venueList =query.list();

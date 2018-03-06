@@ -32,7 +32,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         List<Order> orderList=null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM order as O where O.userId=:userId");
+            Query query = session.createQuery("FROM Order as O where O.userId=:userId");
             query.setParameter("userId",userId);
             orderList =query.list();
             tx.commit();
@@ -51,7 +51,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         List<Order> orderList=null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM order as O where O.showId=:showId");
+            Query query = session.createQuery("FROM Order as O where O.showId=:showId");
             query.setParameter("showId",showId);
             orderList =query.list();
             tx.commit();
@@ -70,7 +70,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         List<Order> orderList=null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM order as O where O.venueId=:venueId");
+            Query query = session.createQuery("FROM Order as O where O.venueId=:venueId");
             query.setParameter("venueId",venueId);
             orderList =query.list();
             tx.commit();
@@ -89,7 +89,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         List<Order> orderList=null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM order as O where O.orderState=:orderState");
+            Query query = session.createQuery("FROM Order as O where O.orderState=:orderState");
             query.setParameter("orderState",orderState);
             orderList =query.list();
             tx.commit();

@@ -33,7 +33,7 @@ public class UserDaoBean extends BaseDaoBean implements UserDao {
         List<User> userList=null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM user as U where U.account=:account and U.password=:password");
+            Query query = session.createQuery("FROM User as U where U.account=:account and U.password=:password");
             query.setParameter("account",account);
             query.setParameter("password",password);
             userList =query.list();
@@ -55,6 +55,31 @@ public class UserDaoBean extends BaseDaoBean implements UserDao {
 
     public User findById(int userId) {
         return (User)super.load(User.class,userId);
+    }
+
+    public User findByEmail(String emailAddress) {
+        Session session= HibernateUtil.getSession();
+        Transaction tx = null;
+        List<User> userList=null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM User as U where U.emailAddress=:emailAddress");
+            query.setParameter("emailAddress",emailAddress);
+            userList =query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        if(userList.size()==1){
+            return userList.get(0);
+        }else{
+            User user=new User();
+            user.setId(-1);
+            return user;
+        }
     }
 
     public ResultMessage update(User user) {
