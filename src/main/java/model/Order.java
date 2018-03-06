@@ -100,6 +100,7 @@ public class Order {
         this.state = state;
     }
 
+    @OneToMany(mappedBy = "order")
     public List<Ticket> getTicketList() {
         return ticketList;
     }

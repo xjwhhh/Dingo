@@ -1,9 +1,6 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -75,6 +72,7 @@ public class Venue {
         this.balance = balance;
     }
 
+    @OneToMany(mappedBy = "venue")
     public List<Seat> getSeatList() {
         return seatList;
     }

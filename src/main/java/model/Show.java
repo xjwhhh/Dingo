@@ -101,6 +101,7 @@ public class Show {
         this.earning = earning;
     }
 
+    @OneToMany(mappedBy = "show")
     public List<ShowSeat> getSeatList() {
         return seatList;
     }

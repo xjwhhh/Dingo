@@ -1,13 +1,12 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "seat")
 public class Seat {
     private int id;
-    private int venueId;
+    private Venue venue;
     private String description;
 
     public int getId() {
@@ -18,12 +17,14 @@ public class Seat {
         this.id = id;
     }
 
-    public int getVenueId() {
-        return venueId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "venueId", updatable = false, insertable = false)
+    public Venue getVenue() {
+        return venue;
     }
 
-    public void setVenueId(int venueId) {
-        this.venueId = venueId;
+    public void setVenue(Venue venue) {
+        this.venue = venue;
     }
 
     public String getDescription() {

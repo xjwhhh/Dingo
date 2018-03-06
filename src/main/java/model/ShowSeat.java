@@ -1,21 +1,22 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "showSeat")
 public class ShowSeat extends Seat {
-    private int showId;
+    private Show show;
     private double cost;
     private int orderId;
 
-    public int getShowId() {
-        return showId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "showId", updatable = false, insertable = false)
+    public Show getShow() {
+        return show;
     }
 
-    public void setShowId(int showId) {
-        this.showId = showId;
+    public void setShow(Show show) {
+        this.show = show;
     }
 
     public double getCost() {

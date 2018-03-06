@@ -1,17 +1,15 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ticket")
 public class Ticket {
 
     private int id ;
-    private int orderId;
     private int seatId;
     private double cost;
+    private Order order;
 
     @Id
     public int getId() {
@@ -20,14 +18,6 @@ public class Ticket {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
     }
 
     public int getSeatId() {
@@ -44,5 +34,15 @@ public class Ticket {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "orderId", updatable = false, insertable = false)
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
