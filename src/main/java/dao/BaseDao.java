@@ -3,12 +3,12 @@ package dao;
 import model.ResultMessage;
 
 public interface BaseDao {
-     ResultMessage save(Object bean) ;
+    ResultMessage save(Object bean);
 
-     Object load(Class c,int id);
+    Object load(Class c, int id);
 
-     ResultMessage update(Object bean) ;
+    ResultMessage update(Object bean);
 
-     ResultMessage delete(Object bean) ;
+    ResultMessage delete(Object bean);
 
 }

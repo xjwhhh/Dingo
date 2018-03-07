@@ -9,6 +9,8 @@ public class Seat {
     private Venue venue;
     private String description;
 
+    @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }

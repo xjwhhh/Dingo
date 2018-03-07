@@ -26,7 +26,6 @@ public class OrderManageServiceBean implements OrderManageService {
     @Autowired
     ShowDao showDao;
 
-
     public ResultMessage reserveChoose(String orderJson) {
         JSONObject jsonObject = JSONObject.fromObject(orderJson);
         Order order = (Order) JSONObject.toBean(jsonObject, Order.class);
@@ -49,20 +48,20 @@ public class OrderManageServiceBean implements OrderManageService {
     }
 
     public ResultMessage pay(int orderId) {
-        Order order=orderDao.getOrderById(orderId);
-        if(order.getPayTime()==null){
-            Date date=new Date();
+        Order order = orderDao.getOrderById(orderId);
+        if (order.getPayTime() == null) {
+            Date date = new Date();
             //todo dateFormat
-            String dateString=null;
+            String dateString = null;
             order.setPayTime(dateString);
             orderDao.update(order);
-            Show show=showDao.findById(order.getShowId());
-            show.setEarning(show.getEarning()+order.getCost());
+            Show show = showDao.findById(order.getShowId());
+            show.setEarning(show.getEarning() + order.getCost());
             showDao.update(show);
-            User user=userDao.findById(order.getUserId());
-            user.setBalance(user.getBalance()-order.getCost());
+            User user = userDao.findById(order.getUserId());
+            user.setBalance(user.getBalance() - order.getCost());
             userDao.update(user);
-            OrderRecord orderRecord=new OrderRecord();
+            OrderRecord orderRecord = new OrderRecord();
             orderRecord.setOrderId(orderId);
             orderRecord.setUserId(order.getUserId());
             orderRecord.setVenueId(order.getVenueId());
@@ -75,23 +74,23 @@ public class OrderManageServiceBean implements OrderManageService {
     }
 
     public ResultMessage cancel(int orderId) {
-        Order order=orderDao.getOrderById(orderId);
-        if(order.getCancelTime()==null){
-            Date date=new Date();
+        Order order = orderDao.getOrderById(orderId);
+        if (order.getCancelTime() == null) {
+            Date date = new Date();
             //todo dateFormat
-            String dateString=null;
+            String dateString = null;
             order.setCancelTime(dateString);
             orderDao.update(order);
-            Show show=showDao.findById(order.getShowId());
+            Show show = showDao.findById(order.getShowId());
             //退款，根据期限返还不同比例 todo
-            double balance=0;
+            double balance = 0;
 
-            show.setEarning(show.getEarning()-balance);
+            show.setEarning(show.getEarning() - balance);
             showDao.update(show);
-            User user=userDao.findById(order.getUserId());
-            user.setBalance(user.getBalance()+balance);
+            User user = userDao.findById(order.getUserId());
+            user.setBalance(user.getBalance() + balance);
             userDao.update(user);
-            OrderRecord orderRecord=new OrderRecord();
+            OrderRecord orderRecord = new OrderRecord();
             orderRecord.setOrderId(orderId);
             orderRecord.setUserId(order.getUserId());
             orderRecord.setVenueId(order.getVenueId());

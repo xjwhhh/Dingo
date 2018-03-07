@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 //场馆更改信息的请求bean,将更改后的venue信息用json存起来
 @Entity
-@Table(name = "venueApplication")
+@Table(name = "venueapplication")
 public class VenueApplication {
     private int id;
     private int venueId;
@@ -15,6 +15,7 @@ public class VenueApplication {
     private String approveTime;
 
     @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }

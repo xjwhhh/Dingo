@@ -1,6 +1,5 @@
 package service.bean;
 
-import dao.DaoFactory;
 import dao.ShowDao;
 import dao.VenueDao;
 import model.*;
@@ -20,10 +19,9 @@ public class VenueManageServiceBean implements VenueManageService {
     @Autowired
     ShowDao showDao;
 
-
     public ResultMessage register(String account, String password) {
-        Venue testVenue=venueDao.find(account,password);
-        if(testVenue.getId()!=-1){
+        Venue testVenue = venueDao.find(account, password);
+        if (testVenue.getId() != -1) {
             return ResultMessage.FAIL;
         }
         Venue venue = new Venue();

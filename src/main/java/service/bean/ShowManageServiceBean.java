@@ -1,6 +1,5 @@
 package service.bean;
 
-import dao.DaoFactory;
 import dao.ShowDao;
 import dao.VenueDao;
 import model.ResultMessage;
@@ -11,19 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.ShowManageService;
 
-import javax.jws.Oneway;
 import java.util.List;
 
 @Service
 public class ShowManageServiceBean implements ShowManageService {
-
 
     @Autowired
     ShowDao showDao;
 
     @Autowired
     VenueDao venueDao;
-
 
     public Show getShowById(int showId) {
         return showDao.findById(showId);
@@ -34,9 +30,9 @@ public class ShowManageServiceBean implements ShowManageService {
     }
 
     public ResultMessage distributeShowEarning(int showId) {
-        Show show=showDao.findById(showId);
-        Venue venue=venueDao.findById(show.getVenueId());
-        venue.setBalance(venue.getBalance()+show.getEarning()*0.7);
+        Show show = showDao.findById(showId);
+        Venue venue = venueDao.findById(show.getVenueId());
+        venue.setBalance(venue.getBalance() + show.getEarning() * 0.7);
         return venueDao.update(venue);
     }
 

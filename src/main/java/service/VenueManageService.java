@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface VenueManageService {
 
-    ResultMessage register(String account,String password);
+    ResultMessage register(String account, String password);
 
-    Venue login(String account,String password);
+    Venue login(String account, String password);
 
     Venue getVenueById(int venueId);
 
-    ResultMessage applyForUpdate(String  venueJson);
+    ResultMessage applyForUpdate(String venueJson);
 
     ResultMessage publishPlan(String showJson);
 

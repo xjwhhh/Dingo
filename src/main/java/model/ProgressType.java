@@ -1,5 +1,5 @@
 package model;
 
 public enum ProgressType {
-    UNDETERMINED,PRESALE,SALE,START
+    UNDETERMINED, PRESALE, START, END
 }

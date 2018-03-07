@@ -15,22 +15,22 @@ import java.util.List;
 @Repository
 public class TicketManagerDaoBean implements TicketManagerDao {
 
-    private static TicketManagerDaoBean ticketManagerDao=new TicketManagerDaoBean();
+    private static TicketManagerDaoBean ticketManagerDao = new TicketManagerDaoBean();
 
-    public static TicketManagerDaoBean getInstance(){
+    public static TicketManagerDaoBean getInstance() {
         return ticketManagerDao;
     }
 
     public TicketManager find(String account, String password) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<TicketManager> ticketManagerList=null;
+        List<TicketManager> ticketManagerList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM ticketManager as T where T.account=:account and T.password=:password");
-            query.setParameter("account",account);
-            query.setParameter("password",password);
-            ticketManagerList =query.list();
+            query.setParameter("account", account);
+            query.setParameter("password", password);
+            ticketManagerList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -38,10 +38,10 @@ public class TicketManagerDaoBean implements TicketManagerDao {
         } finally {
             session.close();
         }
-        if(ticketManagerList.size()==1){
+        if (ticketManagerList.size() == 1) {
             return ticketManagerList.get(0);
-        }else{
-            TicketManager ticketManager=new TicketManager();
+        } else {
+            TicketManager ticketManager = new TicketManager();
             ticketManager.setId(-1);
             return ticketManager;
         }

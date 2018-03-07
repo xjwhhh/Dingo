@@ -1,6 +1,5 @@
 package service.bean;
 
-import dao.DaoFactory;
 import dao.TicketManagerDao;
 import model.TicketManager;
 import org.springframework.beans.factory.annotation.Autowired;

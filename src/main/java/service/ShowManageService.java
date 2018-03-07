@@ -17,5 +17,4 @@ public interface ShowManageService {
 
     List<Show> getShowByUserId(int userId);
 
-
 }

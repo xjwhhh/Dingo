@@ -18,5 +18,4 @@ public interface VenueDao extends BaseDao {
 
     VenueApplication findVenueApplicationById(int venueApplicationId);
 
-
 }

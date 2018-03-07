@@ -14,27 +14,29 @@ import java.util.List;
 @Repository
 public class OrderDaoBean extends BaseDaoBean implements OrderDao {
 
-    private static OrderDaoBean orderDao=new OrderDaoBean();
+    private static OrderDaoBean orderDao = new OrderDaoBean();
 
-    public static OrderDaoBean getInstance(){return orderDao;}
+    public static OrderDaoBean getInstance() {
+        return orderDao;
+    }
 
     public ResultMessage save(Order order) {
         return super.save(order);
     }
 
     public Order getOrderById(int orderId) {
-        return (Order)super.load(Order.class,orderId) ;
+        return (Order) super.load(Order.class, orderId);
     }
 
     public List<Order> getOrderByUserId(int userId) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<Order> orderList=null;
+        List<Order> orderList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM Order as O where O.userId=:userId");
-            query.setParameter("userId",userId);
-            orderList =query.list();
+            query.setParameter("userId", userId);
+            orderList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -46,14 +48,14 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
     }
 
     public List<Order> getOrderByShowId(int showId) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<Order> orderList=null;
+        List<Order> orderList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM Order as O where O.showId=:showId");
-            query.setParameter("showId",showId);
-            orderList =query.list();
+            query.setParameter("showId", showId);
+            orderList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -65,14 +67,14 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
     }
 
     public List<Order> getOrderByVenueId(int venueId) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<Order> orderList=null;
+        List<Order> orderList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM Order as O where O.venueId=:venueId");
-            query.setParameter("venueId",venueId);
-            orderList =query.list();
+            query.setParameter("venueId", venueId);
+            orderList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -84,14 +86,14 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
     }
 
     public List<Order> getOrderByState(OrderState orderState) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<Order> orderList=null;
+        List<Order> orderList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM Order as O where O.orderState=:orderState");
-            query.setParameter("orderState",orderState);
-            orderList =query.list();
+            query.setParameter("orderState", orderState);
+            orderList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();

@@ -16,6 +16,7 @@ public class Venue {
     private List<Seat> seatList;
 
     @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }

@@ -17,9 +17,9 @@ import java.util.List;
 @Repository
 public class ShowDaoBean extends BaseDaoBean implements ShowDao {
 
-    private static ShowDaoBean showDao=new ShowDaoBean();
+    private static ShowDaoBean showDao = new ShowDaoBean();
 
-    public static ShowDaoBean getInstance(){
+    public static ShowDaoBean getInstance() {
         return showDao;
     }
 
@@ -28,18 +28,18 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
     }
 
     public Show findById(int showId) {
-        return (Show)super.load(Show.class,showId);
+        return (Show) super.load(Show.class, showId);
     }
 
     public List<Show> findByType(ShowType showType) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<Show> showList=null;
+        List<Show> showList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM show as S where S.showType=:showType");
-            query.setParameter("showType",showType);
-            showList =query.list();
+            query.setParameter("showType", showType);
+            showList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();

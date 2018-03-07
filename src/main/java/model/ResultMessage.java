@@ -1,5 +1,5 @@
 package model;
 
 public enum ResultMessage {
-    SUCCESS,FAIL
+    SUCCESS, FAIL
 }

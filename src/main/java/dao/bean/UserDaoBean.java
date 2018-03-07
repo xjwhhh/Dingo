@@ -16,10 +16,9 @@ import java.util.List;
 @Repository
 public class UserDaoBean extends BaseDaoBean implements UserDao {
 
-    private static UserDaoBean userDao=new UserDaoBean();
+    private static UserDaoBean userDao = new UserDaoBean();
 
-
-    public static UserDaoBean getInstance(){
+    public static UserDaoBean getInstance() {
         return userDao;
     }
 
@@ -28,15 +27,15 @@ public class UserDaoBean extends BaseDaoBean implements UserDao {
     }
 
     public User find(String account, String password) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<User> userList=null;
+        List<User> userList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM User as U where U.account=:account and U.password=:password");
-            query.setParameter("account",account);
-            query.setParameter("password",password);
-            userList =query.list();
+            query.setParameter("account", account);
+            query.setParameter("password", password);
+            userList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -44,28 +43,28 @@ public class UserDaoBean extends BaseDaoBean implements UserDao {
         } finally {
             session.close();
         }
-        if(userList.size()==1){
+        if (userList.size() == 1) {
             return userList.get(0);
-        }else{
-            User user=new User();
+        } else {
+            User user = new User();
             user.setId(-1);
             return user;
         }
     }
 
     public User findById(int userId) {
-        return (User)super.load(User.class,userId);
+        return (User) super.load(User.class, userId);
     }
 
     public User findByEmail(String emailAddress) {
-        Session session= HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Transaction tx = null;
-        List<User> userList=null;
+        List<User> userList = null;
         try {
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM User as U where U.emailAddress=:emailAddress");
-            query.setParameter("emailAddress",emailAddress);
-            userList =query.list();
+            query.setParameter("emailAddress", emailAddress);
+            userList = query.list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -73,10 +72,10 @@ public class UserDaoBean extends BaseDaoBean implements UserDao {
         } finally {
             session.close();
         }
-        if(userList.size()==1){
+        if (userList.size() == 1) {
             return userList.get(0);
-        }else{
-            User user=new User();
+        } else {
+            User user = new User();
             user.setId(-1);
             return user;
         }

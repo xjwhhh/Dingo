@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "ticket")
 public class Ticket {
 
-    private int id ;
+    private int id;
     private int seatId;
     private double cost;
     private Order order;

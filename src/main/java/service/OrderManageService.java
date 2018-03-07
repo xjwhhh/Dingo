@@ -28,5 +28,4 @@ public interface OrderManageService {
 
     List<Order> getAllOrders();
 
-
 }

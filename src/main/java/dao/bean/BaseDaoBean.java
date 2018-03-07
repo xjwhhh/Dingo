@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 public class BaseDaoBean implements BaseDao {
     public ResultMessage save(Object bean) {
         try {
-            Session session = HibernateUtil.getSession() ;
-            Transaction tx=session.beginTransaction();
+            Session session = HibernateUtil.getSession();
+            Transaction tx = session.beginTransaction();
             session.merge(bean);
             tx.commit();
         } catch (Exception e) {
@@ -24,8 +24,8 @@ public class BaseDaoBean implements BaseDao {
     public Object load(Class c, int id) {
         try {
             Session session = HibernateUtil.getSession();
-            Transaction tx=session.beginTransaction();
-            Object o=session.get(c, id);
+            Transaction tx = session.beginTransaction();
+            Object o = session.get(c, id);
             tx.commit();
             return o;
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class BaseDaoBean implements BaseDao {
             Transaction transaction = session.beginTransaction();
             session.update(bean);
             transaction.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return ResultMessage.SUCCESS;
@@ -48,9 +48,10 @@ public class BaseDaoBean implements BaseDao {
 
     public ResultMessage delete(Object bean) {
         try {
-            Session session =HibernateUtil.getSession() ;
-            Transaction tx=session.beginTransaction();
-            session.delete(bean);;
+            Session session = HibernateUtil.getSession();
+            Transaction tx = session.beginTransaction();
+            session.delete(bean);
+            ;
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,10 +7,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "venueFinance")
 public class VenueFinance {
-    private  int id;
-    private  int venueId;
-    private  int ticketManagerId;
-    private  double cost;
+    private int id;
+    private int venueId;
+    private int ticketManagerId;
+    private double cost;
 
     @Id
     public int getId() {
