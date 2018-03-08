@@ -56,7 +56,11 @@ public class VenueManageServiceBean implements VenueManageService {
         return showDao.save(show);
     }
 
-    public ResultMessage examineApplication(int venueApplicationId) {
+    public List<VenueApplication> getApplication(VenueApplicationType venueApplicationType) {
+        return venueDao.findVenueApplicationByType(venueApplicationType);
+    }
+
+    public ResultMessage approveApplication(int venueApplicationId) {
         VenueApplication venueApplication = venueDao.findVenueApplicationById(venueApplicationId);
         JSONObject jsonObject = JSONObject.fromObject(venueApplication.getVenueJson());
         Venue venue = (Venue) JSONObject.toBean(jsonObject, Venue.class);

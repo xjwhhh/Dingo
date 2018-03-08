@@ -183,4 +183,10 @@ public class UserManageServiceBean implements UserManageService {
     public List<User> getAllUsers() {
         return null;
     }
+
+    public ResultMessage cancel(int userId) {
+        User user=userDao.findById(userId);
+        user.setCancelled(true);
+        return userDao.update(user);
+    }
 }

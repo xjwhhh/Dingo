@@ -2,10 +2,7 @@ package dao.bean;
 
 import dao.HibernateUtil;
 import dao.VenueDao;
-import model.ResultMessage;
-import model.User;
-import model.Venue;
-import model.VenueApplication;
+import model.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -67,5 +64,24 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
 
     public VenueApplication findVenueApplicationById(int venueApplicationId) {
         return (VenueApplication) super.load(VenueApplication.class, venueApplicationId);
+    }
+
+    public List<VenueApplication> findVenueApplicationByType(VenueApplicationType venueApplicationType) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<VenueApplication> venueApplicationList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM VenueApplication as V where V.venueApplicationType=:type");
+            query.setParameter("type", venueApplicationType);
+            venueApplicationList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return venueApplicationList;
     }
 }

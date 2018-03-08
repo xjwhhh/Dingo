@@ -15,6 +15,7 @@ public class Show {
     private int totalSeats;
     private int currentSeats;
     private ProgressType ProgressType;
+    //todo 存到showearning里
     private double earning;
     private List<ShowSeat> seatList;
 

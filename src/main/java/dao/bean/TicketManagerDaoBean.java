@@ -2,6 +2,8 @@ package dao.bean;
 
 import dao.HibernateUtil;
 import dao.TicketManagerDao;
+import model.ResultMessage;
+import model.ShowEarning;
 import model.TicketManager;
 import model.User;
 import org.hibernate.HibernateException;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TicketManagerDaoBean implements TicketManagerDao {
+public class TicketManagerDaoBean extends BaseDaoBean  implements TicketManagerDao {
 
     private static TicketManagerDaoBean ticketManagerDao = new TicketManagerDaoBean();
 
@@ -27,7 +29,7 @@ public class TicketManagerDaoBean implements TicketManagerDao {
         List<TicketManager> ticketManagerList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM ticketManager as T where T.account=:account and T.password=:password");
+            Query query = session.createQuery("FROM TicketManager as T where T.account=:account and T.password=:password");
             query.setParameter("account", account);
             query.setParameter("password", password);
             ticketManagerList = query.list();
@@ -45,5 +47,32 @@ public class TicketManagerDaoBean implements TicketManagerDao {
             ticketManager.setId(-1);
             return ticketManager;
         }
+    }
+
+    public List<ShowEarning> findUnSettledShowEarning() {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<ShowEarning> showEarningList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM ShowEarning as S where S.isSettled=:isSettled");
+            query.setParameter("isSettled", false);
+            showEarningList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+       return showEarningList;
+    }
+
+    public ShowEarning findShowEarningById(int showEarningId) {
+        return (ShowEarning) super.load(ShowEarning.class, showEarningId);
+    }
+
+    public ResultMessage updateShowEarning(ShowEarning showEarning) {
+        return super.update(showEarning);
     }
 }

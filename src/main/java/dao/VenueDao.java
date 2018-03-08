@@ -1,9 +1,11 @@
 package dao;
 
-import dao.bean.BaseDaoBean;
 import model.ResultMessage;
 import model.Venue;
 import model.VenueApplication;
+import model.VenueApplicationType;
+
+import java.util.List;
 
 public interface VenueDao extends BaseDao {
     ResultMessage save(Venue venue);
@@ -17,5 +19,7 @@ public interface VenueDao extends BaseDao {
     ResultMessage saveVenueApplication(VenueApplication venueApplication);
 
     VenueApplication findVenueApplicationById(int venueApplicationId);
+
+    List<VenueApplication> findVenueApplicationByType(VenueApplicationType venueApplicationType);
 
 }

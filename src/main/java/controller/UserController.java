@@ -64,4 +64,12 @@ public class UserController {
         return userManageServiceBean.emailReConfirmation(emailAddress);
     }
 
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage cancel(
+            @RequestParam("userId") String userId) {
+        return userManageServiceBean.cancel(Integer.parseInt(userId));
+    }
+
+
 }

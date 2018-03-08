@@ -21,4 +21,6 @@ public interface UserManageService {
 
     List<User> getAllUsers();
 
+    ResultMessage cancel(int userId);
+
 }

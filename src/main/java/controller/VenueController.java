@@ -2,10 +2,14 @@ package controller;
 
 import model.ResultMessage;
 import model.Venue;
+import model.VenueApplication;
+import model.VenueApplicationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.bean.VenueManageServiceBean;
+
+import java.util.List;
 
 @CrossOrigin
 @Controller
@@ -46,11 +50,20 @@ public class VenueController {
         return venueManageServiceBean.applyForUpdate(venueJson);
     }
 
+
+    @RequestMapping(value = "/getApplication", method = RequestMethod.POST)
+    @ResponseBody
+    public List<VenueApplication> getApplication(
+            @RequestParam("type") String venueApplicationTypeString) {
+        VenueApplicationType venueApplicationType=VenueApplicationType.valueOf(venueApplicationTypeString);
+        return venueManageServiceBean.getApplication(venueApplicationType);
+    }
+
     @RequestMapping(value = "/approveApplication", method = RequestMethod.POST)
     @ResponseBody
     public ResultMessage approveApplication(
             @RequestParam("venueApplicationId") String venueApplicationId) {
-        return venueManageServiceBean.examineApplication(Integer.parseInt(venueApplicationId));
+        return venueManageServiceBean.approveApplication(Integer.parseInt(venueApplicationId));
     }
 
     @RequestMapping(value = "/publishShow", method = RequestMethod.POST)

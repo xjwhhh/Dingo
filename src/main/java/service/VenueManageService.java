@@ -1,8 +1,6 @@
 package service;
 
-import model.ResultMessage;
-import model.Show;
-import model.Venue;
+import model.*;
 
 import java.util.List;
 
@@ -18,7 +16,9 @@ public interface VenueManageService {
 
     ResultMessage publishPlan(String showJson);
 
-    ResultMessage examineApplication(int venueApplicationId);
+    List<VenueApplication> getApplication(VenueApplicationType venueApplicationType);
+
+    ResultMessage approveApplication(int venueApplicationId);
 
     List<Venue> getAllVenues();
 }
