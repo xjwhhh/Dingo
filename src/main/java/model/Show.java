@@ -4,22 +4,23 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "show")
+@Table(name = "showTable")
 public class Show {
+
     private int id;
     private ShowType showType;
     private String name;
     private String description;
-    private String time;
+    private String showTime;
     private int venueId;
     private int totalSeats;
     private int currentSeats;
     private ProgressType ProgressType;
-    //todo 存到showearning里
     private double earning;
     private List<ShowSeat> seatList;
 
     @Id
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -54,11 +55,11 @@ public class Show {
     }
 
     public String getTime() {
-        return time;
+        return showTime;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.showTime = time;
     }
 
     public int getVenueId() {

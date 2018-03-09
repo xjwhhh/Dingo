@@ -27,6 +27,7 @@ public class TicketManagerServiceBean implements TicketManageService {
     public ResultMessage doSettle(int showEarningId) {
         ShowEarning showEarning=ticketManagerDao.findShowEarningById(showEarningId);
         showEarning.setSettled(true);
+        //todo finance
         return ticketManagerDao.updateShowEarning(showEarning);
     }
 }

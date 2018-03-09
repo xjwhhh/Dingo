@@ -4,6 +4,7 @@ import model.ResultMessage;
 import model.ShowEarning;
 import model.TicketManager;
 import model.VenueApplication;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,9 @@ public class TicketManagerController {
     public TicketManager Login(
             @RequestParam("account") String account,
             @RequestParam("password") String password) {
-        return ticketManagerServiceBean.login(account, password);
+        TicketManager ticketManager=ticketManagerServiceBean.login(account, password);
+        System.out.println(JSONArray.fromObject(ticketManager).toString());
+        return ticketManager;
     }
 
 

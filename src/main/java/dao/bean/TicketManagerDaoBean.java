@@ -28,6 +28,10 @@ public class TicketManagerDaoBean extends BaseDaoBean  implements TicketManagerD
         Transaction tx = null;
         List<TicketManager> ticketManagerList = null;
         try {
+            System.out.println(account);
+            System.out.println(account.length());
+            System.out.println(password);
+            System.out.println(password.length());
             tx = session.beginTransaction();
             Query query = session.createQuery("FROM TicketManager as T where T.account=:account and T.password=:password");
             query.setParameter("account", account);
@@ -40,6 +44,7 @@ public class TicketManagerDaoBean extends BaseDaoBean  implements TicketManagerD
         } finally {
             session.close();
         }
+        System.out.println(ticketManagerList.toString());
         if (ticketManagerList.size() == 1) {
             return ticketManagerList.get(0);
         } else {

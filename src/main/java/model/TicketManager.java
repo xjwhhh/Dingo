@@ -8,8 +8,8 @@ import javax.persistence.Table;
 @Table(name = "ticketManager")
 public class TicketManager {
     private int id;
-    private int account;
-    private int password;
+    private String account;
+    private String password;
 
     @Id
     public int getId() {
@@ -20,19 +20,19 @@ public class TicketManager {
         this.id = id;
     }
 
-    public int getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(int account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }

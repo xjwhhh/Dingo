@@ -4,10 +4,38 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "showSeat")
-public class ShowSeat extends Seat {
+public class ShowSeat {
+    private int id;
+    private int seatId;
+    private String description;
     private Show show;
     private double cost;
     private int orderId;
+
+    @Id
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getSeatId() {
+        return seatId;
+    }
+
+    public void setSeatId(int seatId) {
+        this.seatId = seatId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "showId", updatable = false, insertable = false)
