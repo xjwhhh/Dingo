@@ -59,7 +59,7 @@ public class VenueController {
         return venueManageServiceBean.getApplication(venueApplicationType);
     }
 
-    @RequestMapping(value = "/approveApplication", method = RequestMethod.POST)
+    @RequestMapping(value =  "/approveApplication", method = RequestMethod.POST)
     @ResponseBody
     public ResultMessage approveApplication(
             @RequestParam("venueApplicationId") String venueApplicationId) {
@@ -71,6 +71,12 @@ public class VenueController {
     public ResultMessage publishShow(
             @RequestParam("showJson") String showJson) {
         return venueManageServiceBean.publishPlan(showJson);
+    }
+
+    @RequestMapping(value = "/venueList", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Venue> getVenueList() {
+        return venueManageServiceBean.getAllVenues();
     }
 
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.bean.UserManageServiceBean;
 
+import java.util.List;
+
 @CrossOrigin
 @Controller
 @RequestMapping("user")
@@ -69,6 +71,12 @@ public class UserController {
     public ResultMessage cancel(
             @RequestParam("userId") String userId) {
         return userManageServiceBean.cancel(Integer.parseInt(userId));
+    }
+
+    @RequestMapping(value = "/userList", method = RequestMethod.POST)
+    @ResponseBody
+    public List<User> getUserList() {
+        return userManageServiceBean.getAllUsers();
     }
 
 

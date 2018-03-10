@@ -4,7 +4,10 @@ import dao.UserDao;
 import model.ResultMessage;
 import model.User;
 import model.VIPLevel;
+import net.sf.ezmorph.bean.BeanMorpher;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.UserManageService;
@@ -33,7 +36,7 @@ public class UserManageServiceBean implements UserManageService {
         user.setEmailAddress(null);
         user.setConfirmed(false);
         user.setName(null);
-        user.setLevel(VIPLevel.COMMON);
+        user.setLevel(VIPLevel.COMMON.toString());
         user.setTotalIntegral(0);
         user.setCurrentIntegral(0);
         user.setCancelled(false);
@@ -49,8 +52,10 @@ public class UserManageServiceBean implements UserManageService {
     }
 
     public ResultMessage updateUserInfo(String userJson) {
+        System.out.println(userJson);
         JSONObject jsonObject = JSONObject.fromObject(userJson);
         User user = (User) JSONObject.toBean(jsonObject, User.class);
+        System.out.println(JSONArray.fromObject(user).toString());
         return userDao.update(user);
     }
 
@@ -129,7 +134,7 @@ public class UserManageServiceBean implements UserManageService {
                 e.printStackTrace();
             }
 
-            User user = userDao.findByEmail(emailAddress);
+            User user = userDao.findById(userId);
             user.setEmailAddress(emailAddress);
             user.setConfirmed(false);
             userDao.update(user);
@@ -181,11 +186,11 @@ public class UserManageServiceBean implements UserManageService {
     }
 
     public List<User> getAllUsers() {
-        return null;
+        return userDao.findUserList();
     }
 
     public ResultMessage cancel(int userId) {
-        User user=userDao.findById(userId);
+        User user = userDao.findById(userId);
         user.setCancelled(true);
         return userDao.update(user);
     }

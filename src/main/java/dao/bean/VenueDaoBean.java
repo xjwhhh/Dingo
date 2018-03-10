@@ -120,4 +120,22 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
         }
         return venueApplicationList;
     }
+
+    public List<Venue> findVenueList() {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Venue> venueList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Venue V");
+            venueList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return venueList;
+    }
 }

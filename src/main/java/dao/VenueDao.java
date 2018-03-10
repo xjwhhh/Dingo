@@ -22,4 +22,5 @@ public interface VenueDao extends BaseDao {
 
     List<VenueApplication> findVenueApplicationByType(VenueApplicationType venueApplicationType);
 
+    List<Venue> findVenueList();
 }

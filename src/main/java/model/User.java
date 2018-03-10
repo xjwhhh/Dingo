@@ -12,7 +12,7 @@ public class User {
     private String emailAddress;
     private boolean isConfirmed;
     private String name;
-    private VIPLevel level;
+    private String level;
     private double balance;
     private int totalIntegral;
     private int currentIntegral;
@@ -68,13 +68,13 @@ public class User {
         this.name = name;
     }
 
-    @Column(name = "level")
-    @Enumerated(EnumType.STRING)
-    public VIPLevel getLevel() {
+//    @Column(name = "level")
+//    @Enumerated(EnumType.STRING)
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(VIPLevel level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

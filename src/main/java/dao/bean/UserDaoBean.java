@@ -84,4 +84,22 @@ public class UserDaoBean extends BaseDaoBean implements UserDao {
     public ResultMessage update(User user) {
         return super.update(user);
     }
+
+    public List<User> findUserList() {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<User> userList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM User U");
+            userList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return userList;
+    }
 }

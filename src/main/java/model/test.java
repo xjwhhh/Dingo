@@ -17,7 +17,7 @@ public class test {
         User user = new User();
         user.setAccount("1");
         user.setPassword("1");
-        user.setLevel(VIPLevel.COMMON);
+        user.setLevel(VIPLevel.COMMON.toString());
         Transaction tx = session.beginTransaction();
         session.save(user);
         tx.commit();
