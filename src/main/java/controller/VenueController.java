@@ -30,9 +30,9 @@ public class VenueController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Venue Login(
-            @RequestParam("account") String account,
+            @RequestParam("code") String code,
             @RequestParam("password") String password) {
-        return venueManageServiceBean.login(account, password);
+        return venueManageServiceBean.login(code, password);
 
     }
 
@@ -55,7 +55,7 @@ public class VenueController {
     @ResponseBody
     public List<VenueApplication> getApplication(
             @RequestParam("type") String venueApplicationTypeString) {
-        VenueApplicationType venueApplicationType=VenueApplicationType.valueOf(venueApplicationTypeString);
+        VenueApplicationType venueApplicationType=VenueApplicationType.class.getEnumConstants()[Integer.parseInt(venueApplicationTypeString)];
         return venueManageServiceBean.getApplication(venueApplicationType);
     }
 

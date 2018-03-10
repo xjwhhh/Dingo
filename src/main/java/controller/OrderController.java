@@ -50,7 +50,7 @@ public class OrderController {
     @ResponseBody
     public List<Order> getOrderByType(
             @RequestParam("orderState") String orderStateString) {
-        OrderState orderState = OrderState.valueOf(orderStateString);
+        OrderState orderState = OrderState.class.getEnumConstants()[Integer.parseInt(orderStateString)];
         return orderManageServiceBean.getOrderListByState(orderState);
     }
 

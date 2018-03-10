@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.VenueManageService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,8 +37,8 @@ public class VenueManageServiceBean implements VenueManageService {
         return venueDao.saveVenueApplication(venueApplication);
     }
 
-    public Venue login(String account, String password) {
-        return venueDao.find(account, password);
+    public Venue login(String code, String password) {
+        return venueDao.find(code, password);
     }
 
     public Venue getVenueById(int venueId) {
@@ -64,6 +66,10 @@ public class VenueManageServiceBean implements VenueManageService {
         VenueApplication venueApplication = venueDao.findVenueApplicationById(venueApplicationId);
         JSONObject jsonObject = JSONObject.fromObject(venueApplication.getVenueJson());
         Venue venue = (Venue) JSONObject.toBean(jsonObject, Venue.class);
+        venueApplication.setApproved(true);
+        venueApplication.setApproveTime(dateFormat(new Date()));
+        venueDao.update(venueApplication);
+
         if (venueApplication.getVenueApplicationType() == VenueApplicationType.REGISTER) {
             return venueDao.save(venue);
         } else {
@@ -73,5 +79,10 @@ public class VenueManageServiceBean implements VenueManageService {
 
     public List<Venue> getAllVenues() {
         return null;
+    }
+
+    private String dateFormat(Date date){
+        SimpleDateFormat format=new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        return  format.format(date);
     }
 }

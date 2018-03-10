@@ -103,7 +103,7 @@ public class Show {
         this.earning = earning;
     }
 
-    @OneToMany(mappedBy = "show")
+    @OneToMany(mappedBy = "show",fetch = FetchType.EAGER)
     public List<ShowSeat> getSeatList() {
         return seatList;
     }

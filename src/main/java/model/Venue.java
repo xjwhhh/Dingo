@@ -73,7 +73,7 @@ public class Venue {
         this.balance = balance;
     }
 
-    @OneToMany(mappedBy = "venue")
+    @OneToMany(mappedBy = "venue",fetch = FetchType.EAGER)
     public List<Seat> getSeatList() {
         return seatList;
     }

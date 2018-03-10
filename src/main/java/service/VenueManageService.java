@@ -8,7 +8,7 @@ public interface VenueManageService {
 
     ResultMessage register(String account, String password);
 
-    Venue login(String account, String password);
+    Venue login(String code, String password);
 
     Venue getVenueById(int venueId);
 

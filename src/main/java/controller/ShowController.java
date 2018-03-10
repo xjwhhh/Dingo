@@ -21,7 +21,7 @@ public class ShowController {
     @ResponseBody
     public List<Show> getShowByType(
             @RequestParam("showType") String showTypeString) {
-        ShowType showType = ShowType.valueOf(showTypeString);
+        ShowType showType = ShowType.class.getEnumConstants()[Integer.parseInt(showTypeString)];
         return showManageServiceBean.getShowByType(showType);
     }
 

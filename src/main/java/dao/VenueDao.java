@@ -10,7 +10,7 @@ import java.util.List;
 public interface VenueDao extends BaseDao {
     ResultMessage save(Venue venue);
 
-    Venue find(String account, String password);
+    Venue find(String code, String password);
 
     Venue findById(int venueId);
 

@@ -100,7 +100,7 @@ public class Order {
         this.state = state;
     }
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER)
     public List<Ticket> getTicketList() {
         return ticketList;
     }

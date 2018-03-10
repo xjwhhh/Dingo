@@ -21,17 +21,52 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
     }
 
     public ResultMessage save(Venue venue) {
+        //自动分配七位编码
+        boolean isRedundant=true;
+        int code=0;
+        String codeString="";
+        while(isRedundant) {
+            code = (int) (Math.random() * 9999999);
+            codeString=String.valueOf(code);
+            while(codeString.length()<7){
+                codeString="0"+codeString;
+            }
+            System.out.println(codeString);
+
+            Session session = HibernateUtil.getSession();
+            Transaction tx = null;
+            List<Venue> venueList = null;
+            try {
+                tx = session.beginTransaction();
+                Query query = session.createQuery("FROM Venue as V where V.code=:code");
+                query.setParameter("code",codeString );
+                venueList = query.list();
+                tx.commit();
+            } catch (HibernateException e) {
+                if (tx != null) tx.rollback();
+                e.printStackTrace();
+            } finally {
+                session.close();
+            }
+            System.out.println(venueList.size());
+            if(venueList.size()==0){
+                isRedundant=false;
+            }else{
+                isRedundant=true;
+            }
+        }
+        venue.setCode(codeString);
         return super.save(venue);
     }
 
-    public Venue find(String account, String password) {
+    public Venue find(String code, String password) {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         List<Venue> venueList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM Venue as V where V.account=:account and V.password=:password");
-            query.setParameter("account", account);
+            Query query = session.createQuery("FROM Venue as V where V.code=:code and V.password=:password");
+            query.setParameter("code", code);
             query.setParameter("password", password);
             venueList = query.list();
             tx.commit();
@@ -72,8 +107,9 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
         List<VenueApplication> venueApplicationList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM VenueApplication as V where V.venueApplicationType=:type");
+            Query query = session.createQuery("FROM VenueApplication as V where V.venueApplicationType=:type and V.approved=:approved");
             query.setParameter("type", venueApplicationType);
+            query.setParameter("approved", false);
             venueApplicationList = query.list();
             tx.commit();
         } catch (HibernateException e) {
