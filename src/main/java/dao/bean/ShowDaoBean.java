@@ -31,13 +31,13 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
         return (Show) super.load(Show.class, showId);
     }
 
-    public List<Show> findByType(ShowType showType) {
+    public List<Show> findByType(String showType) {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         List<Show> showList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM show as S where S.showType=:showType");
+            Query query = session.createQuery("FROM Show as S where S.showType=:showType");
             query.setParameter("showType", showType);
             showList = query.list();
             tx.commit();

@@ -25,7 +25,7 @@ public class ShowManageServiceBean implements ShowManageService {
         return showDao.findById(showId);
     }
 
-    public List<Show> getShowByType(ShowType showType) {
+    public List<Show> getShowByType(String showType) {
         return showDao.findByType(showType);
     }
 

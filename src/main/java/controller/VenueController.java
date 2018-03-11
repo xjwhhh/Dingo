@@ -46,8 +46,11 @@ public class VenueController {
     @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
     @ResponseBody
     public ResultMessage applyForUpdate(
-            @RequestParam("venueJson") String venueJson) {
-        return venueManageServiceBean.applyForUpdate(venueJson);
+            @RequestParam("venueJson") String venueJson,
+            @RequestParam("one") String one,
+            @RequestParam("two") String two,
+            @RequestParam("three") String three) {
+        return venueManageServiceBean.applyForUpdate(venueJson,one,two,three);
     }
 
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface ShowManageService {
     Show getShowById(int showId);
 
-    List<Show> getShowByType(ShowType showType);
+    List<Show> getShowByType(String showType);
 
     ResultMessage distributeShowEarning(int showId);
 

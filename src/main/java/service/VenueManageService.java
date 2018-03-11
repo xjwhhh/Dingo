@@ -12,7 +12,7 @@ public interface VenueManageService {
 
     Venue getVenueById(int venueId);
 
-    ResultMessage applyForUpdate(String venueJson);
+    ResultMessage applyForUpdate(String venueJson,String one,String two,String three);
 
     ResultMessage publishPlan(String showJson);
 

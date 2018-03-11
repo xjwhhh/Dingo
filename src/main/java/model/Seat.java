@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Seat {
     private int id;
     private Venue venue;
+    private String level;
     private String description;
 
     @Id
@@ -27,6 +28,14 @@ public class Seat {
 
     public void setVenue(Venue venue) {
         this.venue = venue;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getDescription() {

@@ -21,8 +21,8 @@ public class ShowController {
     @ResponseBody
     public List<Show> getShowByType(
             @RequestParam("showType") String showTypeString) {
-        ShowType showType = ShowType.class.getEnumConstants()[Integer.parseInt(showTypeString)];
-        return showManageServiceBean.getShowByType(showType);
+//        ShowType showType = ShowType.v;
+        return showManageServiceBean.getShowByType(showTypeString);
     }
 
     @RequestMapping(value = "/getShowById", method = RequestMethod.POST)

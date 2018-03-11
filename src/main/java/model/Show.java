@@ -8,14 +8,15 @@ import java.util.List;
 public class Show {
 
     private int id;
-    private ShowType showType;
+    private String showType;
     private String name;
     private String description;
-    private String showTime;
+    private String startTime;
+    private String endTime;
     private int venueId;
     private int totalSeats;
     private int currentSeats;
-    private ProgressType ProgressType;
+    private String ProgressType;
     private double earning;
     private List<ShowSeat> seatList;
 
@@ -29,12 +30,12 @@ public class Show {
         this.id = id;
     }
 
-    @Enumerated(EnumType.STRING)
-    public ShowType getShowType() {
+//    @Enumerated(EnumType.STRING)
+    public String getShowType() {
         return showType;
     }
 
-    public void setShowType(ShowType showType) {
+    public void setShowType(String showType) {
         this.showType = showType;
     }
 
@@ -54,12 +55,20 @@ public class Show {
         this.description = description;
     }
 
-    public String getTime() {
-        return showTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setTime(String time) {
-        this.showTime = time;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public int getVenueId() {
@@ -86,12 +95,12 @@ public class Show {
         this.currentSeats = currentSeats;
     }
 
-    @Enumerated(EnumType.STRING)
-    public ProgressType getProgressType() {
+//    @Enumerated(EnumType.STRING)
+    public String getProgressType() {
         return ProgressType;
     }
 
-    public void setProgressType(ProgressType progressType) {
+    public void setProgressType(String progressType) {
         this.ProgressType = progressType;
     }
 

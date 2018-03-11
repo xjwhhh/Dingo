@@ -45,7 +45,8 @@ public class VenueManageServiceBean implements VenueManageService {
         return venueDao.findById(venueId);
     }
 
-    public ResultMessage applyForUpdate(String venueJson) {
+    public ResultMessage applyForUpdate(String venueJson,String one,String two,String three) {
+        //todo 更新座位
         VenueApplication venueApplication = new VenueApplication();
         venueApplication.setVenueJson(venueJson);
         venueApplication.setVenueApplicationType(VenueApplicationType.UPDATE);

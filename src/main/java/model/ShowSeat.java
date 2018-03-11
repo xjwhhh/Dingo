@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class ShowSeat {
     private int id;
     private int seatId;
+    private String level;
     private String description;
     private Show show;
     private double cost;
@@ -27,6 +28,14 @@ public class ShowSeat {
 
     public void setSeatId(int seatId) {
         this.seatId = seatId;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getDescription() {

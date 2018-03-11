@@ -11,7 +11,7 @@ public interface ShowDao extends BaseDao {
 
     Show findById(int showId);
 
-    List<Show> findByType(ShowType showType);
+    List<Show> findByType(String showType);
 
     ResultMessage update(Show show);
 
