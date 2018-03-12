@@ -2,10 +2,7 @@ package dao.bean;
 
 import dao.HibernateUtil;
 import dao.ShowDao;
-import model.ResultMessage;
-import model.Show;
-import model.ShowType;
-import model.User;
+import model.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -60,5 +57,27 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
 
     public List<Show> findByUserId(int userId) {
         return null;
+    }
+
+    public ResultMessage saveShowSeat(ShowSeat showSeat) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createSQLQuery("insert into showseat(cost, description, level,seatId, showId)  VALUE (?,?,?,?,?)");
+            query.setParameter(0, showSeat.getCost());
+            query.setParameter(1, showSeat.getDescription());
+            query.setParameter(2, showSeat.getLevel());
+            query.setParameter(3, showSeat.getSeatId());
+            query.setParameter(4, showSeat.getShow().getId());
+            query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return ResultMessage.SUCCESS;
     }
 }

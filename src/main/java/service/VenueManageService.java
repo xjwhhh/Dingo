@@ -14,8 +14,6 @@ public interface VenueManageService {
 
     ResultMessage applyForUpdate(String venueJson,String one,String two,String three);
 
-    ResultMessage publishPlan(String showJson);
-
     List<VenueApplication> getApplication(VenueApplicationType venueApplicationType);
 
     ResultMessage approveApplication(int venueApplicationId);

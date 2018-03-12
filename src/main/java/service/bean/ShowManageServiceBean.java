@@ -2,14 +2,14 @@ package service.bean;
 
 import dao.ShowDao;
 import dao.VenueDao;
-import model.ResultMessage;
-import model.Show;
-import model.ShowType;
-import model.Venue;
+import model.*;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.ShowManageService;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +20,35 @@ public class ShowManageServiceBean implements ShowManageService {
 
     @Autowired
     VenueDao venueDao;
+
+    public ResultMessage publishShow(String showJson,String one, String two, String three) {
+        JSONObject jsonObject = JSONObject.fromObject(showJson);
+        Show show = (Show) JSONObject.toBean(jsonObject, Show.class);
+        List<Seat> seatList=venueDao.findSeatListByVenueId(show.getVenueId());
+        List<ShowSeat> showSeatList=new ArrayList<ShowSeat>();
+        for(int i=0;i<seatList.size();i++){
+            ShowSeat showSeat=new ShowSeat();
+            showSeat.setLevel(seatList.get(i).getLevel());
+            showSeat.setDescription(seatList.get(i).getDescription());
+            showSeat.setSeatId(seatList.get(i).getId());
+            showSeat.setShow(show);
+            if(seatList.get(i).getLevel().equals("一等座")){
+                showSeat.setCost(Integer.parseInt(one));
+            }else if(seatList.get(i).getLevel().equals("二等座")){
+                showSeat.setCost(Integer.parseInt(two));
+            }else if(seatList.get(i).getLevel().equals("三等座")){
+                showSeat.setCost(Integer.parseInt(three));
+            }
+            showSeatList.add(showSeat);
+        }
+        show.setSeatList(showSeatList);
+        showDao.save(show);
+        for(int i=0;i<showSeatList.size();i++){
+            showDao.saveShowSeat(showSeatList.get(i));
+        }
+
+        return ResultMessage.SUCCESS;
+    }
 
     public Show getShowById(int showId) {
         return showDao.findById(showId);

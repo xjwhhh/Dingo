@@ -1,5 +1,6 @@
 package controller;
 
+import model.ResultMessage;
 import model.Show;
 import model.ShowType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,16 @@ public class ShowController {
 
     @Autowired
     ShowManageServiceBean showManageServiceBean;
+
+    @RequestMapping(value = "/publishShow", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage publishShow(
+            @RequestParam("showJson") String showJson,
+            @RequestParam("one") String one,
+            @RequestParam("two") String two,
+            @RequestParam("three") String three) {
+        return showManageServiceBean.publishShow(showJson,one,two,three);
+    }
 
     @RequestMapping(value = "/getShowByType", method = RequestMethod.POST)
     @ResponseBody

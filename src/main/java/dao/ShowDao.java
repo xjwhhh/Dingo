@@ -1,8 +1,6 @@
 package dao;
 
-import model.ResultMessage;
-import model.Show;
-import model.ShowType;
+import model.*;
 
 import java.util.List;
 
@@ -18,5 +16,7 @@ public interface ShowDao extends BaseDao {
     List<Show> findByVenueId(int venueId);
 
     List<Show> findByUserId(int userId);
+
+    ResultMessage saveShowSeat(ShowSeat showSeat);
 
 }
