@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -47,7 +49,8 @@ public class ShowSeat {
     }
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "showId", updatable = false, insertable = false)
+    @JoinColumn(name = "showId")
+    @JsonBackReference
     public Show getShow() {
         return show;
     }

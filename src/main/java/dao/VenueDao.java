@@ -1,9 +1,6 @@
 package dao;
 
-import model.ResultMessage;
-import model.Venue;
-import model.VenueApplication;
-import model.VenueApplicationType;
+import model.*;
 
 import java.util.List;
 
@@ -23,4 +20,8 @@ public interface VenueDao extends BaseDao {
     List<VenueApplication> findVenueApplicationByType(VenueApplicationType venueApplicationType);
 
     List<Venue> findVenueList();
+
+    List<Seat> findSeatListByVenueId(int venueId);
+
+    ResultMessage saveSeat(Seat seat);
 }

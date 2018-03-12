@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -37,7 +39,8 @@ public class Ticket {
     }
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderId", updatable = false, insertable = false)
+    @JoinColumn(name = "orderId")
+    @JsonBackReference
     public Order getOrder() {
         return order;
     }

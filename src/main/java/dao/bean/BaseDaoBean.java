@@ -10,20 +10,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BaseDaoBean implements BaseDao {
     public ResultMessage save(Object bean) {
+        Session session = HibernateUtil.getSession();
         try {
-            Session session = HibernateUtil.getSession();
             Transaction tx = session.beginTransaction();
             session.merge(bean);
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            session.close();
         }
         return ResultMessage.SUCCESS;
     }
 
     public Object load(Class c, int id) {
+        Session session = HibernateUtil.getSession();
         try {
-            Session session = HibernateUtil.getSession();
             Transaction tx = session.beginTransaction();
             Object o = session.get(c, id);
             tx.commit();
@@ -31,30 +33,35 @@ public class BaseDaoBean implements BaseDao {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }finally {
+            session.close();
         }
     }
 
     public ResultMessage update(Object bean) {
+        Session session = HibernateUtil.getSession();
         try {
-            Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
             session.update(bean);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            session.close();
         }
         return ResultMessage.SUCCESS;
     }
 
     public ResultMessage delete(Object bean) {
+        Session session = HibernateUtil.getSession();
         try {
-            Session session = HibernateUtil.getSession();
             Transaction tx = session.beginTransaction();
             session.delete(bean);
-            ;
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            session.close();
         }
         return ResultMessage.SUCCESS;
     }
