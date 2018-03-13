@@ -9,7 +9,7 @@ public class OrderRecord {
     private int userId;
     private int venueId;
     private int orderId;
-    private OrderAction orderAction;
+    private String orderAction;
     private String time;
 
     @Id
@@ -45,12 +45,12 @@ public class OrderRecord {
         this.orderId = orderId;
     }
 
-    @Enumerated(EnumType.STRING)
-    public OrderAction getOrderAction() {
+//    @Enumerated(EnumType.STRING)
+    public String getOrderAction() {
         return orderAction;
     }
 
-    public void setOrderAction(OrderAction orderAction) {
+    public void setOrderAction(String orderAction) {
         this.orderAction = orderAction;
     }
 

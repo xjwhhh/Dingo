@@ -15,7 +15,7 @@ public class Order {
     private String payTime;
     private String ticketConfirmedTime;
     private String cancelTime;
-    private OrderState state;
+    private String state;
     private List<Ticket> ticketList;
 
     @Id
@@ -91,12 +91,12 @@ public class Order {
         this.ticketConfirmedTime = ticketConfirmedTime;
     }
 
-    @Enumerated(EnumType.STRING)
-    public OrderState getState() {
+//    @Enumerated(EnumType.STRING)
+    public String getState() {
         return state;
     }
 
-    public void setState(OrderState state) {
+    public void setState(String state) {
         this.state = state;
     }
 

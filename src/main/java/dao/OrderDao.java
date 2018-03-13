@@ -1,9 +1,6 @@
 package dao;
 
-import model.Order;
-import model.OrderRecord;
-import model.OrderState;
-import model.ResultMessage;
+import model.*;
 
 import java.util.List;
 
@@ -22,5 +19,7 @@ public interface OrderDao extends BaseDao {
     List<Order> getOrderByState(OrderState orderState);
 
     ResultMessage saveOrderRecord(OrderRecord orderRecord);
+
+    ResultMessage saveTicket(Ticket ticket);
 
 }

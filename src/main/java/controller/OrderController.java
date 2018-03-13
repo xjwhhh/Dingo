@@ -21,15 +21,23 @@ public class OrderController {
     @RequestMapping(value = "/saveOrderChoose", method = RequestMethod.POST)
     @ResponseBody
     public ResultMessage saveOrderChoose(
-            @RequestParam("orderJson") String orderJson) {
-        return orderManageServiceBean.reserveChoose(orderJson);
+            @RequestParam("seatIdListJson") String seatIdListJson,
+            @RequestParam("userId") String userId,
+            @RequestParam("venueId") String venueId,
+            @RequestParam("showId") String showId) {
+        return orderManageServiceBean.reserveChoose(seatIdListJson,Integer.parseInt(userId),Integer.parseInt(venueId),Integer.parseInt(showId));
     }
 
     @RequestMapping(value = "/saveOrderNoChoose", method = RequestMethod.POST)
     @ResponseBody
     public ResultMessage saveOrderNoChoose(
-            @RequestParam("orderJson") String orderJson) {
-        return orderManageServiceBean.reserveNoChoose(orderJson);
+            @RequestParam("one") String one,
+            @RequestParam("two") String two,
+            @RequestParam("three") String three,
+            @RequestParam("userId") String userId,
+            @RequestParam("venueId") String venueId,
+            @RequestParam("showId") String showId) {
+        return orderManageServiceBean.reserveNoChoose(Integer.parseInt(one),Integer.parseInt(two),Integer.parseInt(three),Integer.parseInt(userId),Integer.parseInt(venueId),Integer.parseInt(showId));
     }
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)

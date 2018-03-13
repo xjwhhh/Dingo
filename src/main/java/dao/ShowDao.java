@@ -19,4 +19,8 @@ public interface ShowDao extends BaseDao {
 
     ResultMessage saveShowSeat(ShowSeat showSeat);
 
+    ShowSeat findShowSeat(int showSeatId);
+
+    List<ShowSeat> findShowSeatListByShowId(int showId);
+
 }

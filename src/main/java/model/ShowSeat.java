@@ -14,6 +14,7 @@ public class ShowSeat {
     private Show show;
     private double cost;
     private int orderId;
+    private boolean isBooked;
 
     @Id
     public int getId() {
@@ -73,5 +74,13 @@ public class ShowSeat {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
     }
 }

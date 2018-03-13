@@ -107,4 +107,24 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
     public ResultMessage saveOrderRecord(OrderRecord orderRecord) {
         return super.save(orderRecord);
     }
+
+    public ResultMessage saveTicket(Ticket ticket) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createSQLQuery("insert into ticket(cost, seatId, orderId)  VALUE (?,?,?)");
+            query.setParameter(0, ticket.getCost());
+            query.setParameter(1, ticket.getSeatId());
+            query.setParameter(2, ticket.getOrder().getId());
+            query.executeUpdate();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return ResultMessage.SUCCESS;
+    }
 }

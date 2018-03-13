@@ -52,7 +52,22 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
     }
 
     public List<Show> findByVenueId(int venueId) {
-        return null;
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Show> showList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Show as S where S.venueId=:venueId");
+            query.setParameter("venueId", venueId);
+            showList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return showList;
     }
 
     public List<Show> findByUserId(int userId) {
@@ -79,5 +94,28 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
             session.close();
         }
         return ResultMessage.SUCCESS;
+    }
+
+    public ShowSeat findShowSeat(int showSeatId) {
+        return (ShowSeat) super.load(Show.class, showSeatId);
+    }
+
+    public List<ShowSeat> findShowSeatListByShowId(int showId) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<ShowSeat> showSeatList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM ShowSeat as S where S.showId=:showId");
+            query.setParameter("showId", showId);
+            showSeatList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return showSeatList;
     }
 }

@@ -12,6 +12,7 @@ public class Ticket {
     private int seatId;
     private double cost;
     private Order order;
+    private String level;
 
     @Id
     public int getId() {
@@ -47,5 +48,13 @@ public class Ticket {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }
