@@ -41,6 +41,7 @@ public class ShowManageServiceBean implements ShowManageService {
             showSeat.setDescription(seatList.get(i).getDescription());
             showSeat.setSeatId(seatList.get(i).getId());
             showSeat.setShow(newShow);
+            showSeat.setBooked(false);
             if(seatList.get(i).getLevel().equals("一等座")){
                 showSeat.setCost(Integer.parseInt(one));
             }else if(seatList.get(i).getLevel().equals("二等座")){

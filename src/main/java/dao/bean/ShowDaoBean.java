@@ -97,7 +97,8 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
     }
 
     public ShowSeat findShowSeat(int showSeatId) {
-        return (ShowSeat) super.load(Show.class, showSeatId);
+        System.out.println(showSeatId);
+        return (ShowSeat) super.load(ShowSeat.class, showSeatId);
     }
 
     public List<ShowSeat> findShowSeatListByShowId(int showId) {

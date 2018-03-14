@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface OrderManageService {
 
-    ResultMessage reserveChoose(String seatIdListJson,int userId,int venueId,int showId);
+    int reserveChoose(String seatIdListJson,int userId,int venueId,int showId);
 
-    ResultMessage reserveNoChoose(int one,int two,int three,int userId,int venueId,int showId);
+    int reserveNoChoose(int one,int two,int three,int userId,int venueId,int showId);
 
     ResultMessage pay(int orderId);
 

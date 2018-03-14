@@ -20,7 +20,7 @@ public class OrderController {
 
     @RequestMapping(value = "/saveOrderChoose", method = RequestMethod.POST)
     @ResponseBody
-    public ResultMessage saveOrderChoose(
+    public int saveOrderChoose(
             @RequestParam("seatIdListJson") String seatIdListJson,
             @RequestParam("userId") String userId,
             @RequestParam("venueId") String venueId,
@@ -30,7 +30,7 @@ public class OrderController {
 
     @RequestMapping(value = "/saveOrderNoChoose", method = RequestMethod.POST)
     @ResponseBody
-    public ResultMessage saveOrderNoChoose(
+    public int saveOrderNoChoose(
             @RequestParam("one") String one,
             @RequestParam("two") String two,
             @RequestParam("three") String three,
