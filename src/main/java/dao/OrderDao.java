@@ -8,18 +8,20 @@ public interface OrderDao extends BaseDao {
 
     ResultMessage save(Order order);
 
-    Order getOrderById(int orderId);
+    Order findOrderById(int orderId);
 
-    List<Order> getOrderByUserId(int userId);
+    List<Order> findOrderByUserId(int userId);
 
-    List<Order> getOrderByShowId(int showId);
+    List<Order> findOrderByShowId(int showId);
 
-    List<Order> getOrderByVenueId(int venueId);
+    List<Order> findOrderByVenueId(int venueId);
 
-    List<Order> getOrderByState(OrderState orderState);
+    List<Order> findOrderByState(OrderState orderState);
 
     ResultMessage saveOrderRecord(OrderRecord orderRecord);
 
     ResultMessage saveTicket(Ticket ticket);
+
+    Ticket findTicketById(int ticketId);
 
 }

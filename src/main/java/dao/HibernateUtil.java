@@ -21,6 +21,7 @@ public class HibernateUtil {
             ServiceRegistry serviceRegistry;
             config = new Configuration().configure();
             config.addAnnotatedClass(User.class);
+            config.addAnnotatedClass(Coupon.class);
             config.addAnnotatedClass(Venue.class);
             config.addAnnotatedClass(Order.class);
             config.addAnnotatedClass(TicketManager.class);
@@ -29,6 +30,7 @@ public class HibernateUtil {
             config.addAnnotatedClass(ShowSeat.class);
             config.addAnnotatedClass(VenueApplication.class);
             config.addAnnotatedClass(Ticket.class);
+            config.addAnnotatedClass(TicketFinance.class);
             config.addAnnotatedClass(OrderRecord.class);
             config.addAnnotatedClass(ShowEarning.class);
             config.addAnnotatedClass(VenueFinance.class);

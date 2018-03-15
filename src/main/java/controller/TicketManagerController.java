@@ -1,9 +1,6 @@
 package controller;
 
-import model.ResultMessage;
-import model.ShowEarning;
-import model.TicketManager;
-import model.VenueApplication;
+import model.*;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,13 +21,12 @@ public class TicketManagerController {
     public TicketManager Login(
             @RequestParam("account") String account,
             @RequestParam("password") String password) {
-        TicketManager ticketManager=ticketManagerServiceBean.login(account, password);
+        TicketManager ticketManager = ticketManagerServiceBean.login(account, password);
         System.out.println(JSONArray.fromObject(ticketManager).toString());
         return ticketManager;
     }
 
-
-    @RequestMapping(value = "/getUnSettledShowEarning", method = RequestMethod.POST)
+    @RequestMapping(value = "/UnSettledShowEarning", method = RequestMethod.POST)
     @ResponseBody
     public List<ShowEarning> getUnSettledShowEarning() {
         return ticketManagerServiceBean.getUnSettledShowEarning();
@@ -43,6 +39,10 @@ public class TicketManagerController {
         return ticketManagerServiceBean.doSettle(Integer.parseInt(showWarningId));
     }
 
-
+    @RequestMapping(value = "/ticketFinanceList", method = RequestMethod.POST)
+    @ResponseBody
+    public List<TicketFinance> getTicketFinanceList() {
+        return ticketManagerServiceBean.getTicketFinanceList();
+    }
 
 }

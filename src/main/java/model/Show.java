@@ -30,7 +30,7 @@ public class Show {
         this.id = id;
     }
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
     public String getShowType() {
         return showType;
     }
@@ -95,7 +95,7 @@ public class Show {
         this.currentSeats = currentSeats;
     }
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
     public String getProgressType() {
         return ProgressType;
     }
@@ -112,7 +112,7 @@ public class Show {
         this.earning = earning;
     }
 
-    @OneToMany(mappedBy = "show",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "show", fetch = FetchType.EAGER)
     public List<ShowSeat> getSeatList() {
         return seatList;
     }

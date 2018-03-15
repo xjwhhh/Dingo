@@ -79,5 +79,13 @@ public class UserController {
         return userManageServiceBean.getAllUsers();
     }
 
+    @RequestMapping(value = "/exchangeCoupon", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage exchangeCoupon(
+            @RequestParam("userId") String userId,
+            @RequestParam("couponType") String couponType
+    ) {
+        return userManageServiceBean.exchangeCoupon(Integer.parseInt(userId), Integer.parseInt(couponType));
+    }
 
 }

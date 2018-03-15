@@ -50,26 +50,23 @@ public class VenueController {
             @RequestParam("one") String one,
             @RequestParam("two") String two,
             @RequestParam("three") String three) {
-        return venueManageServiceBean.applyForUpdate(venueJson,one,two,three);
+        return venueManageServiceBean.applyForUpdate(venueJson, one, two, three);
     }
-
 
     @RequestMapping(value = "/getApplication", method = RequestMethod.POST)
     @ResponseBody
     public List<VenueApplication> getApplication(
             @RequestParam("type") String venueApplicationTypeString) {
-        VenueApplicationType venueApplicationType=VenueApplicationType.class.getEnumConstants()[Integer.parseInt(venueApplicationTypeString)];
+        VenueApplicationType venueApplicationType = VenueApplicationType.class.getEnumConstants()[Integer.parseInt(venueApplicationTypeString)];
         return venueManageServiceBean.getApplication(venueApplicationType);
     }
 
-    @RequestMapping(value =  "/approveApplication", method = RequestMethod.POST)
+    @RequestMapping(value = "/approveApplication", method = RequestMethod.POST)
     @ResponseBody
     public ResultMessage approveApplication(
             @RequestParam("venueApplicationId") String venueApplicationId) {
         return venueManageServiceBean.approveApplication(Integer.parseInt(venueApplicationId));
     }
-
-
 
     @RequestMapping(value = "/venueList", method = RequestMethod.POST)
     @ResponseBody

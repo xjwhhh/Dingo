@@ -45,7 +45,7 @@ public class OrderRecord {
         this.orderId = orderId;
     }
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
     public String getOrderAction() {
         return orderAction;
     }

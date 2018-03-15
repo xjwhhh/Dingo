@@ -7,7 +7,7 @@ import model.ShowType;
 import java.util.List;
 
 public interface ShowManageService {
-    ResultMessage publishShow(String showJson,String one, String two, String three);
+    ResultMessage publishShow(String showJson, String one, String two, String three);
 
     Show getShowById(int showId);
 

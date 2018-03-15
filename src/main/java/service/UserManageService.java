@@ -23,4 +23,6 @@ public interface UserManageService {
 
     ResultMessage cancel(int userId);
 
+    ResultMessage exchangeCoupon(int userId, int couponType);
+
 }

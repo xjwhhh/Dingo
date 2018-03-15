@@ -25,7 +25,7 @@ public class ShowController {
             @RequestParam("one") String one,
             @RequestParam("two") String two,
             @RequestParam("three") String three) {
-        return showManageServiceBean.publishShow(showJson,one,two,three);
+        return showManageServiceBean.publishShow(showJson, one, two, three);
     }
 
     @RequestMapping(value = "/getShowByType", method = RequestMethod.POST)

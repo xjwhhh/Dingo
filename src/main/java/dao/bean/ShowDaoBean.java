@@ -119,4 +119,56 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
         }
         return showSeatList;
     }
+
+    public List<ShowEarning> findUnSettledShowEarning() {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<ShowEarning> showEarningList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM ShowEarning as S where S.isSettled=:isSettled");
+            query.setParameter("isSettled", false);
+            showEarningList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return showEarningList;
+    }
+
+    public ShowEarning findShowEarningById(int showEarningId) {
+        return (ShowEarning) super.load(ShowEarning.class, showEarningId);
+    }
+
+    public ResultMessage updateShowEarning(ShowEarning showEarning) {
+        return super.update(showEarning);
+    }
+
+    public ShowEarning findShowEarningByShowId(int showId) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<ShowEarning> showEarningList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM ShowEarning as S where S.showId=:showId");
+            query.setParameter("showId", showId);
+            showEarningList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        if (showEarningList.size() > 0) {
+            return showEarningList.get(0);
+        } else {
+            ShowEarning showEarning = new ShowEarning();
+            showEarning.setId(-1);
+            return showEarning;
+        }
+    }
 }

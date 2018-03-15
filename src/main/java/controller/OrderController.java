@@ -1,8 +1,10 @@
 package controller;
 
+import model.Coupon;
 import model.Order;
 import model.OrderState;
 import model.ResultMessage;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,7 @@ public class OrderController {
             @RequestParam("userId") String userId,
             @RequestParam("venueId") String venueId,
             @RequestParam("showId") String showId) {
-        return orderManageServiceBean.reserveChoose(seatIdListJson,Integer.parseInt(userId),Integer.parseInt(venueId),Integer.parseInt(showId));
+        return orderManageServiceBean.reserveChoose(seatIdListJson, Integer.parseInt(userId), Integer.parseInt(venueId), Integer.parseInt(showId));
     }
 
     @RequestMapping(value = "/saveOrderNoChoose", method = RequestMethod.POST)
@@ -37,14 +39,17 @@ public class OrderController {
             @RequestParam("userId") String userId,
             @RequestParam("venueId") String venueId,
             @RequestParam("showId") String showId) {
-        return orderManageServiceBean.reserveNoChoose(Integer.parseInt(one),Integer.parseInt(two),Integer.parseInt(three),Integer.parseInt(userId),Integer.parseInt(venueId),Integer.parseInt(showId));
+        return orderManageServiceBean.reserveNoChoose(Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three), Integer.parseInt(userId), Integer.parseInt(venueId), Integer.parseInt(showId));
     }
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     @ResponseBody
     public ResultMessage payOrder(
-            @RequestParam("orderId") String orderId) {
-        return orderManageServiceBean.pay(Integer.parseInt(orderId));
+            @RequestParam("orderId") String orderId,
+            @RequestParam("coupon") String couponJson) {
+        JSONObject jsonObject = JSONObject.fromObject(couponJson);
+        Coupon coupon = (Coupon) JSONObject.toBean(jsonObject, Coupon.class);
+        return orderManageServiceBean.pay(Integer.parseInt(orderId), coupon);
     }
 
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)
@@ -87,4 +92,11 @@ public class OrderController {
         return orderManageServiceBean.getOrderListByUserId(Integer.parseInt(userId));
     }
 
+    @RequestMapping(value = "/checkTicket", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMessage checkTicket(
+            @RequestParam("ticketId") String ticketId
+    ) {
+        return orderManageServiceBean.checkTicket(Integer.parseInt(ticketId));
+    }
 }

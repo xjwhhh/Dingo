@@ -14,7 +14,6 @@ public class ShowEarning {
     private double earning;
     private boolean isSettled;
 
-
     @Id
     @Column(name = "id")
     public int getId() {

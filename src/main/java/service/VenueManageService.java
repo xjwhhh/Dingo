@@ -12,11 +12,12 @@ public interface VenueManageService {
 
     Venue getVenueById(int venueId);
 
-    ResultMessage applyForUpdate(String venueJson,String one,String two,String three);
+    ResultMessage applyForUpdate(String venueJson, String one, String two, String three);
 
     List<VenueApplication> getApplication(VenueApplicationType venueApplicationType);
 
     ResultMessage approveApplication(int venueApplicationId);
 
     List<Venue> getAllVenues();
+
 }

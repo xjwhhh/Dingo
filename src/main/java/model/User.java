@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -17,6 +18,7 @@ public class User {
     private int totalIntegral;
     private int currentIntegral;
     private boolean isCancelled;
+    private List<Coupon> couponList;
 
     @Id
     @Column(name = "id")
@@ -68,7 +70,7 @@ public class User {
         this.name = name;
     }
 
-//    @Column(name = "level")
+    //    @Column(name = "level")
 //    @Enumerated(EnumType.STRING)
     public String getLevel() {
         return level;
@@ -108,5 +110,14 @@ public class User {
 
     public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
+    }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    public List<Coupon> getCouponList() {
+        return couponList;
+    }
+
+    public void setCouponList(List<Coupon> couponList) {
+        this.couponList = couponList;
     }
 }

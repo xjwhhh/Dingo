@@ -24,11 +24,11 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         return super.save(order);
     }
 
-    public Order getOrderById(int orderId) {
+    public Order findOrderById(int orderId) {
         return (Order) super.load(Order.class, orderId);
     }
 
-    public List<Order> getOrderByUserId(int userId) {
+    public List<Order> findOrderByUserId(int userId) {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         List<Order> orderList = null;
@@ -47,7 +47,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         return orderList;
     }
 
-    public List<Order> getOrderByShowId(int showId) {
+    public List<Order> findOrderByShowId(int showId) {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         List<Order> orderList = null;
@@ -66,7 +66,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         return orderList;
     }
 
-    public List<Order> getOrderByVenueId(int venueId) {
+    public List<Order> findOrderByVenueId(int venueId) {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         List<Order> orderList = null;
@@ -85,7 +85,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         return orderList;
     }
 
-    public List<Order> getOrderByState(OrderState orderState) {
+    public List<Order> findOrderByState(OrderState orderState) {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         List<Order> orderList = null;
@@ -126,5 +126,9 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
             session.close();
         }
         return ResultMessage.SUCCESS;
+    }
+
+    public Ticket findTicketById(int ticketId) {
+        return (Ticket) super.load(Ticket.class, ticketId);
     }
 }

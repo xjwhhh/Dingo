@@ -1,6 +1,7 @@
 package service.bean;
 
 import dao.UserDao;
+import model.Coupon;
 import model.ResultMessage;
 import model.User;
 import model.VIPLevel;
@@ -21,6 +22,13 @@ import java.util.Properties;
 
 @Service
 public class UserManageServiceBean implements UserManageService {
+
+    private static final int firstCouponCost = 100;
+    private static final int secondCouponCost = 500;
+    private static final int thirdCouponCost = 1000;
+    private static final String firstCouponDesc = "满100减10";
+    private static final String secondCouponDesc = "满1000减100";
+    private static final String thirdCouponDesc = "满2000减200";
 
     @Autowired
     UserDao userDao;
@@ -44,7 +52,14 @@ public class UserManageServiceBean implements UserManageService {
     }
 
     public User login(String account, String password) {
-        return userDao.find(account, password);
+        User user = userDao.find(account, password);
+        if (user.isCancelled()) {
+            User newUser = new User();
+            newUser.setId(-2);
+            return newUser;
+        } else {
+            return user;
+        }
     }
 
     public User getUserById(int userId) {
@@ -193,5 +208,37 @@ public class UserManageServiceBean implements UserManageService {
         User user = userDao.findById(userId);
         user.setCancelled(true);
         return userDao.update(user);
+    }
+
+    public ResultMessage exchangeCoupon(int userId, int couponType) {
+        User user = userDao.findById(userId);
+        int cost = 0;
+        String description = "";
+        switch (couponType) {
+            case 1:
+                cost = firstCouponCost;
+                description = firstCouponDesc;
+                break;
+            case 2:
+                cost = secondCouponCost;
+                description = secondCouponDesc;
+                break;
+            case 3:
+                cost = thirdCouponCost;
+                description = thirdCouponDesc;
+                break;
+        }
+        if (user.getCurrentIntegral() >= cost) {
+            user.setCurrentIntegral(user.getCurrentIntegral() - cost);
+            Coupon coupon = new Coupon();
+            coupon.setUser(user);
+            coupon.setType(couponType);
+            coupon.setDescription(description);
+            userDao.save(coupon);
+            userDao.update(user);
+            return ResultMessage.SUCCESS;
+        } else {
+            return ResultMessage.FAIL;
+        }
     }
 }

@@ -17,7 +17,7 @@ public class BaseDaoBean implements BaseDao {
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             session.close();
         }
         return ResultMessage.SUCCESS;
@@ -33,7 +33,7 @@ public class BaseDaoBean implements BaseDao {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -46,7 +46,7 @@ public class BaseDaoBean implements BaseDao {
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             session.close();
         }
         return ResultMessage.SUCCESS;
@@ -60,7 +60,7 @@ public class BaseDaoBean implements BaseDao {
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             session.close();
         }
         return ResultMessage.SUCCESS;

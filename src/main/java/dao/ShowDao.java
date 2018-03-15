@@ -23,4 +23,12 @@ public interface ShowDao extends BaseDao {
 
     List<ShowSeat> findShowSeatListByShowId(int showId);
 
+    List<ShowEarning> findUnSettledShowEarning();
+
+    ShowEarning findShowEarningById(int showEarningId);
+
+    ResultMessage updateShowEarning(ShowEarning showEarning);
+
+    ShowEarning findShowEarningByShowId(int showId);
+
 }

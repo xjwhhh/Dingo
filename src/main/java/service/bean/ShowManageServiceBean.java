@@ -21,38 +21,38 @@ public class ShowManageServiceBean implements ShowManageService {
     @Autowired
     VenueDao venueDao;
 
-    public ResultMessage publishShow(String showJson,String one, String two, String three) {
+    public ResultMessage publishShow(String showJson, String one, String two, String three) {
         JSONObject jsonObject = JSONObject.fromObject(showJson);
         Show show = (Show) JSONObject.toBean(jsonObject, Show.class);
         showDao.save(show);
-        List<Seat> seatList=venueDao.findSeatListByVenueId(show.getVenueId());
-        List<ShowSeat> showSeatList=new ArrayList<ShowSeat>();
-        List<Show> showList=showDao.findByVenueId(show.getVenueId());
-        Show newShow=new Show();
+        List<Seat> seatList = venueDao.findSeatListByVenueId(show.getVenueId());
+        List<ShowSeat> showSeatList = new ArrayList<ShowSeat>();
+        List<Show> showList = showDao.findByVenueId(show.getVenueId());
+        Show newShow = new Show();
         newShow.setId(-1);
-        for(int i=0;i<showList.size();i++){
-            if(seatList.get(i).getId()>newShow.getId()){
-                newShow=showList.get(i);
+        for (int i = 0; i < showList.size(); i++) {
+            if (seatList.get(i).getId() > newShow.getId()) {
+                newShow = showList.get(i);
             }
         }
-        for(int i=0;i<seatList.size();i++){
-            ShowSeat showSeat=new ShowSeat();
+        for (int i = 0; i < seatList.size(); i++) {
+            ShowSeat showSeat = new ShowSeat();
             showSeat.setLevel(seatList.get(i).getLevel());
             showSeat.setDescription(seatList.get(i).getDescription());
             showSeat.setSeatId(seatList.get(i).getId());
             showSeat.setShow(newShow);
             showSeat.setBooked(false);
-            if(seatList.get(i).getLevel().equals("一等座")){
+            if (seatList.get(i).getLevel().equals("一等座")) {
                 showSeat.setCost(Integer.parseInt(one));
-            }else if(seatList.get(i).getLevel().equals("二等座")){
+            } else if (seatList.get(i).getLevel().equals("二等座")) {
                 showSeat.setCost(Integer.parseInt(two));
-            }else if(seatList.get(i).getLevel().equals("三等座")){
+            } else if (seatList.get(i).getLevel().equals("三等座")) {
                 showSeat.setCost(Integer.parseInt(three));
             }
             showSeatList.add(showSeat);
         }
         show.setSeatList(showSeatList);
-        for(int i=0;i<showSeatList.size();i++){
+        for (int i = 0; i < showSeatList.size(); i++) {
             showDao.saveShowSeat(showSeatList.get(i));
         }
         return ResultMessage.SUCCESS;

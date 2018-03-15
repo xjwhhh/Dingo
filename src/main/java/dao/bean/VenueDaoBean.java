@@ -24,14 +24,14 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
 
     public ResultMessage save(Venue venue) {
         //自动分配七位编码
-        boolean isRedundant=true;
-        int code=0;
-        String codeString="";
-        while(isRedundant) {
+        boolean isRedundant = true;
+        int code = 0;
+        String codeString = "";
+        while (isRedundant) {
             code = (int) (Math.random() * 9999999);
-            codeString=String.valueOf(code);
-            while(codeString.length()<7){
-                codeString="0"+codeString;
+            codeString = String.valueOf(code);
+            while (codeString.length() < 7) {
+                codeString = "0" + codeString;
             }
             System.out.println(codeString);
 
@@ -41,7 +41,7 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
             try {
                 tx = session.beginTransaction();
                 Query query = session.createQuery("FROM Venue as V where V.code=:code");
-                query.setParameter("code",codeString );
+                query.setParameter("code", codeString);
                 venueList = query.list();
                 tx.commit();
             } catch (HibernateException e) {
@@ -51,10 +51,10 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
                 session.close();
             }
             System.out.println(venueList.size());
-            if(venueList.size()==0){
-                isRedundant=false;
-            }else{
-                isRedundant=true;
+            if (venueList.size() == 0) {
+                isRedundant = false;
+            } else {
+                isRedundant = true;
             }
         }
         venue.setCode(codeString);
@@ -152,9 +152,9 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
             query.setParameter(0, venueId);
             List object = query.list();
             tx.commit();
-            for(Object obj : object){
-                Object[] arrObj = (Object[])obj;
-                Seat seat=new Seat();
+            for (Object obj : object) {
+                Object[] arrObj = (Object[]) obj;
+                Seat seat = new Seat();
                 seat.setId(Integer.parseInt(arrObj[0].toString()));
                 seat.setDescription(arrObj[1].toString());
                 seat.setLevel(arrObj[2].toString());
@@ -169,7 +169,7 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
         }
 //        System.out.println(objectList.toString());
         System.out.println(JSONArray.fromObject(seatList));
-       return seatList;
+        return seatList;
     }
 
     public ResultMessage saveSeat(Seat seat) {
@@ -192,12 +192,12 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
         return ResultMessage.SUCCESS;
     }
 
-    public static void main(String[] args){
-        Seat seat=new Seat();
+    public static void main(String[] args) {
+        Seat seat = new Seat();
         seat.setLevel("2");
         seat.setDescription("e");
-        Venue venue=venueDao.findById(1);
+        Venue venue = venueDao.findById(1);
         seat.setVenue(venue);
-       venueDao.saveSeat(seat);
+        venueDao.saveSeat(seat);
     }
 }

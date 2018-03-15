@@ -1,16 +1,12 @@
 package service.bean;
 
 import dao.*;
-import dao.bean.OrderDaoBean;
-import dao.bean.ShowDaoBean;
 import model.*;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.OrderManageService;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,19 +27,19 @@ public class OrderManageServiceBean implements OrderManageService {
     @Autowired
     ShowDao showDao;
 
-    public int reserveChoose(String seatIdListJson,int userId,int venueId,int showId) {
+    public int reserveChoose(String seatIdListJson, int userId, int venueId, int showId) {
 //        ShowDaoBean showDao=new ShowDaoBean();
 //        OrderDaoBean orderDao=new OrderDaoBean();
-        JSONArray jsonArray=JSONArray.fromObject(seatIdListJson);
-        List<Integer> showSeatIdList=new ArrayList<Integer>();
-        for(int i=0;i<jsonArray.size();i++){
+        JSONArray jsonArray = JSONArray.fromObject(seatIdListJson);
+        List<Integer> showSeatIdList = new ArrayList<Integer>();
+        for (int i = 0; i < jsonArray.size(); i++) {
             showSeatIdList.add(Integer.parseInt(jsonArray.get(i).toString()));
         }
 
         List<ShowSeat> showSeatList = new ArrayList<ShowSeat>();
-        for(int i=0;i<showSeatIdList.size();i++){
+        for (int i = 0; i < showSeatIdList.size(); i++) {
             //showSeat
-            ShowSeat showSeat=showDao.findShowSeat(showSeatIdList.get(i));
+            ShowSeat showSeat = showDao.findShowSeat(showSeatIdList.get(i));
             showSeatList.add(showSeat);
             showSeat.setBooked(true);
             showDao.update(showSeat);
@@ -51,43 +47,44 @@ public class OrderManageServiceBean implements OrderManageService {
         System.out.println(showSeatList);
 
         //show
-        Show show=showDao.findById(showId);
-        show.setCurrentSeats(show.getCurrentSeats()-showSeatIdList.size());
+        Show show = showDao.findById(showId);
+        show.setCurrentSeats(show.getCurrentSeats() - showSeatIdList.size());
         showDao.update(show);
 
         //order
-        Order order=new Order();
+        Order order = new Order();
         order.setUserId(userId);
         order.setVenueId(venueId);
         order.setShowId(showId);
-        double cost=0;
-        for(int i=0;i<showSeatList.size();i++){
-            cost+=showSeatList.get(i).getCost();
+        double cost = 0;
+        for (int i = 0; i < showSeatList.size(); i++) {
+            cost += showSeatList.get(i).getCost();
         }
         order.setCost(cost);
-        Date date=new Date();
+        Date date = new Date();
         order.setOrderTime(dateFormat(date));
         order.setState(OrderState.UNPAID.toString());
         orderDao.save(order);
 
         //ticket
-        List<Order> orderList=orderDao.getOrderByUserId(userId);
-        List<Order> orderList1=new ArrayList<Order>();
-        for(int i=0;i<orderList.size();i++){
-            if(orderList.get(i).getShowId()==showId){
+        List<Order> orderList = orderDao.findOrderByUserId(userId);
+        List<Order> orderList1 = new ArrayList<Order>();
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).getShowId() == showId) {
                 orderList1.add(orderList.get(i));
             }
         }
-        for(int i=0;i<orderList.size();i++){
-            if(orderList1.get(i).getId()>order.getId()){
-                order=orderList1.get(i);
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList1.get(i).getId() > order.getId()) {
+                order = orderList1.get(i);
             }
         }
-        for(int i=0;i<showSeatList.size();i++){
-            Ticket ticket=new Ticket();
+        for (int i = 0; i < showSeatList.size(); i++) {
+            Ticket ticket = new Ticket();
             ticket.setCost(showSeatList.get(i).getCost());
             ticket.setSeatId(showSeatList.get(i).getId());
             ticket.setOrder(order);
+            ticket.setCome(false);
             //todo level没存上
             System.out.println(showSeatList.get(i).getLevel());
             ticket.setLevel(showSeatList.get(i).getLevel());
@@ -95,7 +92,7 @@ public class OrderManageServiceBean implements OrderManageService {
         }
 
         //orderRecord
-        OrderRecord orderRecord=new OrderRecord();
+        OrderRecord orderRecord = new OrderRecord();
         orderRecord.setOrderId(order.getId());
         orderRecord.setUserId(order.getUserId());
         orderRecord.setVenueId(order.getVenueId());
@@ -105,77 +102,78 @@ public class OrderManageServiceBean implements OrderManageService {
         return order.getId();
     }
 
-    public int reserveNoChoose(int one,int two,int three,int userId,int venueId,int showId) {
-        Order order=new Order();
+    public int reserveNoChoose(int one, int two, int three, int userId, int venueId, int showId) {
+        Order order = new Order();
         order.setUserId(userId);
         order.setVenueId(venueId);
         order.setShowId(showId);
-        double cost=0;
-        List<ShowSeat> showSeatList=showDao.findShowSeatListByShowId(showId);
-        List<ShowSeat> useShowSeatList=new ArrayList<ShowSeat>();
-        List<ShowSeat> firstShowSeatList=new ArrayList<ShowSeat>();
-        List<ShowSeat> secondShowSeatList=new ArrayList<ShowSeat>();
-        List<ShowSeat> thirdShowSeatList=new ArrayList<ShowSeat>();
-        double firstCost=0;
-        double secondCost=0;
-        double thirdCost=0;
-        for(int i=0;i<showSeatList.size();i++){
-            if(showSeatList.get(i).getLevel().equals("一等座")){
+        double cost = 0;
+        List<ShowSeat> showSeatList = showDao.findShowSeatListByShowId(showId);
+        List<ShowSeat> useShowSeatList = new ArrayList<ShowSeat>();
+        List<ShowSeat> firstShowSeatList = new ArrayList<ShowSeat>();
+        List<ShowSeat> secondShowSeatList = new ArrayList<ShowSeat>();
+        List<ShowSeat> thirdShowSeatList = new ArrayList<ShowSeat>();
+        double firstCost = 0;
+        double secondCost = 0;
+        double thirdCost = 0;
+        for (int i = 0; i < showSeatList.size(); i++) {
+            if (showSeatList.get(i).getLevel().equals("一等座")) {
                 firstShowSeatList.add(showSeatList.get(i));
-                firstCost=showSeatList.get(i).getCost();
-            }else if(showSeatList.get(i).getLevel().equals("二等座")){
+                firstCost = showSeatList.get(i).getCost();
+            } else if (showSeatList.get(i).getLevel().equals("二等座")) {
                 secondShowSeatList.add(showSeatList.get(i));
-                secondCost=showSeatList.get(i).getCost();
-            }else if(showSeatList.get(i).getLevel().equals("三等座")){
+                secondCost = showSeatList.get(i).getCost();
+            } else if (showSeatList.get(i).getLevel().equals("三等座")) {
                 thirdShowSeatList.add(showSeatList.get(i));
-                thirdCost=showSeatList.get(i).getCost();
+                thirdCost = showSeatList.get(i).getCost();
             }
         }
-        for(int i=0;i<one;i++){
+        for (int i = 0; i < one; i++) {
             useShowSeatList.add(firstShowSeatList.get(i));
         }
-        for(int i=0;i<two;i++){
+        for (int i = 0; i < two; i++) {
             useShowSeatList.add(secondShowSeatList.get(i));
         }
-        for(int i=0;i<three;i++){
+        for (int i = 0; i < three; i++) {
             useShowSeatList.add(thirdShowSeatList.get(i));
         }
-        cost=cost+one*firstCost+two*secondCost+three*thirdCost;
+        cost = cost + one * firstCost + two * secondCost + three * thirdCost;
         order.setCost(cost);
-        Date date=new Date();
+        Date date = new Date();
         order.setOrderTime(dateFormat(date));
         order.setState(OrderState.UNPAID.toString());
         orderDao.save(order);
 
         //ticket
-        List<Order> orderList=orderDao.getOrderByUserId(userId);
-        List<Order> orderList1=new ArrayList<Order>();
-        for(int i=0;i<orderList.size();i++){
-            if(orderList.get(i).getShowId()==showId){
+        List<Order> orderList = orderDao.findOrderByUserId(userId);
+        List<Order> orderList1 = new ArrayList<Order>();
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).getShowId() == showId) {
                 orderList1.add(orderList.get(i));
             }
         }
-        for(int i=0;i<orderList.size();i++){
-            if(orderList1.get(i).getId()>order.getId()){
-                order=orderList1.get(i);
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList1.get(i).getId() > order.getId()) {
+                order = orderList1.get(i);
             }
         }
-        for(int i=0;i<one;i++){
-            Ticket ticket=new Ticket();
+        for (int i = 0; i < one; i++) {
+            Ticket ticket = new Ticket();
             ticket.setCost(firstCost);
             ticket.setOrder(order);
             ticket.setLevel("一等座");
+            ticket.setCome(false);
             orderDao.saveTicket(ticket);
         }
-        for(int i=0;i<two;i++){
-            Ticket ticket=new Ticket();
+        for (int i = 0; i < two; i++) {
+            Ticket ticket = new Ticket();
             ticket.setCost(firstCost);
             ticket.setOrder(order);
             ticket.setLevel("二等座");
             orderDao.saveTicket(ticket);
         }
-        for(int i=0;i<three;i++){
-            Ticket ticket=new Ticket();
+        for (int i = 0; i < three; i++) {
+            Ticket ticket = new Ticket();
             ticket.setCost(firstCost);
             ticket.setOrder(order);
             ticket.setLevel("三等座");
@@ -183,7 +181,7 @@ public class OrderManageServiceBean implements OrderManageService {
         }
 
         //orderRecord
-        OrderRecord orderRecord=new OrderRecord();
+        OrderRecord orderRecord = new OrderRecord();
         orderRecord.setOrderId(order.getId());
         orderRecord.setUserId(order.getUserId());
         orderRecord.setVenueId(order.getVenueId());
@@ -193,8 +191,8 @@ public class OrderManageServiceBean implements OrderManageService {
         return order.getId();
     }
 
-    public ResultMessage pay(int orderId) {
-        Order order = orderDao.getOrderById(orderId);
+    public ResultMessage pay(int orderId, Coupon coupon) {
+        Order order = orderDao.findOrderById(orderId);
         if (order.getPayTime() == null) {
             Date date = new Date();
             order.setPayTime(dateFormat(date));
@@ -202,28 +200,32 @@ public class OrderManageServiceBean implements OrderManageService {
 
             User user = userDao.findById(order.getUserId());
             Show show = showDao.findById(order.getShowId());
-            double money=calculateMoney(order.getCost(),user);
+            ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
+            if (showEarning.getId() != -1) {
+                double money = calculateMoneyWithCoupon(order.getCost(), coupon);
+                money = calculateMoney(money, user);
 
-            show.setEarning(show.getEarning() + money);
-            showDao.update(show);
+                showEarning.setEarning(showEarning.getEarning() + money);
+                showDao.update(showEarning);
 
-            user.setBalance(user.getBalance() - money);
-            userDao.update(user);
+                user.setBalance(user.getBalance() - money);
+                userDao.update(user);
 
-            OrderRecord orderRecord = new OrderRecord();
-            orderRecord.setOrderId(orderId);
-            orderRecord.setUserId(order.getUserId());
-            orderRecord.setVenueId(order.getVenueId());
-            orderRecord.setOrderAction(OrderAction.PAY.toString());
-            orderRecord.setTime(dateFormat(date));
-            orderDao.saveOrderRecord(orderRecord);
-            return ResultMessage.SUCCESS;
+                OrderRecord orderRecord = new OrderRecord();
+                orderRecord.setOrderId(orderId);
+                orderRecord.setUserId(order.getUserId());
+                orderRecord.setVenueId(order.getVenueId());
+                orderRecord.setOrderAction(OrderAction.PAY.toString());
+                orderRecord.setTime(dateFormat(date));
+                orderDao.saveOrderRecord(orderRecord);
+                return ResultMessage.SUCCESS;
+            }
         }
         return ResultMessage.FAIL;
     }
 
     public ResultMessage cancel(int orderId) {
-        Order order = orderDao.getOrderById(orderId);
+        Order order = orderDao.findOrderById(orderId);
         if (order.getCancelTime() == null) {
             Date date = new Date();
             String dateString = null;
@@ -232,47 +234,58 @@ public class OrderManageServiceBean implements OrderManageService {
 
             Show show = showDao.findById(order.getShowId());
             User user = userDao.findById(order.getUserId());
-            double money=calculateMoney(order.getCost(),user);
-            show.setEarning(show.getEarning() - money);
-            showDao.update(show);
-            user.setBalance(user.getBalance() + money);
-            userDao.update(user);
+            ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
+            if (showEarning.getId() != -1) {
+                double money = calculateMoney(order.getCost(), user);
+                showEarning.setEarning(showEarning.getEarning() - money);
+                showDao.update(showEarning);
 
-            OrderRecord orderRecord = new OrderRecord();
-            orderRecord.setOrderId(orderId);
-            orderRecord.setUserId(order.getUserId());
-            orderRecord.setVenueId(order.getVenueId());
-            orderRecord.setOrderAction(OrderAction.CANCEL.toString());
-            orderRecord.setTime(dateString);
-            orderDao.saveOrderRecord(orderRecord);
-            return ResultMessage.SUCCESS;
+                user.setBalance(user.getBalance() + money);
+                userDao.update(user);
+
+                OrderRecord orderRecord = new OrderRecord();
+                orderRecord.setOrderId(orderId);
+                orderRecord.setUserId(order.getUserId());
+                orderRecord.setVenueId(order.getVenueId());
+                orderRecord.setOrderAction(OrderAction.CANCEL.toString());
+                orderRecord.setTime(dateString);
+                orderDao.saveOrderRecord(orderRecord);
+                return ResultMessage.SUCCESS;
+            }
         }
         return ResultMessage.FAIL;
 
     }
 
     public Order getOrderByOrderId(int orderId) {
-        return orderDao.getOrderById(orderId);
+        return orderDao.findOrderById(orderId);
     }
 
     public List<Order> getOrderListByUserId(int userId) {
-        return orderDao.getOrderByUserId(userId);
+        return orderDao.findOrderByUserId(userId);
     }
 
     public List<Order> getOrderListByShowId(int showId) {
-        return orderDao.getOrderByShowId(showId);
+        return orderDao.findOrderByShowId(showId);
     }
 
     public List<Order> getOrderListByVenueId(int venueId) {
-        return orderDao.getOrderByVenueId(venueId);
+        return orderDao.findOrderByVenueId(venueId);
     }
 
     public List<Order> getOrderListByState(OrderState orderState) {
-        return orderDao.getOrderByState(orderState);
+        return orderDao.findOrderByState(orderState);
     }
 
     public List<Order> getAllOrders() {
         return null;
+    }
+
+    public ResultMessage checkTicket(int ticketId) {
+        Ticket ticket = orderDao.findTicketById(ticketId);
+        ticket.setCome(true);
+        return orderDao.update(ticket);
+
     }
 
     private String dateFormat(Date date) {
@@ -280,25 +293,40 @@ public class OrderManageServiceBean implements OrderManageService {
         return format.format(date);
     }
 
-    public static void main(String[] args){
-        int[] a={25};
-        String aa=JSONArray.fromObject(a).toString();
+    public static void main(String[] args) {
+        int[] a = {25};
+        String aa = JSONArray.fromObject(a).toString();
         System.out.println(aa);
-        OrderManageServiceBean orderManageServiceBean=new OrderManageServiceBean();
-        orderManageServiceBean.reserveChoose(aa,1,1,2);
+        OrderManageServiceBean orderManageServiceBean = new OrderManageServiceBean();
+        orderManageServiceBean.reserveChoose(aa, 1, 1, 2);
     }
 
-    private double calculateMoney(double money,User user){
-        if(user.getLevel().equals("BRONZE")){
-            money*=0.95;
-        }else if(user.getLevel().equals("SILVER")){
-            money*=0.9;
-        }else if(user.getLevel().equals("GOLDEN")){
-            money*=0.85;
-        }else if(user.getLevel().equals("PLATINUM")){
-            money*=0.8;
-        }else if(user.getLevel().equals("DIAMOND")){
-            money*=0.7;
+    private double calculateMoney(double money, User user) {
+        if (user.getLevel().equals("BRONZE")) {
+            money *= 0.95;
+        } else if (user.getLevel().equals("SILVER")) {
+            money *= 0.9;
+        } else if (user.getLevel().equals("GOLDEN")) {
+            money *= 0.85;
+        } else if (user.getLevel().equals("PLATINUM")) {
+            money *= 0.8;
+        } else if (user.getLevel().equals("DIAMOND")) {
+            money *= 0.7;
+        }
+        return money;
+    }
+
+    private double calculateMoneyWithCoupon(double money, Coupon coupon) {
+        switch (coupon.getType()) {
+            case 1:
+                money -= 10;
+                break;
+            case 2:
+                money -= 100;
+                break;
+            case 3:
+                money -= 200;
+                break;
         }
         return money;
     }

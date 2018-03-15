@@ -91,7 +91,7 @@ public class Order {
         this.ticketConfirmedTime = ticketConfirmedTime;
     }
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
     public String getState() {
         return state;
     }
@@ -100,7 +100,7 @@ public class Order {
         this.state = state;
     }
 
-    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     public List<Ticket> getTicketList() {
         return ticketList;
     }

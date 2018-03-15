@@ -13,6 +13,7 @@ public class Ticket {
     private double cost;
     private Order order;
     private String level;
+    private boolean come;
 
     @Id
     public int getId() {
@@ -56,5 +57,13 @@ public class Ticket {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public boolean isCome() {
+        return come;
+    }
+
+    public void setCome(boolean come) {
+        this.come = come;
     }
 }
