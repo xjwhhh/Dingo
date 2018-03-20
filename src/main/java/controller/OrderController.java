@@ -99,4 +99,12 @@ public class OrderController {
     ) {
         return orderManageServiceBean.checkTicket(Integer.parseInt(ticketId));
     }
+
+    @RequestMapping(value = "/payCountDown", method = RequestMethod.POST)
+    @ResponseBody
+    public void payCountDown(@RequestParam("orderId") String orderId) {
+//        return orderManageServiceBean.getOrderListByUserId(Integer.parseInt(userId));
+//        return ResultMessage.SUCCESS;
+    }
+
 }

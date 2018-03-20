@@ -64,6 +64,7 @@ public class OrderManageServiceBean implements OrderManageService {
         Date date = new Date();
         order.setOrderTime(dateFormat(date));
         order.setState(OrderState.UNPAID.toString());
+        order.setChoose(true);
         orderDao.save(order);
 
         //ticket
@@ -142,6 +143,7 @@ public class OrderManageServiceBean implements OrderManageService {
         Date date = new Date();
         order.setOrderTime(dateFormat(date));
         order.setState(OrderState.UNPAID.toString());
+        order.setChoose(false);
         orderDao.save(order);
 
         //ticket
@@ -288,6 +290,38 @@ public class OrderManageServiceBean implements OrderManageService {
 
     }
 
+    public ResultMessage cancelWithoutPay(int orderId) {
+        Order order = orderDao.findOrderById(orderId);
+        if (order.getCancelTime() == null) {
+            Date date = new Date();
+            String dateString = null;
+            order.setCancelTime(dateFormat(date));
+            orderDao.update(order);
+
+            OrderRecord orderRecord = new OrderRecord();
+            orderRecord.setOrderId(orderId);
+            orderRecord.setUserId(order.getUserId());
+            orderRecord.setVenueId(order.getVenueId());
+            orderRecord.setOrderAction(OrderAction.CANCEL.toString());
+            orderRecord.setTime(dateString);
+            orderDao.saveOrderRecord(orderRecord);
+            return ResultMessage.SUCCESS;
+        }
+        return ResultMessage.FAIL;
+    }
+
+    public void CountDown(int orderId){
+        CountDown countDown=new CountDown();
+        countDown.run();
+        Order order=orderDao.findOrderById(orderId);
+        if(order.getPayTime()==null){
+            this.cancelWithoutPay(orderId);
+            System.out.println("未付款");
+        }else{
+            System.out.println("已付款");
+        }
+    }
+
     private String dateFormat(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
         return format.format(date);
@@ -330,4 +364,33 @@ public class OrderManageServiceBean implements OrderManageService {
         }
         return money;
     }
+
+    private Order allocateTicket(int orderId){
+        Order order=orderDao.findOrderById(orderId);
+        List<Ticket> ticketList=order.getTicketList();
+        int one=0;
+        int two=0;
+        int three=0;
+        for(Ticket ticket:ticketList){
+            if(ticket.getLevel().equals("一等座")){
+                one++;
+            }else if(ticket.getLevel().equals("二等座")){
+                two++;
+            }else if(ticket.getLevel().equals("三等座")){
+                three++;
+            }
+        }
+        List<ShowSeat> showSeatListOne=getShowSeatList(one,"一等座");
+        List<ShowSeat> showSeatListTwo=getShowSeatList(two,"二等座");
+        List<ShowSeat> showSeatListThree=getShowSeatList(three,"三等座");
+
+        
+
+        return order;
+    }
+
+    private List<ShowSeat> getShowSeatList(int count,String level){
+        return new ArrayList<ShowSeat>();
+    }
+
 }

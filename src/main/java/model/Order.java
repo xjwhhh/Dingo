@@ -16,6 +16,7 @@ public class Order {
     private String ticketConfirmedTime;
     private String cancelTime;
     private String state;
+    private boolean choose;
     private List<Ticket> ticketList;
 
     @Id
@@ -98,6 +99,14 @@ public class Order {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public boolean isChoose() {
+        return choose;
+    }
+
+    public void setChoose(boolean choose) {
+        this.choose = choose;
     }
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
