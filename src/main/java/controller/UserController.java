@@ -59,11 +59,13 @@ public class UserController {
         return userManageServiceBean.emailConfirmation(Integer.parseInt(userId), emailAddress);
     }
 
-    @RequestMapping(value = "/emailReConfirmation", method = RequestMethod.POST)
+    @RequestMapping(value = "/emailReConfirmation", method = RequestMethod.GET)
     @ResponseBody
     public ResultMessage emailReConfirmation(
             @RequestParam("emailAddress") String emailAddress) {
+//        return ResultMessage.SUCCESS;
         return userManageServiceBean.emailReConfirmation(emailAddress);
+
     }
 
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)
@@ -71,6 +73,7 @@ public class UserController {
     public ResultMessage cancel(
             @RequestParam("userId") String userId) {
         return userManageServiceBean.cancel(Integer.parseInt(userId));
+
     }
 
     @RequestMapping(value = "/userList", method = RequestMethod.POST)

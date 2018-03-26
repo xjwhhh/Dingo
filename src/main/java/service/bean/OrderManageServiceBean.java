@@ -384,7 +384,7 @@ public class OrderManageServiceBean implements OrderManageService {
         List<ShowSeat> showSeatListTwo=getShowSeatList(two,"二等座");
         List<ShowSeat> showSeatListThree=getShowSeatList(three,"三等座");
 
-        
+
 
         return order;
     }
