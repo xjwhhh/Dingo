@@ -290,6 +290,11 @@ public class OrderManageServiceBean implements OrderManageService {
 
     }
 
+    public List<OrderRecord> getOrderRecordListByUserId(int userId) {
+        return orderDao.findOrderRecordByUserId(userId);
+//        return null;
+    }
+
     public ResultMessage cancelWithoutPay(int orderId) {
         Order order = orderDao.findOrderById(orderId);
         if (order.getCancelTime() == null) {

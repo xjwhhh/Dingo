@@ -1,9 +1,6 @@
 package service;
 
-import model.Coupon;
-import model.Order;
-import model.OrderState;
-import model.ResultMessage;
+import model.*;
 
 import java.util.List;
 
@@ -31,4 +28,5 @@ public interface OrderManageService {
 
     ResultMessage checkTicket(int ticketId);
 
+    List<OrderRecord> getOrderRecordListByUserId(int userId);
 }

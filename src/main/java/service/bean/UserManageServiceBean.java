@@ -210,31 +210,33 @@ public class UserManageServiceBean implements UserManageService {
         return userDao.update(user);
     }
 
-    public ResultMessage exchangeCoupon(int userId, int couponType) {
+    public ResultMessage exchangeCoupon(int userId, int couponType,int couponNumber) {
         User user = userDao.findById(userId);
         int cost = 0;
         String description = "";
         switch (couponType) {
             case 1:
-                cost = firstCouponCost;
+                cost = firstCouponCost*couponNumber;
                 description = firstCouponDesc;
                 break;
             case 2:
-                cost = secondCouponCost;
+                cost = secondCouponCost*couponNumber;
                 description = secondCouponDesc;
                 break;
             case 3:
-                cost = thirdCouponCost;
+                cost = thirdCouponCost*couponNumber;
                 description = thirdCouponDesc;
                 break;
         }
         if (user.getCurrentIntegral() >= cost) {
             user.setCurrentIntegral(user.getCurrentIntegral() - cost);
-            Coupon coupon = new Coupon();
-            coupon.setUser(user);
-            coupon.setType(couponType);
-            coupon.setDescription(description);
-            userDao.save(coupon);
+            for(int i=0;i<couponNumber;i++) {
+                Coupon coupon = new Coupon();
+                coupon.setUser(user);
+                coupon.setType(couponType);
+                coupon.setDescription(description);
+                userDao.save(coupon);
+            }
             userDao.update(user);
             return ResultMessage.SUCCESS;
         } else {

@@ -131,4 +131,23 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
     public Ticket findTicketById(int ticketId) {
         return (Ticket) super.load(Ticket.class, ticketId);
     }
+
+    public List<OrderRecord> findOrderRecordByUserId(int userId) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<OrderRecord> orderRecordList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM OrderRecord as O where O.userId=:userId");
+            query.setParameter("userId", userId);
+            orderRecordList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return orderRecordList;
+    }
 }

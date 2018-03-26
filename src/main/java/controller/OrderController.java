@@ -1,9 +1,6 @@
 package controller;
 
-import model.Coupon;
-import model.Order;
-import model.OrderState;
-import model.ResultMessage;
+import model.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -106,5 +103,13 @@ public class OrderController {
 //        return orderManageServiceBean.getOrderListByUserId(Integer.parseInt(userId));
 //        return ResultMessage.SUCCESS;
     }
+
+    @RequestMapping(value = "/getOrderRecordByUserId", method = RequestMethod.POST)
+    @ResponseBody
+    public List<OrderRecord> getOrderRecordByUserId(@RequestParam("userId") String userId) {
+        return orderManageServiceBean.getOrderRecordListByUserId(Integer.parseInt(userId));
+    }
+
+
 
 }
