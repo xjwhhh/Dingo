@@ -74,7 +74,7 @@ public class ShowManageServiceBean implements ShowManageService {
     }
 
     public List<Show> getShowByVenueId(int venueId) {
-        return null;
+        return showDao.findByVenueId(venueId);
     }
 
     public List<Show> getShowByUserId(int userId) {

@@ -87,7 +87,7 @@ public class UserController {
     public ResultMessage exchangeCoupon(
             @RequestParam("userId") String userId,
             @RequestParam("couponType") String couponType,
-            @RequestParam("couponNumber") String couponNumber,
+            @RequestParam("couponNumber") String couponNumber
     ) {
         return userManageServiceBean.exchangeCoupon(Integer.parseInt(userId), Integer.parseInt(couponType),Integer.parseInt(couponNumber));
     }

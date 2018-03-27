@@ -9,6 +9,8 @@ public class OrderRecord {
     private int userId;
     private int venueId;
     private int orderId;
+    private int showId;
+    private double cost;
     private String orderAction;
     private String time;
 
@@ -43,6 +45,22 @@ public class OrderRecord {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public int getShowId() {
+        return showId;
+    }
+
+    public void setShowId(int showId) {
+        this.showId = showId;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     //    @Enumerated(EnumType.STRING)

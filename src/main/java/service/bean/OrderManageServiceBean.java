@@ -97,6 +97,8 @@ public class OrderManageServiceBean implements OrderManageService {
         orderRecord.setOrderId(order.getId());
         orderRecord.setUserId(order.getUserId());
         orderRecord.setVenueId(order.getVenueId());
+        orderRecord.setShowId(order.getShowId());
+        orderRecord.setCost(order.getCost());
         orderRecord.setOrderAction(OrderAction.ORDER.toString());
         orderRecord.setTime(dateFormat(date));
         orderDao.saveOrderRecord(orderRecord);
@@ -187,6 +189,8 @@ public class OrderManageServiceBean implements OrderManageService {
         orderRecord.setOrderId(order.getId());
         orderRecord.setUserId(order.getUserId());
         orderRecord.setVenueId(order.getVenueId());
+        orderRecord.setShowId(order.getShowId());
+        orderRecord.setCost(order.getCost());
         orderRecord.setOrderAction(OrderAction.ORDER.toString());
         orderRecord.setTime(dateFormat(date));
         orderDao.saveOrderRecord(orderRecord);
@@ -217,6 +221,8 @@ public class OrderManageServiceBean implements OrderManageService {
                 orderRecord.setOrderId(orderId);
                 orderRecord.setUserId(order.getUserId());
                 orderRecord.setVenueId(order.getVenueId());
+                orderRecord.setShowId(order.getShowId());
+                orderRecord.setCost(order.getCost());
                 orderRecord.setOrderAction(OrderAction.PAY.toString());
                 orderRecord.setTime(dateFormat(date));
                 orderDao.saveOrderRecord(orderRecord);
@@ -249,6 +255,8 @@ public class OrderManageServiceBean implements OrderManageService {
                 orderRecord.setOrderId(orderId);
                 orderRecord.setUserId(order.getUserId());
                 orderRecord.setVenueId(order.getVenueId());
+                orderRecord.setShowId(order.getShowId());
+                orderRecord.setCost(order.getCost());
                 orderRecord.setOrderAction(OrderAction.CANCEL.toString());
                 orderRecord.setTime(dateString);
                 orderDao.saveOrderRecord(orderRecord);
@@ -307,6 +315,8 @@ public class OrderManageServiceBean implements OrderManageService {
             orderRecord.setOrderId(orderId);
             orderRecord.setUserId(order.getUserId());
             orderRecord.setVenueId(order.getVenueId());
+            orderRecord.setShowId(order.getShowId());
+            orderRecord.setCost(order.getCost());
             orderRecord.setOrderAction(OrderAction.CANCEL.toString());
             orderRecord.setTime(dateString);
             orderDao.saveOrderRecord(orderRecord);

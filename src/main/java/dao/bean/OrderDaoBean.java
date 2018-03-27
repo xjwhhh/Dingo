@@ -138,7 +138,7 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         List<OrderRecord> orderRecordList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM OrderRecord as O where O.userId=:userId");
+            Query query = session.createQuery("FROM OrderRecord as O where O.userId=:userId order by id desc");
             query.setParameter("userId", userId);
             orderRecordList = query.list();
             tx.commit();
