@@ -12,7 +12,8 @@ public class Venue {
     private String password;
     private String name;
     private String address;
-    private double balance;
+    private double onlineBalance;
+    private double offlineBalance;
     private List<Seat> seatList;
 
     @Id
@@ -65,12 +66,20 @@ public class Venue {
         this.address = address;
     }
 
-    public double getBalance() {
-        return balance;
+    public double getOnlineBalance() {
+        return onlineBalance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setOnlineBalance(double onlineBalance) {
+        this.onlineBalance = onlineBalance;
+    }
+
+    public double getOfflineBalance() {
+        return offlineBalance;
+    }
+
+    public void setOfflineBalance(double offlineBalance) {
+        this.offlineBalance = offlineBalance;
     }
 
     @OneToMany(mappedBy = "venue", fetch = FetchType.EAGER)

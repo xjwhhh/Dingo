@@ -110,6 +110,23 @@ public class OrderController {
         return orderManageServiceBean.getOrderRecordListByUserId(Integer.parseInt(userId));
     }
 
+    @RequestMapping(value = "/getOrderRecordByVenueId", method = RequestMethod.POST)
+    @ResponseBody
+    public List<OrderRecord> getOrderRecordByVenueId(@RequestParam("userId") String userId) {
+        return orderManageServiceBean.getOrderRecordListByVenueId(Integer.parseInt(userId));
+    }
 
+    @RequestMapping(value = "/offLineBuyTicket", method = RequestMethod.POST)
+    @ResponseBody
+    public int offLineBuyTicket(
+            @RequestParam("one") String one,
+            @RequestParam("two") String two,
+            @RequestParam("three") String three,
+            @RequestParam("userAccount") String userAccount,
+            @RequestParam("userPassword") String userPassword,
+            @RequestParam("venueId") String venueId,
+            @RequestParam("showId") String showId) {
+        return orderManageServiceBean.offLineBuyTicket(Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three), userAccount, userPassword, Integer.parseInt(venueId), Integer.parseInt(showId));
+    }
 
 }

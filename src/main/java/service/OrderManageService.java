@@ -10,6 +10,8 @@ public interface OrderManageService {
 
     int reserveNoChoose(int one, int two, int three, int userId, int venueId, int showId);
 
+    int offLineBuyTicket(int one, int two, int three, String userAccount, String userPassword, int venueId, int showId);
+
     ResultMessage pay(int orderId, Coupon coupon);
 
     ResultMessage cancel(int orderId);
@@ -29,4 +31,6 @@ public interface OrderManageService {
     ResultMessage checkTicket(int ticketId);
 
     List<OrderRecord> getOrderRecordListByUserId(int userId);
+
+    List<OrderRecord> getOrderRecordListByVenueId(int venueId);
 }

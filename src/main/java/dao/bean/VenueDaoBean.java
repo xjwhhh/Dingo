@@ -192,6 +192,25 @@ public class VenueDaoBean extends BaseDaoBean implements VenueDao {
         return ResultMessage.SUCCESS;
     }
 
+    public List<VenueFinance> findVenueFinanceListByVenueId(int venueId) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<VenueFinance> venueFinanceList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM VenueFinance as V where V.venueId=:venueId");
+            query.setParameter("venueId", venueId);
+            venueFinanceList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return venueFinanceList;
+    }
+
     public static void main(String[] args) {
         Seat seat = new Seat();
         seat.setLevel("2");

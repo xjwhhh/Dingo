@@ -11,6 +11,7 @@ public class VenueFinance {
     private int venueId;
     private int ticketManagerId;
     private double cost;
+    private boolean onLine;
 
     @Id
     public int getId() {
@@ -43,5 +44,13 @@ public class VenueFinance {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public boolean isOnLine() {
+        return onLine;
+    }
+
+    public void setOnLine(boolean onLine) {
+        this.onLine = onLine;
     }
 }

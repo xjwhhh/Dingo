@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.ShowManageService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class ShowManageServiceBean implements ShowManageService {
     public ResultMessage distributeShowEarning(int showId) {
         Show show = showDao.findById(showId);
         Venue venue = venueDao.findById(show.getVenueId());
-        venue.setBalance(venue.getBalance() + show.getEarning() * 0.7);
+        venue.setOnlineBalance(venue.getOnlineBalance() + show.getEarning() * 0.7);
         return venueDao.update(venue);
     }
 

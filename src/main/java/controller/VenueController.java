@@ -1,9 +1,6 @@
 package controller;
 
-import model.ResultMessage;
-import model.Venue;
-import model.VenueApplication;
-import model.VenueApplicationType;
+import model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +69,13 @@ public class VenueController {
     @ResponseBody
     public List<Venue> getVenueList() {
         return venueManageServiceBean.getAllVenues();
+    }
+
+    @RequestMapping(value = "/getVenueFinanceByVenueId", method = RequestMethod.POST)
+    @ResponseBody
+    public List<VenueFinance> getVenueFinanceByVenueId(
+            @RequestParam("venueId") String venueId) {
+        return venueManageServiceBean.getVenueFinanceList(Integer.parseInt(venueId));
     }
 
 }

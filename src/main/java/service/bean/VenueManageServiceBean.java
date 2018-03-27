@@ -141,13 +141,16 @@ public class VenueManageServiceBean implements VenueManageService {
         return null;
     }
 
+    public List<VenueFinance> getVenueFinanceList(int venueId) {
+        return venueDao.findVenueFinanceListByVenueId(venueId);
+    }
+
     private String dateFormat(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
         return format.format(date);
     }
 
     private void deleteSeat(int venueId) {
-//        VenueDaoBean venueDaoBean=new VenueDaoBean();
         List<Seat> seatList = venueDao.findSeatListByVenueId(venueId);
         for (int i = 0; i < seatList.size(); i++) {
             venueDao.delete(seatList.get(i));

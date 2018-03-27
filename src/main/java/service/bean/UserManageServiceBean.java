@@ -76,7 +76,7 @@ public class UserManageServiceBean implements UserManageService {
 
     public ResultMessage emailConfirmation(int userId, String emailAddress) {
 
-        if (userDao.findByEmail(emailAddress).getId() == -1||userDao.findByEmail(emailAddress).getId() ==userId) {
+        if (userDao.findByEmail(emailAddress).getId() == -1 || userDao.findByEmail(emailAddress).getId() == userId) {
 
             // 发件人的 邮箱 和 密码（替换为自己的邮箱和密码）
             // PS: 某些邮箱服务器为了增加邮箱本身密码的安全性，给 SMTP 客户端设置了独立密码（有的邮箱称为“授权码”）,
@@ -182,7 +182,7 @@ public class UserManageServiceBean implements UserManageService {
         message.setSubject("邮箱认证", "UTF-8");
 
         // 5. Content: 邮件正文（可以使用html标签）（内容有广告嫌疑，避免被邮件服务器误认为是滥发广告以至返回失败，请修改发送内容）
-        message.setContent("<html><head></head><body><h1>尊敬的用户您好，这是一封来自Dingo的邮箱验证邮件，请点击链接进行邮箱验证</h1><h3><a href='http://localhost:8080/user/emailReConfirmation?emailAddress="+receiveMail+"'>请点击此处</a></h3><h1>如果不是您发起的验证请求，请忽略本邮件</h1></body></html>", "text/html;charset=UTF-8");
+        message.setContent("<html><head></head><body><h1>尊敬的用户您好，这是一封来自Dingo的邮箱验证邮件，请点击链接进行邮箱验证</h1><h3><a href='http://localhost:8080/user/emailReConfirmation?emailAddress=" + receiveMail + "'>请点击此处</a></h3><h1>如果不是您发起的验证请求，请忽略本邮件</h1></body></html>", "text/html;charset=UTF-8");
 
         // 6. 设置发件时间
         message.setSentDate(new Date());
@@ -210,27 +210,27 @@ public class UserManageServiceBean implements UserManageService {
         return userDao.update(user);
     }
 
-    public ResultMessage exchangeCoupon(int userId, int couponType,int couponNumber) {
+    public ResultMessage exchangeCoupon(int userId, int couponType, int couponNumber) {
         User user = userDao.findById(userId);
         int cost = 0;
         String description = "";
         switch (couponType) {
             case 1:
-                cost = firstCouponCost*couponNumber;
+                cost = firstCouponCost * couponNumber;
                 description = firstCouponDesc;
                 break;
             case 2:
-                cost = secondCouponCost*couponNumber;
+                cost = secondCouponCost * couponNumber;
                 description = secondCouponDesc;
                 break;
             case 3:
-                cost = thirdCouponCost*couponNumber;
+                cost = thirdCouponCost * couponNumber;
                 description = thirdCouponDesc;
                 break;
         }
         if (user.getCurrentIntegral() >= cost) {
             user.setCurrentIntegral(user.getCurrentIntegral() - cost);
-            for(int i=0;i<couponNumber;i++) {
+            for (int i = 0; i < couponNumber; i++) {
                 Coupon coupon = new Coupon();
                 coupon.setUser(user);
                 coupon.setType(couponType);
@@ -244,9 +244,9 @@ public class UserManageServiceBean implements UserManageService {
         }
     }
 
-    public static void main(String[] args){
-        UserManageServiceBean userManageServiceBean=new UserManageServiceBean();
-        userManageServiceBean.emailConfirmation(1,"920054996@qq.com");
+    public static void main(String[] args) {
+        UserManageServiceBean userManageServiceBean = new UserManageServiceBean();
+        userManageServiceBean.emailConfirmation(1, "920054996@qq.com");
 
     }
 }

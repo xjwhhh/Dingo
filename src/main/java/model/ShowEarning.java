@@ -11,7 +11,8 @@ public class ShowEarning {
     private int id;
     private int showId;
     private int ticketManagerId;
-    private double earning;
+    private double onlineEarning;
+    private double offlineEarning;
     private boolean isSettled;
 
     @Id
@@ -40,12 +41,20 @@ public class ShowEarning {
         this.ticketManagerId = ticketManagerId;
     }
 
-    public double getEarning() {
-        return earning;
+    public double getOnlineEarning() {
+        return onlineEarning;
     }
 
-    public void setEarning(double earning) {
-        this.earning = earning;
+    public void setOnlineEarning(double onlineEarning) {
+        this.onlineEarning = onlineEarning;
+    }
+
+    public double getOfflineEarning() {
+        return offlineEarning;
+    }
+
+    public void setOfflineEarning(double offlineEarning) {
+        this.offlineEarning = offlineEarning;
     }
 
     public boolean isSettled() {

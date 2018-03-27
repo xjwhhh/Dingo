@@ -150,4 +150,23 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         }
         return orderRecordList;
     }
+
+    public List<OrderRecord> findOrderRecordByVenueId(int venueId) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<OrderRecord> orderRecordList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM OrderRecord as O where O.venueId=:venueId order by id desc");
+            query.setParameter("venueId", venueId);
+            orderRecordList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return orderRecordList;
+    }
 }

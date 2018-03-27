@@ -2,6 +2,7 @@ package service.bean;
 
 import dao.ShowDao;
 import dao.TicketManagerDao;
+import dao.VenueDao;
 import model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class TicketManagerServiceBean implements TicketManageService {
 
     @Autowired
     TicketManagerDao ticketManagerDao;
+
+    @Autowired
+    VenueDao venueDao;
 
     @Autowired
     ShowDao showDao;
@@ -33,16 +37,34 @@ public class TicketManagerServiceBean implements TicketManageService {
 
         Show show = showDao.findById(showEarning.getShowId());
 
-        double earning = showEarning.getEarning();
-        double venueEarning = earning * 0.7;
-        double ticketEarning = earning * 0.3;
+        double onlineEarning = showEarning.getOnlineEarning();
+        double offlineEarning = showEarning.getOfflineEarning();
+        double venueEarning = onlineEarning * 0.7;
+        double ticketEarning = onlineEarning * 0.3;
 
-        VenueFinance venueFinance = new VenueFinance();
-        venueFinance.setVenueId(show.getVenueId());
-        venueFinance.setTicketManagerId(showEarning.getTicketManagerId());
-        venueFinance.setCost(venueEarning);
-        ticketManagerDao.save(venueFinance);
+        //venue线上收入记录
+        VenueFinance onlineVenueFinance = new VenueFinance();
+        onlineVenueFinance.setVenueId(show.getVenueId());
+        onlineVenueFinance.setTicketManagerId(showEarning.getTicketManagerId());
+        onlineVenueFinance.setCost(venueEarning);
+        onlineVenueFinance.setOnLine(true);
+        ticketManagerDao.save(onlineVenueFinance);
 
+        //venue线下收入记录
+        VenueFinance offlineVenueFinance = new VenueFinance();
+        offlineVenueFinance.setVenueId(show.getVenueId());
+        offlineVenueFinance.setTicketManagerId(showEarning.getTicketManagerId());
+        offlineVenueFinance.setCost(offlineEarning);
+        offlineVenueFinance.setOnLine(false);
+        ticketManagerDao.save(offlineVenueFinance);
+
+        //更新venue收入
+        Venue venue = venueDao.findById(show.getVenueId());
+        venue.setOnlineBalance(venue.getOnlineBalance() + venueEarning);
+        venue.setOnlineBalance(venue.getOfflineBalance() + offlineEarning);
+        venueDao.save(venue);
+
+        //网站财务记录（只有线上）
         TicketFinance ticketFinance = new TicketFinance();
         ticketFinance.setVenueId(show.getVenueId());
         ticketFinance.setTicketManagerId(showEarning.getTicketManagerId());

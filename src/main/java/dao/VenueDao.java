@@ -24,4 +24,6 @@ public interface VenueDao extends BaseDao {
     List<Seat> findSeatListByVenueId(int venueId);
 
     ResultMessage saveSeat(Seat seat);
+
+    List<VenueFinance> findVenueFinanceListByVenueId(int venueId);
 }

@@ -53,7 +53,7 @@ public class TicketManagerDaoBean extends BaseDaoBean implements TicketManagerDa
         List<TicketFinance> ticketFinanceList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM TicketManager");
+            Query query = session.createQuery("FROM TicketFinance");
             ticketFinanceList = query.list();
             tx.commit();
         } catch (HibernateException e) {

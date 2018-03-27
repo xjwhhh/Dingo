@@ -197,23 +197,149 @@ public class OrderManageServiceBean implements OrderManageService {
         return order.getId();
     }
 
-    public ResultMessage pay(int orderId, Coupon coupon) {
-        Order order = orderDao.findOrderById(orderId);
-        if (order.getPayTime() == null) {
-            Date date = new Date();
-            order.setPayTime(dateFormat(date));
-            orderDao.update(order);
+    public int offLineBuyTicket(int one, int two, int three, String userAccount, String userPassword, int venueId, int showId) {
+        User user = userDao.find(userAccount, userPassword);
+        if (user.getId() == -1) {
+            return -1;
+        }
+        Order order = new Order();
+        order.setUserId(user.getId());
+        order.setVenueId(venueId);
+        order.setShowId(showId);
+        double cost = 0;
+        List<ShowSeat> showSeatList = showDao.findShowSeatListByShowId(showId);
+        List<ShowSeat> useShowSeatList = new ArrayList<ShowSeat>();
+        List<ShowSeat> firstShowSeatList = new ArrayList<ShowSeat>();
+        List<ShowSeat> secondShowSeatList = new ArrayList<ShowSeat>();
+        List<ShowSeat> thirdShowSeatList = new ArrayList<ShowSeat>();
+        double firstCost = 0;
+        double secondCost = 0;
+        double thirdCost = 0;
+        for (int i = 0; i < showSeatList.size(); i++) {
+            if (showSeatList.get(i).getLevel().equals("一等座")) {
+                firstShowSeatList.add(showSeatList.get(i));
+                firstCost = showSeatList.get(i).getCost();
+            } else if (showSeatList.get(i).getLevel().equals("二等座")) {
+                secondShowSeatList.add(showSeatList.get(i));
+                secondCost = showSeatList.get(i).getCost();
+            } else if (showSeatList.get(i).getLevel().equals("三等座")) {
+                thirdShowSeatList.add(showSeatList.get(i));
+                thirdCost = showSeatList.get(i).getCost();
+            }
+        }
+        for (int i = 0; i < one; i++) {
+            useShowSeatList.add(firstShowSeatList.get(i));
+        }
+        for (int i = 0; i < two; i++) {
+            useShowSeatList.add(secondShowSeatList.get(i));
+        }
+        for (int i = 0; i < three; i++) {
+            useShowSeatList.add(thirdShowSeatList.get(i));
+        }
+        cost = cost + one * firstCost + two * secondCost + three * thirdCost;
+        if (user.getBalance() < cost) {
+            return -2;
+        }
+        order.setCost(cost);
+        Date date = new Date();
+        order.setOrderTime(dateFormat(date));
+        order.setState(OrderState.UNPAID.toString());
+        order.setChoose(false);
+        orderDao.save(order);
 
-            User user = userDao.findById(order.getUserId());
+        //ticket
+        List<Order> orderList = orderDao.findOrderByUserId(user.getId());
+        List<Order> orderList1 = new ArrayList<Order>();
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList.get(i).getShowId() == showId) {
+                orderList1.add(orderList.get(i));
+            }
+        }
+        for (int i = 0; i < orderList.size(); i++) {
+            if (orderList1.get(i).getId() > order.getId()) {
+                order = orderList1.get(i);
+            }
+        }
+        for (int i = 0; i < one; i++) {
+            Ticket ticket = new Ticket();
+            ticket.setCost(firstCost);
+            ticket.setOrder(order);
+            ticket.setLevel("一等座");
+            ticket.setCome(false);
+            orderDao.saveTicket(ticket);
+        }
+        for (int i = 0; i < two; i++) {
+            Ticket ticket = new Ticket();
+            ticket.setCost(firstCost);
+            ticket.setOrder(order);
+            ticket.setLevel("二等座");
+            orderDao.saveTicket(ticket);
+        }
+        for (int i = 0; i < three; i++) {
+            Ticket ticket = new Ticket();
+            ticket.setCost(firstCost);
+            ticket.setOrder(order);
+            ticket.setLevel("三等座");
+            orderDao.saveTicket(ticket);
+        }
+
+        //orderRecord
+        OrderRecord orderRecord = new OrderRecord();
+        orderRecord.setOrderId(order.getId());
+        orderRecord.setUserId(order.getUserId());
+        orderRecord.setVenueId(order.getVenueId());
+        orderRecord.setShowId(order.getShowId());
+        orderRecord.setCost(order.getCost());
+        orderRecord.setOrderAction(OrderAction.ORDER.toString());
+        orderRecord.setTime(dateFormat(date));
+        orderDao.saveOrderRecord(orderRecord);
+
+        //pay
+        Date payDate = new Date();
+        order.setPayTime(dateFormat(payDate));
+        orderDao.update(order);
+
+        Show show = showDao.findById(order.getShowId());
+        ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
+        if (showEarning.getId() != -1) {
+            double money = calculateMoney(order.getCost(), user);
+
+            showEarning.setOnlineEarning(showEarning.getOfflineEarning() + money);
+            showDao.update(showEarning);
+
+            user.setBalance(user.getBalance() - money);
+            userDao.update(user);
+
+            OrderRecord payOrderRecord = new OrderRecord();
+            payOrderRecord.setOrderId(order.getId());
+            payOrderRecord.setUserId(order.getUserId());
+            payOrderRecord.setVenueId(order.getVenueId());
+            payOrderRecord.setShowId(order.getShowId());
+            payOrderRecord.setCost(order.getCost());
+            payOrderRecord.setOrderAction(OrderAction.PAY.toString());
+            payOrderRecord.setTime(dateFormat(payDate));
+            orderDao.saveOrderRecord(payOrderRecord);
+        }
+        return order.getId();
+    }
+
+    public ResultMessage pay(int orderId, Coupon coupon) {
+        Date date = new Date();
+        Order order = orderDao.findOrderById(orderId);
+        User user = userDao.findById(order.getUserId());
+
+        if (order.getPayTime() == null) {
             Show show = showDao.findById(order.getShowId());
             ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
             if (showEarning.getId() != -1) {
                 double money = calculateMoneyWithCoupon(order.getCost(), coupon);
                 money = calculateMoney(money, user);
+                if (user.getBalance() < money) {
+                    return ResultMessage.FAIL;
+                }
 
-                showEarning.setEarning(showEarning.getEarning() + money);
+                showEarning.setOnlineEarning(showEarning.getOnlineEarning() + money);
                 showDao.update(showEarning);
-
                 user.setBalance(user.getBalance() - money);
                 userDao.update(user);
 
@@ -226,6 +352,10 @@ public class OrderManageServiceBean implements OrderManageService {
                 orderRecord.setOrderAction(OrderAction.PAY.toString());
                 orderRecord.setTime(dateFormat(date));
                 orderDao.saveOrderRecord(orderRecord);
+
+                order.setPayTime(dateFormat(date));
+                orderDao.update(order);
+
                 return ResultMessage.SUCCESS;
             }
         }
@@ -245,7 +375,7 @@ public class OrderManageServiceBean implements OrderManageService {
             ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
             if (showEarning.getId() != -1) {
                 double money = calculateMoney(order.getCost(), user);
-                showEarning.setEarning(showEarning.getEarning() - money);
+                showEarning.setOnlineEarning(showEarning.getOnlineEarning() - money);
                 showDao.update(showEarning);
 
                 user.setBalance(user.getBalance() + money);
@@ -300,7 +430,10 @@ public class OrderManageServiceBean implements OrderManageService {
 
     public List<OrderRecord> getOrderRecordListByUserId(int userId) {
         return orderDao.findOrderRecordByUserId(userId);
-//        return null;
+    }
+
+    public List<OrderRecord> getOrderRecordListByVenueId(int venueId) {
+        return orderDao.findOrderRecordByVenueId(venueId);
     }
 
     public ResultMessage cancelWithoutPay(int orderId) {
@@ -325,14 +458,14 @@ public class OrderManageServiceBean implements OrderManageService {
         return ResultMessage.FAIL;
     }
 
-    public void CountDown(int orderId){
-        CountDown countDown=new CountDown();
+    public void CountDown(int orderId) {
+        CountDown countDown = new CountDown();
         countDown.run();
-        Order order=orderDao.findOrderById(orderId);
-        if(order.getPayTime()==null){
+        Order order = orderDao.findOrderById(orderId);
+        if (order.getPayTime() == null) {
             this.cancelWithoutPay(orderId);
             System.out.println("未付款");
-        }else{
+        } else {
             System.out.println("已付款");
         }
     }
@@ -380,31 +513,29 @@ public class OrderManageServiceBean implements OrderManageService {
         return money;
     }
 
-    private Order allocateTicket(int orderId){
-        Order order=orderDao.findOrderById(orderId);
-        List<Ticket> ticketList=order.getTicketList();
-        int one=0;
-        int two=0;
-        int three=0;
-        for(Ticket ticket:ticketList){
-            if(ticket.getLevel().equals("一等座")){
+    private Order allocateTicket(int orderId) {
+        Order order = orderDao.findOrderById(orderId);
+        List<Ticket> ticketList = order.getTicketList();
+        int one = 0;
+        int two = 0;
+        int three = 0;
+        for (Ticket ticket : ticketList) {
+            if (ticket.getLevel().equals("一等座")) {
                 one++;
-            }else if(ticket.getLevel().equals("二等座")){
+            } else if (ticket.getLevel().equals("二等座")) {
                 two++;
-            }else if(ticket.getLevel().equals("三等座")){
+            } else if (ticket.getLevel().equals("三等座")) {
                 three++;
             }
         }
-        List<ShowSeat> showSeatListOne=getShowSeatList(one,"一等座");
-        List<ShowSeat> showSeatListTwo=getShowSeatList(two,"二等座");
-        List<ShowSeat> showSeatListThree=getShowSeatList(three,"三等座");
-
-
+        List<ShowSeat> showSeatListOne = getShowSeatList(one, "一等座");
+        List<ShowSeat> showSeatListTwo = getShowSeatList(two, "二等座");
+        List<ShowSeat> showSeatListThree = getShowSeatList(three, "三等座");
 
         return order;
     }
 
-    private List<ShowSeat> getShowSeatList(int count,String level){
+    private List<ShowSeat> getShowSeatList(int count, String level) {
         return new ArrayList<ShowSeat>();
     }
 

@@ -17,6 +17,7 @@ public class Order {
     private String cancelTime;
     private String state;
     private boolean choose;
+    private boolean online;
     private List<Ticket> ticketList;
 
     @Id
@@ -107,6 +108,14 @@ public class Order {
 
     public void setChoose(boolean choose) {
         this.choose = choose;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)

@@ -20,4 +20,6 @@ public interface VenueManageService {
 
     List<Venue> getAllVenues();
 
+    List<VenueFinance> getVenueFinanceList(int venueId);
+
 }
