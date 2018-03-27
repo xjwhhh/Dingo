@@ -138,7 +138,7 @@ public class VenueManageServiceBean implements VenueManageService {
     }
 
     public List<Venue> getAllVenues() {
-        return null;
+        return venueDao.findVenueList();
     }
 
     public List<VenueFinance> getVenueFinanceList(int venueId) {
