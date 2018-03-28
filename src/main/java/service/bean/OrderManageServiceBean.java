@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.OrderManageService;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -324,16 +325,27 @@ public class OrderManageServiceBean implements OrderManageService {
     }
 
     public ResultMessage pay(int orderId, Coupon coupon) {
-        Date date = new Date();
+
+
         Order order = orderDao.findOrderById(orderId);
+        Date date = dateParse(order.getOrderTime());
+        Date now = new Date();
+        //过期，自动取消
+        if (date.getTime() + 15 * 60 * 1000 >= now.getTime()) {
+            order.setState(OrderState.CANCELLED.toString());
+            cancel(order.getId());
+            return ResultMessage.FAIL;
+        }
         User user = userDao.findById(order.getUserId());
 
         if (order.getPayTime() == null) {
             Show show = showDao.findById(order.getShowId());
             ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
             if (showEarning.getId() != -1) {
+
                 double money = calculateMoneyWithCoupon(order.getCost(), coupon);
                 money = calculateMoney(money, user);
+                //客户余额不够
                 if (user.getBalance() < money) {
                     return ResultMessage.FAIL;
                 }
@@ -350,10 +362,10 @@ public class OrderManageServiceBean implements OrderManageService {
                 orderRecord.setShowId(order.getShowId());
                 orderRecord.setCost(order.getCost());
                 orderRecord.setOrderAction(OrderAction.PAY.toString());
-                orderRecord.setTime(dateFormat(date));
+                orderRecord.setTime(dateFormat(now));
                 orderDao.saveOrderRecord(orderRecord);
 
-                order.setPayTime(dateFormat(date));
+                order.setPayTime(dateFormat(now));
                 orderDao.update(order);
 
                 return ResultMessage.SUCCESS;
@@ -364,34 +376,35 @@ public class OrderManageServiceBean implements OrderManageService {
 
     public ResultMessage cancel(int orderId) {
         Order order = orderDao.findOrderById(orderId);
+        Date date = new Date();
+
         if (order.getCancelTime() == null) {
-            Date date = new Date();
-            String dateString = null;
+            //付过钱
             order.setCancelTime(dateFormat(date));
             orderDao.update(order);
+            if (order.getPayTime() != null) {
+                Show show = showDao.findById(order.getShowId());
+                User user = userDao.findById(order.getUserId());
+                ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
+                if (showEarning.getId() != -1) {
+                    double money = calculateMoney(order.getCost(), user);
+                    showEarning.setOnlineEarning(showEarning.getOnlineEarning() - money);
+                    showDao.update(showEarning);
 
-            Show show = showDao.findById(order.getShowId());
-            User user = userDao.findById(order.getUserId());
-            ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
-            if (showEarning.getId() != -1) {
-                double money = calculateMoney(order.getCost(), user);
-                showEarning.setOnlineEarning(showEarning.getOnlineEarning() - money);
-                showDao.update(showEarning);
-
-                user.setBalance(user.getBalance() + money);
-                userDao.update(user);
-
-                OrderRecord orderRecord = new OrderRecord();
-                orderRecord.setOrderId(orderId);
-                orderRecord.setUserId(order.getUserId());
-                orderRecord.setVenueId(order.getVenueId());
-                orderRecord.setShowId(order.getShowId());
-                orderRecord.setCost(order.getCost());
-                orderRecord.setOrderAction(OrderAction.CANCEL.toString());
-                orderRecord.setTime(dateString);
-                orderDao.saveOrderRecord(orderRecord);
-                return ResultMessage.SUCCESS;
+                    user.setBalance(user.getBalance() + money);
+                    userDao.update(user);
+                }
             }
+            OrderRecord orderRecord = new OrderRecord();
+            orderRecord.setOrderId(orderId);
+            orderRecord.setUserId(order.getUserId());
+            orderRecord.setVenueId(order.getVenueId());
+            orderRecord.setShowId(order.getShowId());
+            orderRecord.setCost(order.getCost());
+            orderRecord.setOrderAction(OrderAction.CANCEL.toString());
+            orderRecord.setTime(dateFormat(date));
+            orderDao.saveOrderRecord(orderRecord);
+            return ResultMessage.SUCCESS;
         }
         return ResultMessage.FAIL;
 
@@ -402,7 +415,18 @@ public class OrderManageServiceBean implements OrderManageService {
     }
 
     public List<Order> getOrderListByUserId(int userId) {
-        return orderDao.findOrderByUserId(userId);
+        List<Order> orderList = orderDao.findOrderByUserId(userId);
+        for (Order order : orderList) {
+            if (order.getState().equals("UNPAID")) {
+                Date date = dateParse(order.getOrderTime());
+                Date now = new Date();
+                if (date.getTime() + 15 * 60 * 1000 >= now.getTime()) {
+                    order.setState(OrderState.CANCELLED.toString());
+                    cancel(order.getId());
+                }
+            }
+        }
+        return orderList;
     }
 
     public List<Order> getOrderListByShowId(int showId) {
@@ -473,6 +497,17 @@ public class OrderManageServiceBean implements OrderManageService {
     private String dateFormat(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
         return format.format(date);
+    }
+
+    private Date dateParse(String dateString) {
+        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = format.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public static void main(String[] args) {
