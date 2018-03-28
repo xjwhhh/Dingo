@@ -79,12 +79,13 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createSQLQuery("insert into showseat(cost, description, level,seatId, showId)  VALUE (?,?,?,?,?)");
+            Query query = session.createSQLQuery("insert into showseat(cost, description, level,seatId, showId, booked)  VALUE (?,?,?,?,?,?)");
             query.setParameter(0, showSeat.getCost());
             query.setParameter(1, showSeat.getDescription());
             query.setParameter(2, showSeat.getLevel());
             query.setParameter(3, showSeat.getSeatId());
             query.setParameter(4, showSeat.getShow().getId());
+            query.setParameter(5, showSeat.isBooked());
             query.executeUpdate();
             tx.commit();
         } catch (HibernateException e) {

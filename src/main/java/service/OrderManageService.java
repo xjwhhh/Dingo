@@ -12,7 +12,7 @@ public interface OrderManageService {
 
     int offLineBuyTicket(int one, int two, int three, String userAccount, String userPassword, int venueId, int showId);
 
-    ResultMessage pay(int orderId, Coupon coupon);
+    ResultMessage pay(int orderId, int couponType);
 
     ResultMessage cancel(int orderId);
 

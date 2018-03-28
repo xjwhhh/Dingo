@@ -76,7 +76,7 @@ public class OrderManageServiceBean implements OrderManageService {
                 orderList1.add(orderList.get(i));
             }
         }
-        for (int i = 0; i < orderList.size(); i++) {
+        for (int i = 0; i < orderList1.size(); i++) {
             if (orderList1.get(i).getId() > order.getId()) {
                 order = orderList1.get(i);
             }
@@ -87,7 +87,6 @@ public class OrderManageServiceBean implements OrderManageService {
             ticket.setSeatId(showSeatList.get(i).getId());
             ticket.setOrder(order);
             ticket.setCome(false);
-            //todo level没存上
             System.out.println(showSeatList.get(i).getLevel());
             ticket.setLevel(showSeatList.get(i).getLevel());
             orderDao.saveTicket(ticket);
@@ -324,7 +323,7 @@ public class OrderManageServiceBean implements OrderManageService {
         return order.getId();
     }
 
-    public ResultMessage pay(int orderId, Coupon coupon) {
+    public ResultMessage pay(int orderId, int couponType) {
 
 
         Order order = orderDao.findOrderById(orderId);
@@ -333,7 +332,7 @@ public class OrderManageServiceBean implements OrderManageService {
         //过期，自动取消
         if (date.getTime() + 15 * 60 * 1000 >= now.getTime()) {
             order.setState(OrderState.CANCELLED.toString());
-            cancel(order.getId());
+            cancelWithoutPay(order.getId());
             return ResultMessage.FAIL;
         }
         User user = userDao.findById(order.getUserId());
@@ -343,7 +342,21 @@ public class OrderManageServiceBean implements OrderManageService {
             ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
             if (showEarning.getId() != -1) {
 
-                double money = calculateMoneyWithCoupon(order.getCost(), coupon);
+
+                double money=order.getCost();
+                if(couponType!=-1) {
+                    Coupon coupon=new Coupon();
+                    for(int i=0;i<user.getCouponList().size();i++){
+                        if(user.getCouponList().get(i).getType()==couponType){
+                            coupon=user.getCouponList().get(i);
+//                            user.getCouponList().remove(i);
+                            coupon.setUsed(true);
+                            userDao.update(coupon);
+                            break;
+                        }
+                    }
+                    money = calculateMoneyWithCoupon(order.getCost(), coupon);
+                }
                 money = calculateMoney(money, user);
                 //客户余额不够
                 if (user.getBalance() < money) {
@@ -382,7 +395,7 @@ public class OrderManageServiceBean implements OrderManageService {
             //付过钱
             order.setCancelTime(dateFormat(date));
             orderDao.update(order);
-            if (order.getPayTime() != null) {
+
                 Show show = showDao.findById(order.getShowId());
                 User user = userDao.findById(order.getUserId());
                 ShowEarning showEarning = showDao.findShowEarningByShowId(show.getId());
@@ -394,7 +407,7 @@ public class OrderManageServiceBean implements OrderManageService {
                     user.setBalance(user.getBalance() + money);
                     userDao.update(user);
                 }
-            }
+
             OrderRecord orderRecord = new OrderRecord();
             orderRecord.setOrderId(orderId);
             orderRecord.setUserId(order.getUserId());
@@ -416,15 +429,22 @@ public class OrderManageServiceBean implements OrderManageService {
 
     public List<Order> getOrderListByUserId(int userId) {
         List<Order> orderList = orderDao.findOrderByUserId(userId);
+        System.out.println(orderList.size());
+
+        boolean unPaid=false;
         for (Order order : orderList) {
+            System.out.println(order.getState());
             if (order.getState().equals("UNPAID")) {
                 Date date = dateParse(order.getOrderTime());
                 Date now = new Date();
-                if (date.getTime() + 15 * 60 * 1000 >= now.getTime()) {
-                    order.setState(OrderState.CANCELLED.toString());
-                    cancel(order.getId());
+                if (date.getTime() + 15 * 60 * 1000 < now.getTime()) {
+                    cancelWithoutPay(order.getId());
+                    unPaid=true;
                 }
             }
+        }
+        if(unPaid){
+            orderList = orderDao.findOrderByUserId(userId);
         }
         return orderList;
     }
@@ -464,7 +484,7 @@ public class OrderManageServiceBean implements OrderManageService {
         Order order = orderDao.findOrderById(orderId);
         if (order.getCancelTime() == null) {
             Date date = new Date();
-            String dateString = null;
+            order.setState(OrderState.CANCELLED.toString());
             order.setCancelTime(dateFormat(date));
             orderDao.update(order);
 
@@ -475,7 +495,7 @@ public class OrderManageServiceBean implements OrderManageService {
             orderRecord.setShowId(order.getShowId());
             orderRecord.setCost(order.getCost());
             orderRecord.setOrderAction(OrderAction.CANCEL.toString());
-            orderRecord.setTime(dateString);
+            orderRecord.setTime(dateFormat(date));
             orderDao.saveOrderRecord(orderRecord);
             return ResultMessage.SUCCESS;
         }

@@ -43,10 +43,8 @@ public class OrderController {
     @ResponseBody
     public ResultMessage payOrder(
             @RequestParam("orderId") String orderId,
-            @RequestParam("coupon") String couponJson) {
-        JSONObject jsonObject = JSONObject.fromObject(couponJson);
-        Coupon coupon = (Coupon) JSONObject.toBean(jsonObject, Coupon.class);
-        return orderManageServiceBean.pay(Integer.parseInt(orderId), coupon);
+            @RequestParam("couponType") String couponType) {
+        return orderManageServiceBean.pay(Integer.parseInt(orderId), Integer.parseInt(couponType));
     }
 
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)

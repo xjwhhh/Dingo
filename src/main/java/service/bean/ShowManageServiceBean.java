@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.ShowManageService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,6 +26,16 @@ public class ShowManageServiceBean implements ShowManageService {
     public ResultMessage publishShow(String showJson, String one, String two, String three) {
         JSONObject jsonObject = JSONObject.fromObject(showJson);
         Show show = (Show) JSONObject.toBean(jsonObject, Show.class);
+        try {
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(show.getStartTime());
+            Date endDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(show.getEndTime());
+            String startStr = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(startDate);
+            String endStr = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(endDate);
+            show.setStartTime(startStr);
+            show.setEndTime(endStr);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
         showDao.save(show);
         List<Seat> seatList = venueDao.findSeatListByVenueId(show.getVenueId());
         List<ShowSeat> showSeatList = new ArrayList<ShowSeat>();
