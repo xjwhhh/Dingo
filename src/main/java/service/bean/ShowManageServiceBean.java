@@ -67,6 +67,14 @@ public class ShowManageServiceBean implements ShowManageService {
         for (int i = 0; i < showSeatList.size(); i++) {
             showDao.saveShowSeat(showSeatList.get(i));
         }
+
+        ShowEarning showEarning=new ShowEarning();
+        showEarning.setShowId(newShow.getId());
+        showEarning.setSettled(false);
+        showEarning.setOnlineEarning(0);
+        showEarning.setOfflineEarning(0);
+        showDao.save(showEarning);
+
         return ResultMessage.SUCCESS;
     }
 

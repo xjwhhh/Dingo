@@ -110,8 +110,8 @@ public class OrderController {
 
     @RequestMapping(value = "/getOrderRecordByVenueId", method = RequestMethod.POST)
     @ResponseBody
-    public List<OrderRecord> getOrderRecordByVenueId(@RequestParam("userId") String userId) {
-        return orderManageServiceBean.getOrderRecordListByVenueId(Integer.parseInt(userId));
+    public List<OrderRecord> getOrderRecordByVenueId(@RequestParam("venueId") String venueId) {
+        return orderManageServiceBean.getOrderRecordListByVenueId(Integer.parseInt(venueId));
     }
 
     @RequestMapping(value = "/offLineBuyTicket", method = RequestMethod.POST)

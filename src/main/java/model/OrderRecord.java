@@ -13,6 +13,7 @@ public class OrderRecord {
     private double cost;
     private String orderAction;
     private String time;
+    private boolean online;
 
     @Id
     public int getId() {
@@ -78,5 +79,13 @@ public class OrderRecord {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 }
