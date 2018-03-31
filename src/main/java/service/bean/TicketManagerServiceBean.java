@@ -62,7 +62,7 @@ public class TicketManagerServiceBean implements TicketManageService {
         Venue venue = venueDao.findById(show.getVenueId());
         venue.setOnlineBalance(venue.getOnlineBalance() + venueEarning);
         venue.setOnlineBalance(venue.getOfflineBalance() + offlineEarning);
-        venueDao.save(venue);
+        venueDao.update(venue);
 
         //网站财务记录（只有线上）
         TicketFinance ticketFinance = new TicketFinance();

@@ -47,7 +47,7 @@ public class ShowController {
     @ResponseBody
     public List<Show> getShowByVenueId(
             @RequestParam("venueId") String venueId) {
-        return showManageServiceBean.getShowByVenueId(Integer.parseInt(venueId));
+        return showManageServiceBean.getPreSaleShowByVenueId(Integer.parseInt(venueId));
     }
 
 }

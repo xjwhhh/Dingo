@@ -11,6 +11,8 @@ public interface ShowDao extends BaseDao {
 
     List<Show> findByType(String showType);
 
+    List<Show> findByState(String progressType);
+
     ResultMessage update(Show show);
 
     List<Show> findByVenueId(int venueId);
@@ -22,6 +24,8 @@ public interface ShowDao extends BaseDao {
     ShowSeat findShowSeat(int showSeatId);
 
     List<ShowSeat> findShowSeatListByShowId(int showId);
+
+    List<ShowSeat> findUnbookedShowSeatListByShowId(int showId);
 
     List<ShowEarning> findUnSettledShowEarning();
 

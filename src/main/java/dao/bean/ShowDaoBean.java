@@ -47,6 +47,25 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
         return showList;
     }
 
+    public List<Show> findByState(String progressType) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Show> showList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Show as S where S.progressType=:progressType");
+            query.setParameter("progressType", progressType);
+            showList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return showList;
+    }
+
     public ResultMessage update(Show show) {
         return super.update(show);
     }
@@ -121,14 +140,34 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
         return showSeatList;
     }
 
+    public List<ShowSeat> findUnbookedShowSeatListByShowId(int showId) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<ShowSeat> showSeatList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM ShowSeat as S where S.showId=:showId and S.booked=:booked");
+            query.setParameter("showId", showId);
+            query.setParameter("booked", false);
+            showSeatList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return showSeatList;
+    }
+
     public List<ShowEarning> findUnSettledShowEarning() {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         List<ShowEarning> showEarningList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM ShowEarning as S where S.isSettled=:isSettled");
-            query.setParameter("isSettled", false);
+            Query query = session.createQuery("FROM ShowEarning as S where S.settled=:settled");
+            query.setParameter("settled", false);
             showEarningList = query.list();
             tx.commit();
         } catch (HibernateException e) {

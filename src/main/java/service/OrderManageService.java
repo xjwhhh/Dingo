@@ -33,4 +33,6 @@ public interface OrderManageService {
     List<OrderRecord> getOrderRecordListByUserId(int userId);
 
     List<OrderRecord> getOrderRecordListByVenueId(int venueId);
+
+    ResultMessage allocateTicket();
 }

@@ -93,8 +93,15 @@ public class ShowManageServiceBean implements ShowManageService {
         return venueDao.update(venue);
     }
 
-    public List<Show> getShowByVenueId(int venueId) {
-        return showDao.findByVenueId(venueId);
+    public List<Show> getPreSaleShowByVenueId(int venueId) {
+        List<Show> showList=showDao.findByVenueId(venueId);
+        List<Show> preSaleShowList=new ArrayList<Show>();
+        for(int i=0;i<showList.size();i++){
+            if(showList.get(i).getProgressType().equals("PRESALE")){
+                preSaleShowList.add(showList.get(i));
+            }
+        }
+        return preSaleShowList;
     }
 
     public List<Show> getShowByUserId(int userId) {

@@ -15,7 +15,7 @@ public interface ShowManageService {
 
     ResultMessage distributeShowEarning(int showId);
 
-    List<Show> getShowByVenueId(int venueId);
+    List<Show> getPreSaleShowByVenueId(int venueId);
 
     List<Show> getShowByUserId(int userId);
 

@@ -28,5 +28,7 @@ public interface OrderDao extends BaseDao {
 
     List<OrderRecord> findOrderRecordByVenueId(int venueId);
 
+    List<Ticket> findTicketListByOrderId(int orderId);
+
 
 }

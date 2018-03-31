@@ -91,8 +91,8 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
         List<Order> orderList = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("FROM Order as O where O.orderState=:orderState");
-            query.setParameter("orderState", orderState);
+            Query query = session.createQuery("FROM Order as O where O.state=:orderState");
+            query.setParameter("orderState", orderState.toString());
             orderList = query.list();
             tx.commit();
         } catch (HibernateException e) {
@@ -170,5 +170,24 @@ public class OrderDaoBean extends BaseDaoBean implements OrderDao {
             session.close();
         }
         return orderRecordList;
+    }
+
+    public List<Ticket> findTicketListByOrderId(int orderId) {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = null;
+        List<Ticket> ticketList = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("FROM Ticket as T where T.orderId=:orderId ");
+            query.setParameter("orderId", orderId);
+            ticketList = query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return ticketList ;
     }
 }
