@@ -82,8 +82,15 @@ public class ShowManageServiceBean implements ShowManageService {
         return showDao.findById(showId);
     }
 
-    public List<Show> getShowByType(String showType) {
-        return showDao.findByType(showType);
+    public List<Show> getPreSaleShowByType(String showType) {
+        List<Show> showList=showDao.findByType(showType);
+        List<Show> preSaleShowList=new ArrayList<Show>();
+        for(int i=0;i<showList.size();i++){
+            if(showList.get(i).getProgressType().equals("PRESALE")){
+                preSaleShowList.add(showList.get(i));
+            }
+        }
+        return preSaleShowList;
     }
 
     public ResultMessage distributeShowEarning(int showId) {
@@ -93,15 +100,16 @@ public class ShowManageServiceBean implements ShowManageService {
         return venueDao.update(venue);
     }
 
-    public List<Show> getPreSaleShowByVenueId(int venueId) {
-        List<Show> showList=showDao.findByVenueId(venueId);
-        List<Show> preSaleShowList=new ArrayList<Show>();
-        for(int i=0;i<showList.size();i++){
-            if(showList.get(i).getProgressType().equals("PRESALE")){
-                preSaleShowList.add(showList.get(i));
-            }
-        }
-        return preSaleShowList;
+    public List<Show> getShowByVenueId(int venueId) {
+//        List<Show> showList=showDao.findByVenueId(venueId);
+//        List<Show> preSaleShowList=new ArrayList<Show>();
+//        for(int i=0;i<showList.size();i++){
+//            if(showList.get(i).getProgressType().equals("PRESALE")){
+//                preSaleShowList.add(showList.get(i));
+//            }
+//        }
+//        return preSaleShowList;
+        return showDao.findByVenueId(venueId);
     }
 
     public List<Show> getShowByUserId(int userId) {

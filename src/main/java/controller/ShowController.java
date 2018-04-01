@@ -32,8 +32,7 @@ public class ShowController {
     @ResponseBody
     public List<Show> getShowByType(
             @RequestParam("showType") String showTypeString) {
-//        ShowType showType = ShowType.v;
-        return showManageServiceBean.getShowByType(showTypeString);
+        return showManageServiceBean.getPreSaleShowByType(showTypeString);
     }
 
     @RequestMapping(value = "/getShowById", method = RequestMethod.POST)
@@ -47,7 +46,7 @@ public class ShowController {
     @ResponseBody
     public List<Show> getShowByVenueId(
             @RequestParam("venueId") String venueId) {
-        return showManageServiceBean.getPreSaleShowByVenueId(Integer.parseInt(venueId));
+        return showManageServiceBean.getShowByVenueId(Integer.parseInt(venueId));
     }
 
 }

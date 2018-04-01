@@ -11,11 +11,11 @@ public interface ShowManageService {
 
     Show getShowById(int showId);
 
-    List<Show> getShowByType(String showType);
+    List<Show> getPreSaleShowByType(String showType);
 
     ResultMessage distributeShowEarning(int showId);
 
-    List<Show> getPreSaleShowByVenueId(int venueId);
+    List<Show> getShowByVenueId(int venueId);
 
     List<Show> getShowByUserId(int userId);
 
