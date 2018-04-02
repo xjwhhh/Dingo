@@ -121,44 +121,44 @@ public class ShowDaoBean extends BaseDaoBean implements ShowDao {
         return (ShowSeat) super.load(ShowSeat.class, showSeatId);
     }
 
-    public List<ShowSeat> findShowSeatListByShowId(int showId) {
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-        List<ShowSeat> showSeatList = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("FROM ShowSeat as S where S.showId=:showId");
-            query.setParameter("showId", showId);
-            showSeatList = query.list();
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return showSeatList;
-    }
+//    public List<ShowSeat> findShowSeatListByShowId(int showId) {
+//        Session session = HibernateUtil.getSession();
+//        Transaction tx = null;
+//        List<ShowSeat> showSeatList = null;
+//        try {
+//            tx = session.beginTransaction();
+//            Query query = session.createQuery("FROM ShowSeat as S where S.showId=:showId");
+//            query.setParameter("showId", showId);
+//            showSeatList = query.list();
+//            tx.commit();
+//        } catch (HibernateException e) {
+//            if (tx != null) tx.rollback();
+//            e.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
+//        return showSeatList;
+//    }
 
-    public List<ShowSeat> findUnbookedShowSeatListByShowId(int showId) {
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-        List<ShowSeat> showSeatList = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("FROM ShowSeat as S where S.showId=:showId and S.booked=:booked");
-            query.setParameter("showId", showId);
-            query.setParameter("booked", false);
-            showSeatList = query.list();
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return showSeatList;
-    }
+//    public List<ShowSeat> findUnbookedShowSeatListByShowId(int showId) {
+//        Session session = HibernateUtil.getSession();
+//        Transaction tx = null;
+//        List<ShowSeat> showSeatList = null;
+//        try {
+//            tx = session.beginTransaction();
+//            Query query = session.createQuery("FROM ShowSeat as S where S.show=:showId and S.booked=:booked");
+//            query.setParameter("showId", showId);
+//            query.setParameter("booked", false);
+//            showSeatList = query.list();
+//            tx.commit();
+//        } catch (HibernateException e) {
+//            if (tx != null) tx.rollback();
+//            e.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
+//        return showSeatList;
+//    }
 
     public List<ShowEarning> findUnSettledShowEarning() {
         Session session = HibernateUtil.getSession();

@@ -22,10 +22,10 @@ public interface ShowDao extends BaseDao {
     ResultMessage saveShowSeat(ShowSeat showSeat);
 
     ShowSeat findShowSeat(int showSeatId);
-
-    List<ShowSeat> findShowSeatListByShowId(int showId);
-
-    List<ShowSeat> findUnbookedShowSeatListByShowId(int showId);
+//
+//    List<ShowSeat> findShowSeatListByShowId(int showId);
+//
+//    List<ShowSeat> findUnbookedShowSeatListByShowId(int showId);
 
     List<ShowEarning> findUnSettledShowEarning();
 
