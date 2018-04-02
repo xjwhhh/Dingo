@@ -125,15 +125,16 @@ public class OrderManageServiceBean implements OrderManageService {
         List<ShowSeat> firstShowSeatList = getShowSeatList(order.getShowId(), one, "一等座");
         List<ShowSeat> secondShowSeatList = getShowSeatList(order.getShowId(), two, "二等座");
         List<ShowSeat> thirdShowSeatList = getShowSeatList(order.getShowId(), three, "三等座");
-        System.out.println(firstShowSeatList.size());
-        System.out.println(secondShowSeatList.size());
-        System.out.println(thirdShowSeatList.size());
+//        System.out.println(firstShowSeatList.size());
+//        System.out.println(secondShowSeatList.size());
+//        System.out.println(thirdShowSeatList.size());
         //座位不够，失败
-        if (firstShowSeatList == null || secondShowSeatList == null || thirdShowSeatList == null) {
+        if (firstShowSeatList == null && secondShowSeatList == null && thirdShowSeatList == null) {
 //            order.setState(OrderState.CANCELLED.toString());
 //            order.setCancelTime(dateFormat(new Date()));
 //            orderDao.update(order);
 //            cancel(order.getId());
+            System.out.println("座位不够");
             return -1;
         } else {
             if (firstShowSeatList.size() > 0) {
@@ -246,7 +247,7 @@ public class OrderManageServiceBean implements OrderManageService {
         List<ShowSeat> secondShowSeatList = getShowSeatList(order.getShowId(), two, "二等座");
         List<ShowSeat> thirdShowSeatList = getShowSeatList(order.getShowId(), three, "三等座");
         //座位不够，失败
-        if (firstShowSeatList == null || secondShowSeatList == null || thirdShowSeatList == null) {
+        if (firstShowSeatList == null && secondShowSeatList == null && thirdShowSeatList == null) {
             order.setState(OrderState.CANCELLED.toString());
             order.setCancelTime(dateFormat(new Date()));
             orderDao.update(order);
@@ -623,12 +624,21 @@ public class OrderManageServiceBean implements OrderManageService {
                 for (Ticket ticket : ticketList) {
                     if (ticket.getLevel().equals("一等座")) {
                         ticket.setSeatId(showSeatListOne.get(a).getId());
+                        ShowSeat showSeat=showSeatListOne.get(a);
+                        showSeat.setBooked(true);
+                        showDao.update(showSeat);
                         a++;
                     } else if (ticket.getLevel().equals("二等座")) {
                         ticket.setSeatId(showSeatListTwo.get(b).getId());
+                        ShowSeat showSeat=showSeatListTwo.get(b);
+                        showSeat.setBooked(true);
+                        showDao.update(showSeat);
                         b++;
                     } else if (ticket.getLevel().equals("三等座")) {
                         ticket.setSeatId(showSeatListThree.get(c).getId());
+                        ShowSeat showSeat=showSeatListThree.get(c);
+                        showSeat.setBooked(true);
+                        showDao.update(showSeat);
                         c++;
                     }
                     orderDao.update(ticket);
@@ -745,7 +755,7 @@ public class OrderManageServiceBean implements OrderManageService {
         List<ShowSeat> showSeats = new ArrayList<ShowSeat>();
         List<ShowSeat> showSeatList =showDao.findById(showId).getSeatList();
         for (int i = 0; i < showSeatList.size(); i++) {
-            System.out.println();
+//            System.out.println();
             if (!showSeatList.get(i).isBooked()&&showSeatList.get(i).getLevel().equals(level)) {
                 showSeats.add(showSeatList.get(i));
                 count--;
